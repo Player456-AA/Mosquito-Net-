@@ -598,4 +598,98 @@
     <!-- Business Info -->
     <div class="business-info">
       <strong>Raj Marketing Mysore</strong><br>
-      
+     Phone: <a href="tel:+919483037385" style="color:var(--blue-dark);text-decoration:underline;">+91 94830 37385</a><br>
+      Address: #84, Nrupatunga Road, Kuvempu Nagar,<br>Mysore, Karnataka, India
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://wa.me/919483037385" class="whatsapp-btn" target="_blank">WhatsApp</a>
+      <a href="mailto:rajmarketingmysore@gmail.com" class="email-btn" target="_blank">Email</a>
+      <a href="privacy.html" class="footer-link" target="_blank">Privacy Policy</a>
+      <a href="disclaimer.html" class="footer-link" target="_blank">Disclaimer</a>
+      <a href="terms.html" class="footer-link" target="_blank">Terms</a>
+    </div>
+    <div style="color:#b8e0fd;font-size:0.98rem;">
+      &copy; 2025 Raj Marketing Mysore. All rights reserved.
+    </div>
+  </footer>
+  <!-- Coming soon pages (hidden) -->
+  <iframe id="comingSoonFrame" style="display:none;width:0;height:0;border:none;"></iframe>
+  <script>
+    // Hamburger menu logic
+    const menuBtn = document.getElementById('menuBtn');
+    const topNav = document.getElementById('topNav');
+    menuBtn.addEventListener('click', () => {
+      topNav.classList.toggle('open');
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 850) topNav.classList.remove('open');
+    });
+
+    // Promotion Slider Logic
+    const promos = [
+      {
+        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=500&q=80",
+        title: "Mosquito-Free Living",
+        quote: "Enjoy your home with fresh air & no bites — premium nets for every window."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?fit=crop&w=500&q=80",
+        title: "Easy Velcro System",
+        quote: "Quick install, easy to clean. Simple net solutions for busy families."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1464983953574-0892a716854b?fit=crop&w=500&q=80",
+        title: "Strong Frame Nets",
+        quote: "For those who want durability & peace of mind — sturdy, lasting protection."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1520880867055-1e30d1cb001c?fit=crop&w=500&q=80",
+        title: "Elegant Pleated Nets",
+        quote: "Foldable & stylish nets for large windows and doors. Modern look, max comfort."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?fit=crop&w=500&q=80",
+        title: "Magnetic Mesh Doors",
+        quote: "Easy in, easy out. Let your kids & pets enjoy — keeps bugs away."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?fit=crop&w=500&q=80",
+        title: "Fresh Air, No Compromise",
+        quote: "Let the breeze in, keep the insects out. Live healthy, live happy."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1523413363574-c30aa1c2a516?fit=crop&w=500&q=80",
+        title: "Trusted Since 2010",
+        quote: "Mysore’s preferred mosquito net specialists. Local, reliable, friendly."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?fit=crop&w=500&q=80",
+        title: "Quality & Service",
+        quote: "Affordable, reliable, and always local. Your comfort, our mission."
+      }
+    ];
+    let promoIdx = 0;
+    const promoImg = document.getElementById('promoImg');
+    const promoTitle = document.getElementById('promoTitle');
+    const promoQuote = document.getElementById('promoQuote');
+    function loadPromo(idx) {
+      promoImg.src = promos[idx].img;
+      promoTitle.textContent = promos[idx].title;
+      promoQuote.textContent = promos[idx].quote;
+    }
+    document.getElementById('promoPrev').onclick = function() {
+      promoIdx = (promoIdx + promos.length - 1) % promos.length;
+      loadPromo(promoIdx);
+    };
+    document.getElementById('promoNext').onclick = function() {
+      promoIdx = (promoIdx + 1) % promos.length;
+      loadPromo(promoIdx);
+    };
+    setInterval(function() {
+      promoIdx = (promoIdx + 1) % promos.length;
+      loadPromo(promoIdx);
+    }, 5000);
+     
