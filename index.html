@@ -12,9 +12,10 @@
       --sky-dark: #1976d2;
       --blue: #2196f3;
       --blue-dark: #17304B;
-      --dark-blue: #00008b;
+      --white: #fff;
       --shadow: 0 2px 16px 0 rgba(25,118,210,0.10);
       --shadow-card: 0 4px 24px 0 rgba(33,150,243,0.13);
+      --green: #18c964;
     }
     html, body {
       background: linear-gradient(135deg, var(--sky) 0%, var(--blue) 100%);
@@ -24,7 +25,6 @@
       color: var(--blue-dark);
       padding: 0;
     }
-    /* Top bar */
     header {
       width: 100vw;
       background: var(--blue-dark);
@@ -117,7 +117,7 @@
       flex-direction: row;
       align-items: center;
       position: relative;
-      min-height: 230px;
+      min-height: 240px;
       overflow: hidden;
     }
     .promo-info {
@@ -174,13 +174,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 130px;
-      min-height: 130px;
+      min-width: 140px;
+      min-height: 140px;
       position: relative;
     }
     .promo-img {
-      width: 130px;
-      height: 130px;
+      width: 140px;
+      height: 140px;
       object-fit: cover;
       border-radius: 22px;
       border: 2px solid #36e0ff;
@@ -232,10 +232,10 @@
     /* Search Bar */
     .searchbar-wrap {
       margin-bottom: 25px;
-      width: 75%;
+      width: 100%;
     }
     .search-bar {
-      width: 75%;
+      width: 100%;
       font-size: 1.16rem;
       padding: 15px 48px 15px 46px;
       border-radius: 15px;
@@ -319,6 +319,89 @@
     }
     .tab-details.active { display: block; }
     .tab-details strong { color: var(--blue-dark);}
+    /* Product Slider */
+    .product-slider-wrap {
+      overflow: hidden;
+      margin-bottom: 24px;
+      margin-top: 12px;
+    }
+    .product-slider {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding-bottom: 9px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+    }
+    .product-card {
+      min-width: 220px;
+      max-width: 230px;
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+      padding: 1.1em 1em 1em 1em;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      scroll-snap-align: start;
+      border: 1.2px solid var(--sky-mid);
+    }
+    .product-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 14px;
+      object-fit: cover;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 10px rgba(33,150,243,0.13);
+      background: var(--sky-mid);
+      opacity: 0.97;
+    }
+    .product-title {
+      font-size: 1.09rem;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 4px;
+    }
+    .product-desc {
+      font-size: 0.97rem;
+      color: var(--blue);
+      margin-bottom: 10px;
+      text-align: center;
+      min-height: 38px;
+    }
+    .product-link {
+      color: var(--blue-dark);
+      background: var(--sky-mid);
+      font-size: 0.98rem;
+      padding: 6px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.17s, color 0.17s;
+      border: none;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+    .product-link:hover {
+      background: var(--blue-dark);
+      color: var(--white);
+      text-decoration:underline;
+    }
+    /* Visitor Counter */
+    .visitor-count {
+      background: var(--sky-mid);
+      color: var(--blue-dark);
+      border-radius: 13px;
+      font-size: 1.03rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      text-align: center;
+      margin: 0 auto 17px auto;
+      width: max-content;
+      box-shadow: 0 1px 10px 0 var(--sky-mid);
+      letter-spacing: .7px;
+    }
     /* Misc. */
     .business-info {
       background: rgba(255,255,255,0.90);
@@ -331,6 +414,59 @@
       border: 1px solid var(--sky-mid);
     }
     .business-info strong { color: var(--blue-dark); }
+    /* Footer */
+    footer {
+      background: var(--blue-dark);
+      color: var(--white);
+      padding: 30px 0 16px 0;
+      text-align: center;
+      font-size: 0.98rem;
+      border-top: 2px solid var(--sky-mid);
+      margin-top: 2.2rem;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 15px 22px;
+      margin-bottom: 17px;
+    }
+    .footer-link {
+      color: var(--sky-mid);
+      text-decoration: underline;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .footer-link:hover {
+      color: var(--white);
+      text-decoration: none;
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      color: #fff;
+      padding: 7px 14px 7px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-right: 8px;
+      text-decoration: none;
+      transition: background 0.18s;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .whatsapp-btn:hover { background: #128c7e; color:#fff;}
+    .email-btn {
+      background: var(--sky-mid);
+      color: var(--blue-dark);
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.18s;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .email-btn:hover { background: var(--blue-dark); color: var(--white);}
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(18px);}
       to { opacity: 1; transform: translateY(0);}
@@ -342,10 +478,13 @@
       .promo-title { font-size: 1.11rem;}
       .search-bar { font-size: 1.03rem; }
       .tab-btn { font-size: 0.99rem; }
+      .product-card { min-width: 175px; max-width: 210px;}
+      .product-img { width: 70px; height: 70px;}
     }
   </style>
 </head>
 <body>
+  <!-- Header -->
   <header>
     <div class="header-title">Raj Marketing Mysore</div>
     <button class="menu-btn" id="menuBtn" aria-label="Menu">&#9776;</button>
@@ -354,6 +493,7 @@
       <a href="products.html">Product</a>
       <a href="services.html">Service</a>
       <a href="contact.html">Contact</a>
+      <a href="admin.html">Admin</a>
     </nav>
   </header>
   <div class="container">
@@ -391,138 +531,71 @@
     <!-- Tab Details (Dropdown) -->
     <div class="tab-details active" id="tab-appointment">
       <strong>Book Appointment:</strong><br>
-      Schedule a visit for measurement or installation. <br>
-      <button style="margin-top:13px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;" onclick="window.location='contact.html#appointment'">Book Now</button>
+      <form id="appointmentForm">
+        <input type="text" name="name" required placeholder="Your Name" style="margin-top:10px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+        <input type="tel" name="phone" required placeholder="Your Phone" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+        <button type="submit" style="margin-top:12px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;">Book Now</button>
+      </form>
+      <div id="apptSuccess" style="color:var(--green);font-weight:600;display:none;margin-top:13px;">Appointment submitted!</div>
     </div>
     <div class="tab-details" id="tab-price">
       <strong>Instant Price Check:</strong><br>
-      Check estimated prices for your required mosquito net solution.<br>
-      <button style="margin-top:13px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;" onclick="window.location='estimate.html'">Check Price</button>
+      <form id="priceForm">
+        <input type="text" name="product" required placeholder="Product Type" style="margin-top:10px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+        <input type="text" name="size" required placeholder="Size (e.g. 3ft x 4ft)" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+        <button type="submit" style="margin-top:12px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;">Check Price</button>
+      </form>
+      <div id="priceSuccess" style="color:var(--green);font-weight:600;display:none;margin-top:13px;">Price Check submitted!</div>
     </div>
     <div class="tab-details" id="tab-estimate">
       <strong>Get a Free Estimate:</strong><br>
-      Fill in your details and get a quick quote.<br>
-      <button style="margin-top:13px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;" onclick="window.location='estimate.html'">Get Estimate</button>
+      <form id="estimateForm">
+        <input type="text" name="name" required placeholder="Your Name" style="margin-top:10px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+        <input type="tel" name="phone" required placeholder="Your Phone" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+        <input type="text" name="details" required placeholder="Product & Size" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+        <button type="submit" style="margin-top:12px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;">Get Estimate</button>
+      </form>
+      <div id="estimateSuccess" style="color:var(--green);font-weight:600;display:none;margin-top:13px;">Estimate submitted!</div>
     </div>
     <div class="tab-details" id="tab-call">
       <strong>Call Now:</strong><br>
       <a href="tel:+919483037385" style="color:var(--blue-dark);font-weight:600;font-size:1.13rem;text-decoration:underline;">+91 94830 37385</a><br>
       Speak directly to our experts for advice or quick booking.
     </div>
+    <!-- Product Slider -->
+    <div class="product-slider-wrap">
+      <div class="product-slider" id="productSlider">
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=300&q=80" alt="Velcro System">
+          <div class="product-title">Velcro System</div>
+          <div class="product-desc">Easy-fit removable mosquito nets for windows and doors.</div>
+          <a class="product-link" href="velcro.html" target="_blank">Learn More</a>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?fit=crop&w=300&q=80" alt="Frame System">
+          <div class="product-title">Frame System</div>
+          <div class="product-desc">Durable rigid frame mosquito nets – long-lasting protection.</div>
+          <a class="product-link" href="frame.html" target="_blank">Learn More</a>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1520880867055-1e30d1cb001c?fit=crop&w=300&q=80" alt="Pleated Nets">
+          <div class="product-title">Pleated Nets</div>
+          <div class="product-desc">Foldable, stylish nets for wide windows, doors, and balconies.</div>
+          <a class="product-link" href="pleated.html" target="_blank">Learn More</a>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://images.unsplash.com/photo-1523413363574-c30aa1c2a516?fit=crop&w=300&q=80" alt="Fly Mesh Door">
+          <div class="product-title">Fly Mesh Door</div>
+          <div class="product-desc">Magnetic or hinged mesh doors – airflow in, insects out!</div>
+          <a class="product-link" href="flymesh.html" target="_blank">Learn More</a>
+        </div>
+      </div>
+    </div>
+    <!-- Visitor Counter -->
+    <div class="visitor-count">
+      Visitors today: <span id="visitorCount">0</span>
+    </div>
     <!-- Business Info -->
     <div class="business-info">
       <strong>Raj Marketing Mysore</strong><br>
-      Phone: <a href="tel:+919483037385" style="color:var(--blue-dark);text-decoration:underline;">+91 94830 37385</a><br>
-      Address: #84, Nrupatunga Road, Kuvempu Nagar,<br>Mysore, Karnataka, India
-    </div>
-  </div>
-  <script>
-    // Hamburger menu logic
-    const menuBtn = document.getElementById('menuBtn');
-    const topNav = document.getElementById('topNav');
-    menuBtn.addEventListener('click', () => {
-      topNav.classList.toggle('open');
-    });
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 850) topNav.classList.remove('open');
-    });
-
-    // --- Promotion Slider Logic ---
-    const promos = [
-      {
-        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=500&q=80",
-        title: "Mosquito-Free Living",
-        quote: "Enjoy your home with fresh air & no bites — premium nets for every window."
-      },
-      {
-        img: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?fit=crop&w=500&q=80",
-        title: "Easy Velcro System",
-        quote: "Quick install, easy to clean. Simple net solutions for busy families."
-      },
-      {
-        img: "https://images.unsplash.com/photo-1464983953574-0892a716854b?fit=crop&w=500&q=80",
-        title: "Strong Frame Nets",
-        quote: "For those who want durability & peace of mind — sturdy, lasting protection."
-      },
-      {
-        img: "https://images.unsplash.com/photo-1520880867055-1e30d1cb001c?fit=crop&w=500&q=80",
-        title: "Elegant Pleated Nets",
-        quote: "Foldable & stylish nets for large windows and doors. Modern look, max comfort."
-      },
-      {
-        img: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?fit=crop&w=500&q=80",
-        title: "Magnetic Mesh Doors",
-        quote: "Easy in, easy out. Let your kids & pets enjoy — keeps bugs away."
-      },
-      {
-        img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?fit=crop&w=500&q=80",
-        title: "Fresh Air, No Compromise",
-        quote: "Let the breeze in, keep the insects out. Live healthy, live happy."
-      },
-      {
-        img: "https://images.unsplash.com/photo-1523413363574-c30aa1c2a516?fit=crop&w=500&q=80",
-        title: "Trusted Since 2010",
-        quote: "Mysore’s preferred mosquito net specialists. Local, reliable, friendly."
-      },
-      {
-        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?fit=crop&w=500&q=80",
-        title: "Quality & Service",
-        quote: "Affordable, reliable, and always local. Your comfort, our mission."
-      }
-    ];
-    let promoIdx = 0;
-    const promoImg = document.getElementById('promoImg');
-    const promoTitle = document.getElementById('promoTitle');
-    const promoQuote = document.getElementById('promoQuote');
-    function loadPromo(idx) {
-      promoImg.src = promos[idx].img;
-      promoTitle.textContent = promos[idx].title;
-      promoQuote.textContent = promos[idx].quote;
-    }
-    document.getElementById('promoPrev').onclick = function() {
-      promoIdx = (promoIdx + promos.length - 1) % promos.length;
-      loadPromo(promoIdx);
-    };
-    document.getElementById('promoNext').onclick = function() {
-      promoIdx = (promoIdx + 1) % promos.length;
-      loadPromo(promoIdx);
-    };
-    setInterval(function() {
-      promoIdx = (promoIdx + 1) % promos.length;
-      loadPromo(promoIdx);
-    }, 5000);
-    loadPromo(promoIdx);
-
-    // --- Search Bar Logic ---
-    document.getElementById('searchBar').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const val = this.value.toLowerCase();
-        if (!val) return;
-        if (val.includes('velcro') || val.includes('frame') || val.includes('pleated') || val.includes('mesh') || val.includes('product')) window.location = 'products.html';
-        else if (val.includes('service') || val.includes('install')) window.location = 'services.html';
-        else if (val.includes('estimate') || val.includes('price')) window.location = 'estimate.html';
-        else if (val.includes('contact') || val.includes('call')) window.location = 'contact.html';
-        else alert('No direct match found. Please use the menu.');
-      }
-    });
-
-    // --- Tab Menu Logic ---
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabDetails = {
-      appointment: document.getElementById('tab-appointment'),
-      price: document.getElementById('tab-price'),
-      estimate: document.getElementById('tab-estimate'),
-      call: document.getElementById('tab-call')
-    };
-    tabBtns.forEach(btn => {
-      btn.onclick = function() {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        Object.values(tabDetails).forEach(d => d.classList.remove('active'));
-        tabDetails[this.dataset.tab].classList.add('active');
-      };
-    });
-  </script>
-</body>
-</html>
+      
