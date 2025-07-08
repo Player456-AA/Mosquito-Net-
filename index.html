@@ -529,15 +529,40 @@
       </div>
     </div>
     <!-- Tab Details (Dropdown) -->
-    <div class="tab-details active" id="tab-appointment">
-      <strong>Book Appointment:</strong><br>
-      <form id="appointmentForm">
-        <input type="text" name="name" required placeholder="Your Name" style="margin-top:10px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
-        <input type="tel" name="phone" required placeholder="Your Phone" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
-        <button type="submit" style="margin-top:12px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;">Book Now</button>
-      </form>
-      <div id="apptSuccess" style="color:var(--green);font-weight:600;display:none;margin-top:13px;">Appointment submitted!</div>
+<div class="tab-details active" id="tab-appointment">
+  <strong>Book Appointment:</strong><br>
+  <form id="appointmentForm" autocomplete="off">
+    <input type="text" name="name" required placeholder="Customer Name" style="margin-top:10px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+    <input type="tel" name="mobile" required placeholder="Mobile Number" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+    <input type="text" name="address" required placeholder="Address" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+    <input type="text" name="landmark" required placeholder="Near Landmark" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+    <input type="text" name="city" required placeholder="City" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+    <select name="nettype" id="netType" required style="margin-top:8px;width:94%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);color:#17304B;">
+      <option value="">Select Type of Net</option>
+      <option value="Velcro System">Velcro System</option>
+      <option value="Frame System">Frame System</option>
+      <option value="Pleated Nets">Pleated Nets</option>
+      <option value="Fly Mesh Door">Fly Mesh Door</option>
+    </select>
+    <div id="qtyField" style="margin-top:8px;display:none;">
+      <input type="number" min="1" name="qty" id="qtyInput" placeholder="Qty of Windows/Doors" style="width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
     </div>
+    <div style="margin:10px 0 4px 0;">
+      <label><input type="radio" name="purpose" value="Confirmation Order" required> Confirmation Order</label>
+      <label style="margin-left:10px;"><input type="radio" name="purpose" value="Just for Query"> Just for Query</label>
+      <label style="margin-left:10px;"><input type="radio" name="purpose" value="Time Pass"> Time Pass</label>
+    </div>
+    <button type="submit" id="apptSubmitBtn" style="margin-top:10px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;">Submit</button>
+  </form>
+  <!-- WhatsApp button, hidden initially -->
+  <div id="whatsappBox" style="display:none;margin-top:16px;">
+    <a id="whatsappLink" target="_blank"
+      style="background:#25D366;color:#fff;padding:10px 28px;border-radius:7px;font-weight:700;text-decoration:none;display:inline-block;font-size:1.08em;">
+      Send to WhatsApp
+    </a>
+  </div>
+  <div id="apptSuccess" style="color:#18c964;font-weight:600;display:none;margin-top:15px;font-size:1.08em;"></div>
+</div>
     <div class="tab-details" id="tab-price">
       <strong>Instant Price Check:</strong><br>
       <form id="priceForm">
@@ -747,15 +772,76 @@
       localStorage.setItem(name, JSON.stringify(arr));
     }
     // Appointment Form
-    document.getElementById('appointmentForm').onsubmit = function(e) {
-      e.preventDefault();
-      saveForm('appointments', {
-        name: this.name.value, phone: this.phone.value
-      });
-      this.reset();
-      document.getElementById('apptSuccess').style.display = 'block';
-      setTimeout(()=>document.getElementById('apptSuccess').style.display='none',1600);
+(function(){
+  // Show qty field logic
+  const netType = document.getElementById('netType');
+  const qtyField = document.getElementById('qtyField');
+  const qtyInput = document.getElementById('qtyInput');
+  netType.onchange = function() {
+    if(this.value === "Velcro System" || this.value === "Frame System") {
+      qtyField.style.display = "";
+      qtyInput.placeholder = "Qty of Windows";
+    } else if(this.value === "Pleated Nets" || this.value === "Fly Mesh Door") {
+      qtyField.style.display = "";
+      qtyInput.placeholder = "Qty of Doors";
+    } else {
+      qtyField.style.display = "none";
+      qtyInput.value = "";
+    }
+  };
+  // Appointment form submit
+  const form = document.getElementById('appointmentForm');
+  const successDiv = document.getElementById('apptSuccess');
+  const whatsappBox = document.getElementById('whatsappBox');
+  const whatsappLink = document.getElementById('whatsappLink');
+  form.onsubmit = function(e){
+    e.preventDefault();
+    // Gather data
+    const data = {
+      name: form.name.value.trim(),
+      mobile: form.mobile.value.trim(),
+      address: form.address.value.trim(),
+      landmark: form.landmark.value.trim(),
+      city: form.city.value.trim(),
+      nettype: form.nettype.value,
+      qty: qtyInput.value.trim(),
+      purpose: form.purpose.value
     };
+    // Save for admin (localStorage)
+    let appts = JSON.parse(localStorage.getItem('appointments')||'[]');
+    appts.push({
+      ...data,
+      date: new Date().toLocaleString()
+    });
+    localStorage.setItem('appointments', JSON.stringify(appts));
+    // Purpose logic
+    if(data.purpose === "Confirmation Order") {
+      // Show WhatsApp button
+      let deliveryDate = new Date(Date.now() + 2*24*60*60*1000);
+      let deliveryStr = deliveryDate.toLocaleDateString() + " Morning 10:00 to 11:00am";
+      let msg = `Order Confirmation:%0AName: ${data.name}%0AMobile: ${data.mobile}%0AAddress: ${data.address}%0ALandmark: ${data.landmark}%0ACity: ${data.city}%0AType of Net: ${data.nettype}%0A${data.qty?("Qty: "+data.qty):""}%0ADelivery Date: ${deliveryStr}`;
+      whatsappLink.href = "https://wa.me/919483037385?text=" + msg;
+      whatsappBox.style.display = "";
+      successDiv.style.display = "none";
+      // After click WhatsApp, show thank you
+      whatsappLink.onclick = function(){
+        whatsappBox.style.display = "none";
+        successDiv.style.display = "";
+        successDiv.innerHTML = 'Thank you for your order confirmation!<br>Delivery Date: <b>' + deliveryStr + '</b>';
+        form.reset();
+        qtyField.style.display = "none";
+        setTimeout(()=>successDiv.style.display="none",5000);
+      };
+    } else if(data.purpose === "Just for Query" || data.purpose === "Time Pass") {
+      whatsappBox.style.display = "none";
+      successDiv.style.display = "";
+      successDiv.textContent = "Thank you for your time.";
+      form.reset();
+      qtyField.style.display = "none";
+      setTimeout(()=>successDiv.style.display="none",3000);
+    }
+  };
+})();
     // Price Form
     document.getElementById('priceForm').onsubmit = function(e) {
       e.preventDefault();
