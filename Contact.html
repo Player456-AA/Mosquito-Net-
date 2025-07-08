@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Contact Us | Raj Marketing Mysore</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-dark: #133c7a;
+      --blue: #1976d2;
+      --blue-light: #64b5f6;
+      --blue-sky: #e3f2fd;
+      --white: #fff;
+      --shadow: 0 2px 8px rgba(19,60,122,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--blue-sky);
+      min-height: 100vh;
+      color: var(--blue-dark);
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 65px;
+    }
+    header {
+      width: 100%;
+      background: var(--blue);
+      color: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1rem;
+    }
+    .menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      gap: 1.2rem;
+    }
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color .2s;
+      padding: 0.3em 0.7em;
+      border-radius: 5px;
+    }
+    nav a:hover, nav a.active {
+      background: var(--blue-light);
+      color: var(--blue-dark);
+    }
+    main {
+      flex: 1;
+      padding: 1.2rem 1rem 1rem 1rem;
+      max-width: 650px;
+      margin: 0 auto;
+      width: 100%;
+      animation: fadeIn .8s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    h1 {
+      font-size: 1.5rem;
+      color: var(--blue);
+      font-weight: 700;
+      margin-bottom: 1.1rem;
+      text-align: center;
+    }
+    .contact-block {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.2rem 1.1rem 1.1rem 1.1rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+    }
+    .contact-block h2 {
+      color: var(--blue);
+      font-size: 1.07rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .contact-form label {
+      display: block;
+      margin-bottom: 0.18rem;
+      margin-top: 0.75rem;
+      color: var(--blue-dark);
+      font-weight: 500;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 0.58rem 0.7rem;
+      border: 1.3px solid var(--blue-light);
+      border-radius: 7px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: none;
+      margin-bottom: 0.2rem;
+      background: var(--blue-sky);
+    }
+    .contact-form textarea { min-height: 68px; }
+    .contact-form button {
+      margin-top: 1.1rem;
+      width: 100%;
+      padding: 0.7rem 0;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 7px;
+      font-size: 1.07rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .16s;
+      box-shadow: 0 2px 8px rgba(19,60,122,0.08);
+    }
+    .contact-form button:hover {
+      background: var(--blue-light);
+      color: var(--blue-dark);
+    }
+    .map-container {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.2rem;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .map-placeholder {
+      width: 100%;
+      height: 100%;
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.06rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
+    @media (max-width: 600px) {
+      main { padding: 1rem 0.3rem 1rem 0.3rem; }
+      header { padding: 0.7rem 0.6rem; }
+      .map-container { height: 130px; }
+    }
+    .business-info {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 1.1rem;
+      margin: 2rem 0 1.3rem 0;
+      box-shadow: var(--shadow);
+      font-size: 1rem;
+      color: var(--blue-dark);
+    }
+    .business-info strong { color: var(--blue); }
+    /* Sticky bottom nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0; right: 0;
+      width: 100vw;
+      background: var(--blue);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 56px;
+      z-index: 50;
+      box-shadow: 0 -2px 8px rgba(19,60,122,0.10);
+    }
+    .bottom-nav a {
+      flex: 1;
+      color: var(--white);
+      text-align: center;
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: color .18s;
+      height: 100%;
+      font-weight: 500;
+      padding: 0.3em 0 0.15em 0;
+    }
+    .bottom-nav a.active, .bottom-nav a:hover {
+      color: var(--blue-sky);
+      background: var(--blue-light);
+    }
+    .bottom-nav svg {
+      font-size: 1.25rem;
+      margin-bottom: 0.09em;
+    }
+    /* Hamburger menu mobile */
+    @media (max-width: 850px) {
+      nav {
+        display: none;
+        position: absolute;
+        top: 56px;
+        right: 0;
+        background: var(--blue);
+        flex-direction: column;
+        width: 210px;
+        box-shadow: var(--shadow);
+        border-radius: 0 0 8px 8px;
+        padding: 0.7rem 0;
+        z-index: 99;
+        gap: 0;
+      }
+      nav.open {
+        display: flex;
+      }
+      nav a {
+        padding: 0.7em 1.2em;
+        border-radius: 0;
+        border-bottom: 1px solid var(--blue-light);
+      }
+      nav a:last-child { border-bottom: none; }
+      .menu-btn { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="font-weight:600;font-size:1.16rem;letter-spacing:1px">
+      Raj Marketing Mysore
+    </div>
+    <button class="menu-btn" id="menuBtn">&#9776;</button>
+    <nav id="topNav">
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+      <a href="estimate.html">Estimate</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Contact Us</h1>
+    <div class="contact-block">
+      <div class="map-container">
+        <div class="map-placeholder">
+          [Google Map Placeholder]<br>
+          #84, Nrupatunga Road, Kuvempu Nagar, Mysore
+        </div>
+      </div>
+      <form class="contact-form" autocomplete="off" onsubmit="return showThanks(event)">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required maxlength="60" placeholder="Your Name">
+
+        <label for="mobile">Mobile</label>
+        <input type="tel" id="mobile" name="mobile" required pattern="[0-9+\s]{8,16}" maxlength="16" placeholder="Your Mobile">
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required maxlength="300" placeholder="How can we help?"></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+      <div id="contact-thankyou" style="display:none;padding:0.7em 0 0.3em 0;color:var(--blue);font-weight:600;font-size:1.07rem;text-align:center;">
+        Thank you for contacting us!<br>We will get in touch soon.
+      </div>
+    </div>
+    <div class="business-info">
+      <strong>Raj Marketing Mysore</strong><br>
+      <span>Phone:</span> <a href="tel:+919483037385" style="color:var(--blue);text-decoration:underline;">+91 94830 37385</a><br>
+      <span>Address:</span> #84, Nrupatunga Road, Kuvempu Nagar,<br>Mysore, Karnataka, India
+    </div>
+  </main>
+  <nav class="bottom-nav">
+    <a href="index.html">
+      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Home
+    </a>
+    <a href="products.html">
+      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M20.54 5.23l-1.39-4A2 2 0 0 0 17.26 0H6.74a2 2 0 0 0-1.89 1.23l-1.4 4A2 2 0 0 0 2 7v13a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-.46-1.77zM6.74 2h10.52l1.22 3.5H5.52zm13.26 18H4V7h16z"/></svg>
+      Products
+    </a>
+    <a href="services.html">
+      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10h-3V7a5 5 0 0 0-10 0v3H3a1 1 0 0 0-1 1v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V11a1 1 0 0 0-1-1zM7 7a3 3 0 0 1 6 0v3H7zm12 14H5a1 1 0 0 1-1-1V12h16v8a1 1 0 0 1-1 1z"/></svg>
+      Services
+    </a>
+    <a href="contact.html" class="active">
+      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 8V7l-3 2.29V8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v0.29L3 7v1l8.5 5.5a1 1 0 0 0 1 0L21 8zm-2 2.46V18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7.54l7 4.53l7-4.53z"/></svg>
+      Contact
+    </a>
+  </nav>
+  <script>
+    // Hamburger menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const nav = document.getElementById('topNav');
+    menuBtn.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 850) nav.classList.remove('open');
+    });
+    // Highlight nav active
+    function setActiveLinks() {
+      const path = location.pathname.split('/').pop();
+      document.querySelectorAll('nav a, .bottom-nav a').forEach(a => {
+        if((a.getAttribute('href') || '') === path) {
+          a.classList.add('active');
+        } else {
+          a.classList.remove('active');
+        }
+      });
+    }
+    setActiveLinks();
+    // Contact form thank you
+    function showThanks(e) {
+      e.preventDefault();
+      document.querySelector('.contact-form').style.display = "none";
+      document.getElementById('contact-thankyou').style.display = "block";
+      return false;
+    }
+  </script>
+</body>
+</html>
