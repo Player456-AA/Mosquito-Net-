@@ -1,86 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><title>Admin Panel</title>
+  <meta charset="UTF-8">
+  <title>Admin Panel | Raj Marketing Mysore</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {font-family:'Poppins',sans-serif;background:#17304B;color:#fff;padding:0;margin:0;}
-    .admin-box {max-width:500px;margin:40px auto;background:#fff;color:#17304B;padding:28px 20px 20px 20px;border-radius:16px;box-shadow:0 6px 28px 0 #1976d244;}
-    h1 {text-align:center;}
-    .hidden{display:none;}
-    .logout-btn{margin:1.5em 0 0 0;padding:7px 22px;border-radius:8px;border:none;background:#1976d2;color:#fff;font-weight:600;cursor:pointer;}
-    .tab-nav{display:flex;gap:8px;margin:0 0 18px 0;}
-    .tab-nav button{flex:1;background:#e3f2fd;color:#17304B;border:none;padding:10px 4px;border-radius:8px;font-weight:600;cursor:pointer;}
-    .tab-nav button.active{background:#1976d2;color:#fff;}
-    .tab-content{background:#f6fafd;padding:16px 16px;border-radius:10px;max-height:260px;overflow:auto;}
-    ul{margin:9px 0 0 18px;}
-    small{color:#1976d2;}
-    .visitbox{background:#d0e6f9;color:#17304B;border-radius:8px;margin:13px 0 14px 0;padding:7px 13px;font-size:1.02em;}
-    @media (max-width:520px){.admin-box{margin:13px 2vw}}
+    :root {
+      --green-dark: #18c964;
+      --green: #16e36b;
+      --green-light: #a0ffd1;
+      --blue-dark: #17304B;
+      --sky-mid: #90caf9;
+      --sky: #e3f2fd;
+      --white: #fff;
+      --shadow: 0 2px 16px 0 rgba(25,118,210,0.10);
+      --shadow-card: 0 4px 24px 0 rgba(33,150,243,0.13);
+    }
+    html, body {
+      background: linear-gradient(135deg, var(--sky) 0%, var(--green-light) 100%);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      color: var(--blue-dark);
+      min-height: 100vh;
+      padding: 0;
+    }
+    /* Top bar */
+    header {
+      width: 100vw;
+      background: var(--green-dark);
+      color: var(--white);
+      position: sticky;
+      top: 0;
+      left: 0;
+      z-index: 20;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.2rem 0.9rem 1.2rem;
+      font-size: 1.14rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .header-title {
+      font-size: 1.13rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--white);
+    }
+    .menu-btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 2.1rem;
+      cursor: pointer;
+      outline: none;
+      padding: 2px 4px;
+      border-radius: 5px;
+      margin-left: 10px;
+      transition: background 0.15s;
+    }
+    .menu-btn:active, .menu-btn:focus {
+      background: var(--sky-mid);
+      color: var(--green-dark);
+    }
+    nav.topnav {
+      position: fixed;
+      top: 56px;
+      right: 0;
+      background: var(--green-dark);
+      border-radius: 0 0 0 16px;
+      box-shadow: var(--shadow-card);
+      padding: 1.1rem 1.3rem 1.1rem 1.6rem;
+      z-index: 99;
+      display: none;
+      flex-direction: column;
+      gap: 1.1rem;
+      min-width: 155px;
+      animation: fadeIn .25s;
+    }
+    nav.topnav.open {
+      display: flex;
+    }
+    nav.topnav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.24em 0.7em;
+      border-radius: 6px;
+      font-size: 1.09rem;
+      transition: background .18s, color .18s;
+      letter-spacing: .3px;
+    }
+    nav.topnav a:hover, nav.topnav a.active {
+      background: var(--sky-mid);
+      color: var(--green-dark);
+    }
+    @media (max-width: 480px) {
+      header { padding: 0.8rem 0.7rem; font-size: 1rem; }
+      .header-title { font-size: 1.01rem; }
+      nav.topnav { padding: 1rem 0.8rem 1rem 1.2rem; min-width: 110px; }
+    }
+    .admin-container {
+      max-width: 580px;
+      margin: 18px auto 0 auto;
+      background: rgba(255,255,255,0.98);
+      color: var(--blue-dark);
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+      padding: 22px 10px 30px 10px;
+      min-height: 72vh;
+    }
+    .admin-menu-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 7px;
+      margin: 0 0 18px 0;
+    }
+    .admenu-btn {
+      flex: 1 1 40%;
+      background: var(--green-dark);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 0;
+      font-size: 1.07rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+      margin: 2px 0;
+    }
+    .admenu-btn.active, .admenu-btn:active {
+      background: var(--sky-mid);
+      color: var(--green-dark);
+      box-shadow: 0 1px 9px 0 var(--green);
+    }
+    .admin-section {
+      display: none;
+      animation: fadeIn .4s;
+      margin-top: 10px;
+    }
+    .admin-section.active { display: block; }
+    h2 {
+      color: var(--green-dark);
+      margin: 12px 0 10px 0;
+      font-size: 1.18rem;
+      text-align:left;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.99rem;
+      background: var(--white);
+      color: var(--blue-dark);
+      margin-bottom: 9px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    th, td {
+      border: 1px solid var(--sky-mid);
+      padding: 7px 7px;
+      text-align: left;
+      font-size: 0.97rem;
+    }
+    th {
+      background: var(--green-light);
+      color: var(--blue-dark);
+      font-weight: 700;
+    }
+    tr:nth-child(even) {background: #f6fafd;}
+    .empty-table {color:#aaa;margin:1em 0;text-align:center;}
+    .visitor-count-admin {
+      background: var(--sky-mid);
+      color: var(--blue-dark);
+      border-radius: 11px;
+      font-size: 1.03rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      text-align: center;
+      margin: 8px auto 15px auto;
+      width: max-content;
+      box-shadow: 0 1px 10px 0 var(--sky-mid);
+      letter-spacing: .7px;
+    }
+    .logout-btn {
+      margin:2em 0 0 0;padding:8px 24px;border-radius:8px;
+      border:none;background:var(--green-dark);color:#fff;
+      font-weight:600;cursor:pointer;
+      font-size: 1.06rem;
+      transition:background 0.18s;
+    }
+    .logout-btn:hover { background: var(--sky-mid); color:var(--green-dark);}
+    /* Settings Modal */
+    .modal-bg {
+      display: none; position:fixed;top:0;left:0;right:0;bottom:0;
+      background:rgba(0,0,0,0.17);z-index:999;
+      align-items:center;justify-content:center;
+    }
+    .modal-bg.active { display:flex;}
+    .modal-box {
+      background: var(--white);
+      color: var(--blue-dark);
+      border-radius: 13px;
+      max-width:340px;
+      padding:28px 22px 22px 22px;
+      box-shadow: 0 2px 20px 0 var(--green-dark);
+      text-align:center;
+      animation: fadeIn .18s;
+    }
+    .modal-box input {
+      width: 90%; padding: 8px; border-radius: 8px; border: 1px solid var(--sky-mid); margin-bottom: 17px; margin-top: 10px; font-size: 1.07em;
+    }
+    .modal-box button {
+      background: var(--green-dark);color:#fff;padding:8px 18px;border-radius:7px;border:none;font-weight:600;cursor:pointer;
+      font-size: 1.05em;
+      margin: 0 4px;
+    }
+    .modal-box button:active { background: var(--sky-mid); color:var(--green-dark);}
+    @media (max-width:600px) {
+      .admin-container { max-width: 99vw; padding: 11px 2vw 55px 2vw; }
+      header { font-size:0.98rem; }
+      .header-title { font-size:0.98rem;}
+      .admenu-btn { font-size:0.97rem; padding:9px 0;}
+      table, th, td { font-size:0.93rem;}
+      .modal-box { max-width: 98vw;}
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
   </style>
 </head>
 <body>
-  <div class="admin-box">
-    <h1>Admin Panel</h1>
-    <form id="loginForm">
-      <input type="password" id="adminPwd" placeholder="Password" style="width:85%;padding:10px;border-radius:8px;border:1px solid #1976d2;font-size:1.1em;">
-      <button style="margin:12px 0 0 0;padding:8px 22px;border-radius:8px;border:none;background:#1976d2;color:#fff;font-weight:600;cursor:pointer;">Login</button>
-      <div id="loginError" style="color:#e22;font-weight:600;margin-top:9px;display:none;">Wrong password!</div>
-    </form>
-    <div id="adminContent" class="hidden">
-      <div class="visitbox"><b>Today's Visitors:</b> <span id="todayVisit">0</span></div>
-      <div class="tab-nav">
-        <button class="active" data-tab="appt">Appointments</button>
-        <button data-tab="price">Price Checks</button>
-        <button data-tab="estimate">Estimates</button>
-      </div>
-      <div class="tab-content" id="tab-appt"></div>
-      <div class="tab-content hidden" id="tab-price"></div>
-      <div class="tab-content hidden" id="tab-estimate"></div>
-      <button class="logout-btn" onclick="location.reload()">Logout</button>
+  <!-- Top bar -->
+  <header>
+    <div class="header-title">Raj Marketing Mysore - Admin</div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">&#9776;</button>
+    <nav class="topnav" id="topNav">
+      <a href="#" data-panel="appointments">Appointments</a>
+      <a href="#" data-panel="priceChecks">Price Checks</a>
+      <a href="#" data-panel="estimates">Estimates</a>
+      <a href="#" data-panel="contacts">Contact Form</a>
+      <a href="#" data-panel="visitors">Visitors</a>
+      <a href="#" id="settingsOpen">Settings</a>
+    </nav>
+  </header>
+  <div class="admin-container">
+    <!-- Menu bar -->
+    <div class="admin-menu-bar">
+      <button class="admenu-btn active" data-panel="appointments">Appointments</button>
+      <button class="admenu-btn" data-panel="priceChecks">Price Checks</button>
+      <button class="admenu-btn" data-panel="estimates">Estimates</button>
+      <button class="admenu-btn" data-panel="contacts">Contact Form</button>
+      <button class="admenu-btn" data-panel="visitors">Visitors</button>
+      <button class="admenu-btn" id="settingsBtn" data-panel="settings">Settings</button>
+    </div>
+    <!-- Panels -->
+    <div class="admin-section active" id="panel-appointments">
+      <h2>Customer Appointments</h2>
+      <table id="apptTable">
+        <thead><tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Mobile</th>
+          <th>Address</th>
+          <th>Remarks</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty-table" id="apptEmpty">No appointments yet.</div>
+    </div>
+    <div class="admin-section" id="panel-priceChecks">
+      <h2>Price Checks</h2>
+      <table id="priceTable">
+        <thead>
+          <tr><th>Date</th><th>Product</th><th>Size</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty-table" id="priceEmpty">No price checks yet.</div>
+    </div>
+    <div class="admin-section" id="panel-estimates">
+      <h2>Estimates</h2>
+      <table id="estimateTable">
+        <thead>
+          <tr><th>Date</th><th>Name</th><th>Mobile</th><th>Details</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty-table" id="estimateEmpty">No estimates yet.</div>
+    </div>
+    <div class="admin-section" id="panel-contacts">
+      <h2>Contact Form Submissions</h2>
+      <table id="contactTable">
+        <thead>
+          <tr><th>Date</th><th>Name</th><th>Email</th><th>Message</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty-table" id="contactEmpty">No contact messages yet.</div>
+    </div>
+    <div class="admin-section" id="panel-visitors">
+      <h2>Visitor Statistics</h2>
+      <div class="visitor-count-admin" id="todayVisitorCount"></div>
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Visitors</th></tr>
+        </thead>
+        <tbody id="visitorsTable"></tbody>
+      </table>
+    </div>
+    <div class="admin-section" id="panel-settings">
+      <h2>Settings</h2>
+      <button onclick="resetData()" style="margin:16px 0 0 0;padding:8px 20px;border-radius:8px;border:none;background:var(--green-dark);color:#fff;font-weight:600;cursor:pointer;">Clear All Data</button>
+      <div id="settingsMsg" style="color:var(--green-dark);margin-top:15px;font-weight:600;"></div>
+    </div>
+    <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+  </div>
+  <!-- Modal for adding appointment -->
+  <div class="modal-bg" id="apptModal">
+    <div class="modal-box">
+      <h3 style="margin-bottom:7px;">Add Appointment Manually</h3>
+      <form id="manualApptForm">
+        <input type="text" name="name" required placeholder="Customer Name">
+        <input type="tel" name="mobile" required placeholder="Mobile Number">
+        <input type="text" name="address" required placeholder="Address">
+        <input type="text" name="remarks" placeholder="Remarks">
+        <button type="submit" style="margin-right:7px;">Add</button>
+        <button type="button" onclick="closeApptModal()">Cancel</button>
+      </form>
     </div>
   </div>
+  <!-- Modal for settings (future expansion) -->
+  <div class="modal-bg" id="settingsModal">
+    <div class="modal-box">
+      <h3>Admin Settings</h3>
+      <div style="color:#1976d2;margin-bottom:13px;">(More options coming soon)</div>
+      <button onclick="closeSettingsModal()">Close</button>
+    </div>
+  </div>
+  <!-- Login Modal -->
+  <div class="modal-bg active" id="loginModal">
+    <div class="modal-box">
+      <h3 style="margin-bottom:7px;">Admin Login</h3>
+      <form id="loginForm">
+        <input type="password" id="adminPwd" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+      <div id="loginError" style="color:#e22;font-weight:600;margin-top:9px;display:none;">Wrong password!</div>
+    </div>
+  </div>
+  <!-- Floating add appointment button -->
+  <button style="position:fixed;bottom:80px;right:20px;background:var(--green-dark);color:#fff;border:none;border-radius:50%;width:54px;height:54px;font-size:2rem;z-index:1200;box-shadow:0 2px 15px #1976d244;display:flex;align-items:center;justify-content:center;cursor:pointer;" 
+    id="addApptBtn" title="Add Appointment">+</button>
   <script>
-    // Simple password auth
-    const PWD = "admin123";
+    // Password logic (hardcoded for demo)
+    const ADMIN_PWD = "admin123";
     document.getElementById('loginForm').onsubmit = function(e){
       e.preventDefault();
-      if(document.getElementById('adminPwd').value === PWD){
-        this.classList.add('hidden');
-        document.getElementById('loginError').style.display='none';
-        document.getElementById('adminContent').classList.remove('hidden');
-        loadTabs();
+      if(document.getElementById('adminPwd').value === ADMIN_PWD){
+        document.getElementById('loginModal').classList.remove('active');
+        loadAllTables();
       }else{
         document.getElementById('loginError').style.display='block';
       }
     };
-    // Tabs
-    const navBtns = document.querySelectorAll('.tab-nav button');
-    navBtns.forEach(btn=>{
-      btn.onclick = function(){
-        navBtns.forEach(b=>b.classList.remove('active'));
+    function logoutAdmin() {
+      document.getElementById('loginModal').classList.add('active');
+      document.getElementById('adminPwd').value = "";
+      document.getElementById('adminPwd').focus();
+    }
+    // Hamburger menu logic
+    const menuBtn = document.getElementById('menuBtn');
+    const topNav = document.getElementById('topNav');
+    menuBtn.addEventListener('click', () => {
+      topNav.classList.toggle('open');
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 850) topNav.classList.remove('open');
+    });
+    // Panel logic
+    const panelBtns = document.querySelectorAll('.admenu-btn');
+    const panelSections = document.querySelectorAll('.admin-section');
+    panelBtns.forEach(btn => {
+      btn.onclick = function() {
+        panelBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
-        ['appt','price','estimate'].forEach(tab=>{
-          document.getElementById('tab-'+tab).classList.add('hidden');
-        });
-        document.getElementById('tab-'+this.dataset.tab).classList.remove('hidden');
+        panelSections.forEach(sec => sec.classList.remove('active'));
+        document.getElementById('panel-'+btn.dataset.panel).classList.add('active');
       };
     });
-    function loadTabs(){
-      function render(name, fields){
-        let arr=JSON.parse(localStorage.getItem(name)||'[]');
-        if(arr.length===0) return "<i>No records yet.</i>";
-        return '<ul>'+arr.map(d=>'<li>'+fields.map(f=>`<b>${f[0]}</b>: ${d[f[1]]}`).join(' | ')+' <small>('+d.time+')</small></li>').join('')+'</ul>';
-      }
-      // Visitor count
+    // Hamburger nav links
+    Array.from(document.querySelectorAll('nav.topnav a')).forEach(a => {
+      a.onclick = function(e){
+        e.preventDefault();
+        panelBtns.forEach(b=>b.classList.remove('active'));
+        panelSections.forEach(sec => sec.classList.remove('active'));
+        const panel = this.dataset.panel;
+        if(panel){
+          document.querySelector('.admenu-btn[data-panel="'+panel+'"]').classList.add('active');
+          document.getElementById('panel-'+panel).classList.add('active');
+        }
+        if(this.id==="settingsOpen") openSettingsModal();
+        topNav.classList.remove('open');
+      };
+    });
+    // Settings modal
+    document.getElementById('settingsBtn').onclick = openSettingsModal;
+    function openSettingsModal() { document.getElementById('settingsModal').classList.add('active'); }
+    function closeSettingsModal() { document.getElementById('settingsModal').classList.remove('active'); }
+    // Manual Appointment Modal
+    document.getElementById('addApptBtn').onclick = function(){
+      document.getElementById('apptModal').classList.add('active');
+      document.getElementById('manualApptForm').reset();
+    };
+    function closeApptModal(){ document.getElementById('apptModal').classList.remove('active'); }
+    document.getElementById('manualApptForm').onsubmit = function(e){
+      e.preventDefault();
+      let appts = JSON.parse(localStorage.getItem('appointments')||'[]');
+      appts.push({
+        date: new Date().toLocaleString(),
+        name: this.name.value,
+        mobile: this.mobile.value,
+        address: this.address.value,
+        remarks: this.remarks.value
+      });
+      localStorage.setItem('appointments', JSON.stringify(appts));
+      closeApptModal();
+      loadAppointments();
+    };
+    // Load all tables
+    function loadAllTables(){
+      loadAppointments();
+      loadPriceChecks();
+      loadEstimates();
+      loadContacts();
+      loadVisitors();
+    }
+    function loadAppointments(){
+      let arr=JSON.parse(localStorage.getItem('appointments')||'[]');
+      const tbody = document.querySelector('#apptTable tbody');
+      tbody.innerHTML = "";
+      if(arr.length){
+        document.getElementById('apptEmpty').style.display='none';
+        arr.slice().reverse().forEach(d=>{
+          tbody.innerHTML += `<tr>
+            <td>${d.date||d.time||"-"}</td>
+            <td>${d.name||"-"}</td>
+            <td>${d.mobile||d.phone||"-"}</td>
+            <td>${d.address||"-"}</td>
+            <td>${d.remarks||""}</td>
+          </tr>`;
+        });
+      } else document.getElementById('apptEmpty').style.display='';
+    }
+    function loadPriceChecks(){
+      let arr=JSON.parse(localStorage.getItem('priceChecks')||'[]');
+      const tbody = document.querySelector('#priceTable tbody');
+      tbody.innerHTML = "";
+      if(arr.length){
+        document.getElementById('priceEmpty').style.display='none';
+        arr.slice().reverse().forEach(d=>{
+          tbody.innerHTML += `<tr>
+            <td>${d.time||"-"}</td>
+            <td>${d.product||"-"}</td>
+            <td>${d.size||"-"}</td>
+          </tr>`;
+        });
+      } else document.getElementById('priceEmpty').style.display='';
+    }
+    function loadEstimates(){
+      let arr=JSON.parse(localStorage.getItem('estimates')||'[]');
+      const tbody = document.querySelector('#estimateTable tbody');
+      tbody.innerHTML = "";
+      if(arr.length){
+        document.getElementById('estimateEmpty').style.display='none';
+        arr.slice().reverse().forEach(d=>{
+          tbody.innerHTML += `<tr>
+            <td>${d.time||"-"}</td>
+            <td>${d.name||"-"}</td>
+            <td>${d.phone||"-"}</td>
+            <td>${d.details||"-"}</td>
+          </tr>`;
+        });
+      } else document.getElementById('estimateEmpty').style.display='';
+    }
+    function loadContacts(){
+      let arr=JSON.parse(localStorage.getItem('contacts')||'[]');
+      const tbody = document.querySelector('#contactTable tbody');
+      tbody.innerHTML = "";
+      if(arr.length){
+        document.getElementById('contactEmpty').style.display='none';
+        arr.slice().reverse().forEach(d=>{
+          tbody.innerHTML += `<tr>
+            <td>${d.time||"-"}</td>
+            <td>${d.name||"-"}</td>
+            <td>${d.email||"-"}</td>
+            <td>${d.message||"-"}</td>
+          </tr>`;
+        });
+      } else document.getElementById('contactEmpty').style.display='';
+    }
+    function loadVisitors(){
       let stats = JSON.parse(localStorage.getItem('visitors_stats')||'{}');
       let today = new Date().toISOString().slice(0,10);
-      document.getElementById('todayVisit').textContent = stats[today]||0;
-      // Tabs
-      document.getElementById('tab-appt').innerHTML = render('appointments', [['Name','name'],['Phone','phone']]);
-      document.getElementById('tab-price').innerHTML = render('priceChecks', [['Product','product'],['Size','size']]);
-      document.getElementById('tab-estimate').innerHTML = render('estimates', [['Name','name'],['Phone','phone'],['Details','details']]);
+      document.getElementById('todayVisitorCount').innerHTML = 'Visitors today: <b>'+(stats[today]||0)+'</b>';
+      let tbody = document.getElementById('visitorsTable');
+      tbody.innerHTML = "";
+      let keys = Object.keys(stats).sort((a,b)=>b.localeCompare(a));
+      if(keys.length){
+        keys.forEach(k=>{
+          tbody.innerHTML += `<tr><td>${k}</td><td>${stats[k]}</td></tr>`;
+        });
+      } else tbody.innerHTML = '<tr><td colspan="2">No visits yet.</td></tr>';
     }
+    function resetData(){
+      localStorage.removeItem('appointments');
+      localStorage.removeItem('priceChecks');
+      localStorage.removeItem('estimates');
+      localStorage.removeItem('contacts');
+      localStorage.removeItem('visitors_stats');
+      document.getElementById('settingsMsg').textContent = "All data cleared!";
+      loadAllTables();
+      setTimeout(()=>{document.getElementById('settingsMsg').textContent='';},2000);
+    }
+    // Load initial if already logged in
+    if(!document.getElementById('loginModal').classList.contains('active')) loadAllTables();
   </script>
 </body>
 </html>
