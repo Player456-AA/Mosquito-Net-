@@ -692,4 +692,105 @@
       promoIdx = (promoIdx + 1) % promos.length;
       loadPromo(promoIdx);
     }, 5000);
-     
+     loadPromo(promoIdx);
+
+    // Search Bar Logic
+    document.getElementById('searchBar').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = this.value.toLowerCase();
+        if (!val) return;
+        if (val.includes('velcro') || val.includes('frame') || val.includes('pleated') || val.includes('mesh') || val.includes('product')) window.location = 'products.html';
+        else if (val.includes('service') || val.includes('install')) window.location = 'services.html';
+        else if (val.includes('estimate') || val.includes('price')) window.location = 'estimate.html';
+        else if (val.includes('contact') || val.includes('call')) window.location = 'contact.html';
+        else alert('No direct match found. Please use the menu.');
+      }
+    });
+
+    // Tab Menu Logic
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabDetails = {
+      appointment: document.getElementById('tab-appointment'),
+      price: document.getElementById('tab-price'),
+      estimate: document.getElementById('tab-estimate'),
+      call: document.getElementById('tab-call')
+    };
+    tabBtns.forEach(btn => {
+      btn.onclick = function() {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        Object.values(tabDetails).forEach(d => d.classList.remove('active'));
+        tabDetails[this.dataset.tab].classList.add('active');
+      };
+    });
+
+    // Visitor Counter (localStorage, resets daily)
+    function updateVisitorCount() {
+      const todayKey = 'visitor_' + new Date().toISOString().slice(0,10);
+      let count = localStorage.getItem(todayKey);
+      if (!count) count = 0;
+      count = parseInt(count,10)+1;
+      localStorage.setItem(todayKey, count);
+      document.getElementById('visitorCount').textContent = count;
+      // Also store for admin
+      let stats = JSON.parse(localStorage.getItem('visitors_stats')||'{}');
+      stats[new Date().toISOString().slice(0,10)] = count;
+      localStorage.setItem('visitors_stats', JSON.stringify(stats));
+    }
+    updateVisitorCount();
+
+    // Forms Storage (localStorage for admin panel)
+    function saveForm(name, data) {
+      let arr = JSON.parse(localStorage.getItem(name)||'[]');
+      arr.push({...data, time: new Date().toLocaleString() });
+      localStorage.setItem(name, JSON.stringify(arr));
+    }
+    // Appointment Form
+    document.getElementById('appointmentForm').onsubmit = function(e) {
+      e.preventDefault();
+      saveForm('appointments', {
+        name: this.name.value, phone: this.phone.value
+      });
+      this.reset();
+      document.getElementById('apptSuccess').style.display = 'block';
+      setTimeout(()=>document.getElementById('apptSuccess').style.display='none',1600);
+    };
+    // Price Form
+    document.getElementById('priceForm').onsubmit = function(e) {
+      e.preventDefault();
+      saveForm('priceChecks', {
+        product: this.product.value, size: this.size.value
+      });
+      this.reset();
+      document.getElementById('priceSuccess').style.display = 'block';
+      setTimeout(()=>document.getElementById('priceSuccess').style.display='none',1600);
+    };
+    // Estimate Form
+    document.getElementById('estimateForm').onsubmit = function(e) {
+      e.preventDefault();
+      saveForm('estimates', {
+        name: this.name.value, phone: this.phone.value, details: this.details.value
+      });
+      this.reset();
+      document.getElementById('estimateSuccess').style.display = 'block';
+      setTimeout(()=>document.getElementById('estimateSuccess').style.display='none',1600);
+    };
+    // Footer "Coming Soon" links
+    function comingSoon(e) {
+      e.preventDefault();
+      alert('Coming Soon!');
+    }
+    Array.from(document.querySelectorAll('a.footer-link')).forEach(a=>{
+      a.onclick = comingSoon;
+    });
+    // Product cards "Learn More" links
+    Array.from(document.querySelectorAll('.product-link')).forEach(a=>{
+      a.onclick = function(e){
+        e.preventDefault();
+        alert('Coming Soon!');
+      };
+    });
+  </script>
+</body>
+</html>
