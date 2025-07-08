@@ -7,299 +7,522 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --blue-dark: #133c7a;
-      --blue: #1976d2;
-      --blue-light: #64b5f6;
-      --blue-sky: #e3f2fd;
+      --sky: #e3f2fd;
+      --sky-mid: #90caf9;
+      --sky-dark: #1976d2;
+      --blue: #2196f3;
+      --blue-dark: #17304B;
       --white: #fff;
-      --shadow: 0 2px 8px rgba(19,60,122,0.08);
+      --shadow: 0 2px 16px 0 rgba(25,118,210,0.10);
+      --shadow-card: 0 4px 24px 0 rgba(33,150,243,0.13);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--blue-sky);
+    html, body {
+      background: linear-gradient(135deg, var(--sky) 0%, var(--blue) 100%);
       min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
       color: var(--blue-dark);
-      display: flex;
-      flex-direction: column;
-      padding-bottom: 65px;
+      padding: 0;
     }
+    /* Top bar */
     header {
-      width: 100%;
-      background: var(--blue);
+      width: 100vw;
+      background: var(--blue-dark);
       color: var(--white);
       position: sticky;
       top: 0;
-      z-index: 10;
+      left: 0;
+      z-index: 20;
       box-shadow: var(--shadow);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.7rem 1rem;
+      padding: 0.9rem 1.2rem 0.9rem 1.2rem;
+      font-size: 1.14rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    .header-title {
+      font-size: 1.13rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--white);
     }
     .menu-btn {
-      display: none;
       background: none;
       border: none;
       color: var(--white);
-      font-size: 2rem;
-      cursor: pointer;
-    }
-    nav {
-      display: flex;
-      gap: 1.2rem;
-    }
-    nav a {
-      color: var(--white);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color .2s;
-      padding: 0.3em 0.7em;
-      border-radius: 5px;
-    }
-    nav a:hover, nav a.active {
-      background: var(--blue-light);
-      color: var(--blue-dark);
-    }
-    main {
-      flex: 1;
-      padding: 1.2rem 1rem 1rem 1rem;
-      max-width: 650px;
-      margin: 0 auto;
-      width: 100%;
-      animation: fadeIn .8s;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    .hero {
-      text-align: center;
-      margin-bottom: 2rem;
-      margin-top: 1.5rem;
-    }
-    .hero h1 {
-      color: var(--blue);
       font-size: 2.1rem;
-      font-weight: 700;
-      margin-bottom: 0.7rem;
+      cursor: pointer;
+      outline: none;
+      padding: 2px 4px;
+      border-radius: 5px;
+      margin-left: 10px;
+      transition: background 0.15s;
     }
-    .hero p {
+    .menu-btn:active, .menu-btn:focus {
+      background: var(--sky-mid);
       color: var(--blue-dark);
-      font-size: 1.09rem;
-      margin-bottom: 1.2rem;
     }
-    .pages-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.1rem;
-      margin: 2rem 0;
-    }
-    .pages-grid a {
-      display: flex;
+    nav.topnav {
+      position: fixed;
+      top: 56px;
+      right: 0;
+      background: var(--blue-dark);
+      border-radius: 0 0 0 16px;
+      box-shadow: var(--shadow-card);
+      padding: 1.1rem 1.4rem 1.1rem 1.8rem;
+      z-index: 99;
+      display: none;
       flex-direction: column;
-      align-items: center;
-      padding: 1.1rem 0.8rem;
-      background: var(--white);
-      border-radius: 12px;
-      color: var(--blue-dark);
+      gap: 1.1rem;
+      min-width: 150px;
+      animation: fadeIn .25s;
+    }
+    nav.topnav.open {
+      display: flex;
+    }
+    nav.topnav a {
+      color: var(--white);
       text-decoration: none;
       font-weight: 500;
-      box-shadow: var(--shadow);
-      transition: transform .17s, box-shadow .17s;
-      min-height: 90px;
+      padding: 0.24em 0.7em;
+      border-radius: 6px;
+      font-size: 1.09rem;
+      transition: background .18s, color .18s;
+      letter-spacing: .3px;
     }
-    .pages-grid a:hover {
-      transform: translateY(-3px) scale(1.025);
-      box-shadow: 0 6px 22px 0 rgba(19,60,122,0.13);
-      background: var(--blue-light);
-      color: var(--white);
-    }
-    .pages-grid svg {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-      color: var(--blue);
-    }
-    .business-info {
-      background: var(--white);
-      border-radius: 8px;
-      padding: 1.1rem;
-      margin: 2rem 0 1.3rem 0;
-      box-shadow: var(--shadow);
-      font-size: 1rem;
+    nav.topnav a:hover, nav.topnav a.active {
+      background: var(--sky-mid);
       color: var(--blue-dark);
     }
-    .business-info strong { color: var(--blue); }
-    @media (max-width: 600px) {
-      .pages-grid { grid-template-columns: 1fr; }
-      main { padding: 1rem 0.3rem 1rem 0.3rem; }
-      header { padding: 0.7rem 0.6rem; }
-      .hero h1 { font-size: 1.5rem; }
-      .business-info { font-size: 0.98rem; }
+    @media (max-width: 480px) {
+      header { padding: 0.8rem 0.7rem; font-size: 1rem; }
+      .header-title { font-size: 1.01rem; }
+      nav.topnav { padding: 1rem 0.8rem 1rem 1.2rem; min-width: 110px; }
     }
-    /* Sticky bottom nav */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0; right: 0;
-      width: 100vw;
-      background: var(--blue);
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px 0 80px 0;
+    }
+    /* Promotion Slider */
+    .promo-slider {
+      background: rgba(255,255,255,0.95);
+      border-radius: 22px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 28px;
+      padding: 28px 25px 25px 25px;
       display: flex;
-      justify-content: space-around;
+      flex-direction: row;
       align-items: center;
-      height: 56px;
-      z-index: 50;
-      box-shadow: 0 -2px 8px rgba(19,60,122,0.10);
+      position: relative;
+      min-height: 230px;
+      overflow: hidden;
     }
-    .bottom-nav a {
-      flex: 1;
-      color: var(--white);
-      text-align: center;
-      text-decoration: none;
-      font-size: 0.95rem;
+    .promo-info {
+      flex: 1 1 0;
+      padding-right: 18px;
       display: flex;
       flex-direction: column;
+      z-index: 2;
+    }
+    .promo-badge {
+      background: var(--sky-mid);
+      color: var(--blue-dark);
+      font-size: 0.93rem;
+      font-weight: 600;
+      padding: 4px 16px;
+      border-radius: 11px;
+      align-self: flex-start;
+      margin-bottom: 12px;
+      letter-spacing: .5px;
+      box-shadow: 0 1px 12px 0 rgba(25,118,210,0.06);
+    }
+    .promo-title {
+      font-size: 1.38rem;
+      font-weight: 700;
+      margin-bottom: 7px;
+      color: var(--blue-dark);
+      text-shadow: 0 3px 30px #fff, 0 1px 8px var(--sky-mid);
+    }
+    .promo-quote {
+      font-size: 1.06rem;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: 13px;
+      text-shadow: 0 1px 18px var(--sky-mid), 0 1px 2px #fff;
+    }
+    .promo-btn {
+      border: 1.8px solid var(--blue-dark);
+      background: linear-gradient(90deg, var(--sky-mid) 0%, var(--blue) 100%);
+      color: var(--blue-dark);
+      font-size: 1.08rem;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 10px 21px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.18s, color 0.18s;
+      box-shadow: 0 2px 8px 0 rgba(25,118,210,0.16);
+    }
+    .promo-btn:hover {
+      background: var(--blue-dark);
+      color: var(--white);
+    }
+    .promo-imgbox {
+      display: flex;
       align-items: center;
       justify-content: center;
-      transition: color .18s;
-      height: 100%;
+      min-width: 130px;
+      min-height: 130px;
+      position: relative;
+    }
+    .promo-img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 22px;
+      border: 2px solid #36e0ff;
+      background: var(--sky-mid);
+      box-shadow: 0 0 0 6px var(--sky);
+      opacity: 0.91;
+      backdrop-filter: blur(2px);
+      filter: brightness(0.93) saturate(1.08);
+      transition: opacity .2s, filter .2s;
+    }
+    .promo-img-overlay {
+      position: absolute;
+      top: 0; left:0; width:100%; height:100%;
+      background: linear-gradient(120deg,rgba(255,255,255,0.12) 20%,rgba(33,150,243,0.17) 100%);
+      border-radius: 22px;
+      pointer-events: none;
+    }
+    .slider-arrows {
+      position: absolute;
+      top: 50%;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .slider-arrow {
+      pointer-events: all;
+      background: var(--sky-mid);
+      border: none;
+      color: var(--blue-dark);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.55rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.17s;
+      opacity: 0.99;
+      box-shadow: 0 1px 6px 0 rgba(25,118,210,0.11);
+    }
+    .slider-arrow:hover {
+      background: var(--blue-dark);
+      color: var(--white);
+    }
+    /* Search Bar */
+    .searchbar-wrap {
+      margin-bottom: 25px;
+      width: 100%;
+    }
+    .search-bar {
+      width: 100%;
+      font-size: 1.16rem;
+      padding: 15px 48px 15px 46px;
+      border-radius: 15px;
+      border: none;
+      background: rgba(255,255,255,0.82);
+      color: var(--blue-dark);
+      outline: none;
+      box-shadow: var(--shadow-card);
+      transition: background 0.16s, color 0.16s;
       font-weight: 500;
-      padding: 0.3em 0 0.15em 0;
     }
-    .bottom-nav a.active, .bottom-nav a:hover {
-      color: var(--blue-sky);
-      background: var(--blue-light);
+    .search-bar::placeholder {
+      color: var(--blue-dark);
+      opacity: 0.77;
+      font-weight: 400;
+      letter-spacing: .2px;
     }
-    .bottom-nav svg {
-      font-size: 1.25rem;
-      margin-bottom: 0.09em;
+    .search-icon {
+      position: absolute;
+      left: 22px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--blue-dark);
+      font-size: 1.38em;
+      pointer-events: none;
+      opacity: 0.7;
     }
-    /* Hamburger menu mobile */
-    @media (max-width: 850px) {
-      nav {
-        display: none;
-        position: absolute;
-        top: 56px;
-        right: 0;
-        background: var(--blue);
-        flex-direction: column;
-        width: 210px;
-        box-shadow: var(--shadow);
-        border-radius: 0 0 8px 8px;
-        padding: 0.7rem 0;
-        z-index: 99;
-        gap: 0;
-      }
-      nav.open {
-        display: flex;
-      }
-      nav a {
-        padding: 0.7em 1.2em;
-        border-radius: 0;
-        border-bottom: 1px solid var(--blue-light);
-      }
-      nav a:last-child { border-bottom: none; }
-      .menu-btn { display: block; }
+    .searchbar-wrap {
+      position: relative;
+      width: 100%;
+    }
+    /* Moveable Tab Bar Menu */
+    .tab-bar-wrap {
+      margin-bottom: 13px;
+      background: rgba(255,255,255,0.90);
+      border-radius: 16px;
+      display: flex;
+      overflow-x: auto;
+      box-shadow: var(--shadow);
+      border: 1.2px solid var(--sky-mid);
+    }
+    .tab-bar {
+      display: flex;
+      width: 100%;
+      min-width: 320px;
+    }
+    .tab-btn {
+      flex: 1 1 auto;
+      padding: 15px 0;
+      color: var(--blue-dark);
+      background: transparent;
+      border: none;
+      font-size: 1.12rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 16px;
+      transition: background .18s, color .18s;
+      outline: none;
+      white-space: nowrap;
+      margin: 0 2px;
+      letter-spacing: .2px;
+    }
+    .tab-btn.active, .tab-btn:active {
+      background: linear-gradient(90deg, var(--sky) 0%, var(--blue) 100%);
+      color: var(--blue-dark);
+      box-shadow: 0 1px 9px 0 var(--blue);
+    }
+    /* Details dropdown below tab */
+    .tab-details {
+      background: rgba(255,255,255,0.96);
+      border-radius: 0 0 16px 16px;
+      margin-top: -8px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-card);
+      padding: 22px 19px 18px 19px;
+      color: var(--blue-dark);
+      display: none;
+      animation: fadeIn .4s;
+      border: 1.2px solid var(--sky-mid);
+      font-size: 1.04rem;
+    }
+    .tab-details.active { display: block; }
+    .tab-details strong { color: var(--blue-dark);}
+    /* Misc. */
+    .business-info {
+      background: rgba(255,255,255,0.90);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin: 2rem 0 1.4rem 0;
+      box-shadow: var(--shadow-card);
+      font-size: 1rem;
+      color: var(--blue-dark);
+      border: 1px solid var(--sky-mid);
+    }
+    .business-info strong { color: var(--blue-dark); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 680px) {
+      .container { max-width: 99vw; padding: 10px 0 40px 0; }
+      .promo-slider { padding: 12px 6px 10px 10px; }
+      .promo-img, .promo-imgbox { width: 98px; height: 98px; min-width: 98px; min-height: 98px;}
+      .promo-title { font-size: 1.11rem;}
+      .search-bar { font-size: 1.03rem; }
+      .tab-btn { font-size: 0.99rem; }
     }
   </style>
 </head>
 <body>
   <header>
-    <div style="font-weight:600;font-size:1.16rem;letter-spacing:1px">
-      Raj Marketing Mysore
-    </div>
-    <button class="menu-btn" id="menuBtn">&#9776;</button>
-    <nav id="topNav">
-      <a href="index.html" class="active">Home</a>
-      <a href="products.html">Products</a>
-      <a href="services.html">Services</a>
+    <div class="header-title">Raj Marketing Mysore</div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">&#9776;</button>
+    <nav class="topnav" id="topNav">
       <a href="about.html">About</a>
+      <a href="products.html">Product</a>
+      <a href="services.html">Service</a>
       <a href="contact.html">Contact</a>
-      <a href="estimate.html">Estimate</a>
-      <a href="admin.html">Admin</a>
     </nav>
   </header>
-  <main>
-    <div class="hero">
-      <h1>Welcome to Raj Marketing Mysore</h1>
-      <p>Your trusted local supplier for <strong>Mosquito Nets for Windows & Doors</strong>.<br>
-         Quality products, expert installation, and affordable service in Mysore since 2010!
-      </p>
-      <img src="https://img.freepik.com/free-vector/flat-insect-mosquito-repellent-concept_23-2149038294.jpg?w=700" alt="Mosquito Net" style="width:92%;max-width:340px;border-radius:18px;margin:1rem 0 0.2rem 0;box-shadow:0 3px 16px 0 rgba(19,60,122,0.13);">
+  <div class="container">
+    <!-- Promotion Slider -->
+    <div class="promo-slider" id="promoSlider">
+      <div class="promo-info">
+        <div class="promo-badge">Promotion</div>
+        <div class="promo-title" id="promoTitle"></div>
+        <div class="promo-quote" id="promoQuote"></div>
+        <button class="promo-btn" id="promoBtn" onclick="window.location='products.html'">View Products</button>
+      </div>
+      <div class="promo-imgbox">
+        <img class="promo-img" id="promoImg" src="" alt="Promotion Image">
+        <div class="promo-img-overlay"></div>
+      </div>
+      <div class="slider-arrows">
+        <button class="slider-arrow" id="promoPrev">&#8592;</button>
+        <button class="slider-arrow" id="promoNext">&#8594;</button>
+      </div>
     </div>
-
-    <div class="pages-grid">
-      <a href="products.html">
-        <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M20.54 5.23l-1.39-4A2 2 0 0 0 17.26 0H6.74a2 2 0 0 0-1.89 1.23l-1.4 4A2 2 0 0 0 2 7v13a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-.46-1.77zM6.74 2h10.52l1.22 3.5H5.52zm13.26 18H4V7h16z"/></svg>
-        Products
-      </a>
-      <a href="services.html">
-        <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10h-3V7a5 5 0 0 0-10 0v3H3a1 1 0 0 0-1 1v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V11a1 1 0 0 0-1-1zM7 7a3 3 0 0 1 6 0v3H7zm12 14H5a1 1 0 0 1-1-1V12h16v8a1 1 0 0 1-1 1z"/></svg>
-        Services
-      </a>
-      <a href="about.html">
-        <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a5 5 0 1 0-5-5a5 5 0 0 0 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/></svg>
-        About Us
-      </a>
-      <a href="contact.html">
-        <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 8V7l-3 2.29V8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v0.29L3 7v1l8.5 5.5a1 1 0 0 0 1 0L21 8zm-2 2.46V18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7.54l7 4.53l7-4.53z"/></svg>
-        Contact
-      </a>
-      <a href="estimate.html">
-        <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M19 2H8.17a3 3 0 0 0-2.12.88L2.88 6.05A3 3 0 0 0 2 8.17V20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm0 18H5a1 1 0 0 1-1-1V8.17a1 1 0 0 1 .29-.71L8.17 4A1 1 0 0 1 8.88 4H19a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1zm-7-4a1 1 0 0 0 1-1V9a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1zm-1-9a1 1 0 1 0 2 0a1 1 0 0 0-2 0z"/></svg>
-        Estimate
-      </a>
-      <a href="admin.html">
-        <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12c2.67 0 8 1.34 8 4v4H4v-4c0-2.66 5.33-4 8-4zm0-2a4 4 0 1 1 0-8a4 4 0 0 1 0 8z"/></svg>
-        Admin
-      </a>
+    <!-- Search Bar -->
+    <div class="searchbar-wrap">
+      <span class="search-icon">&#128269;</span>
+      <input class="search-bar" id="searchBar" placeholder="Search for mosquito nets, services..." autocomplete="off">
     </div>
+    <!-- Moveable Tab Bar -->
+    <div class="tab-bar-wrap">
+      <div class="tab-bar" id="tabBar">
+        <button class="tab-btn active" data-tab="appointment">Appointment</button>
+        <button class="tab-btn" data-tab="price">Price Check</button>
+        <button class="tab-btn" data-tab="estimate">Get Estimate</button>
+        <button class="tab-btn" data-tab="call">Call Now</button>
+      </div>
+    </div>
+    <!-- Tab Details (Dropdown) -->
+    <div class="tab-details active" id="tab-appointment">
+      <strong>Book Appointment:</strong><br>
+      Schedule a visit for measurement or installation. <br>
+      <button style="margin-top:13px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;" onclick="window.location='contact.html#appointment'">Book Now</button>
+    </div>
+    <div class="tab-details" id="tab-price">
+      <strong>Instant Price Check:</strong><br>
+      Check estimated prices for your required mosquito net solution.<br>
+      <button style="margin-top:13px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;" onclick="window.location='estimate.html'">Check Price</button>
+    </div>
+    <div class="tab-details" id="tab-estimate">
+      <strong>Get a Free Estimate:</strong><br>
+      Fill in your details and get a quick quote.<br>
+      <button style="margin-top:13px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;" onclick="window.location='estimate.html'">Get Estimate</button>
+    </div>
+    <div class="tab-details" id="tab-call">
+      <strong>Call Now:</strong><br>
+      <a href="tel:+919483037385" style="color:var(--blue-dark);font-weight:600;font-size:1.13rem;text-decoration:underline;">+91 94830 37385</a><br>
+      Speak directly to our experts for advice or quick booking.
+    </div>
+    <!-- Business Info -->
     <div class="business-info">
       <strong>Raj Marketing Mysore</strong><br>
-      <span>Phone:</span> <a href="tel:+919483037385" style="color:var(--blue);text-decoration:underline;">+91 94830 37385</a><br>
-      <span>Address:</span> #84, Nrupatunga Road, Kuvempu Nagar,<br>Mysore, Karnataka, India
+      Phone: <a href="tel:+919483037385" style="color:var(--blue-dark);text-decoration:underline;">+91 94830 37385</a><br>
+      Address: #84, Nrupatunga Road, Kuvempu Nagar,<br>Mysore, Karnataka, India
     </div>
-  </main>
-  <nav class="bottom-nav">
-    <a href="index.html" class="active">
-      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      Home
-    </a>
-    <a href="products.html">
-      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M20.54 5.23l-1.39-4A2 2 0 0 0 17.26 0H6.74a2 2 0 0 0-1.89 1.23l-1.4 4A2 2 0 0 0 2 7v13a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-.46-1.77zM6.74 2h10.52l1.22 3.5H5.52zm13.26 18H4V7h16z"/></svg>
-      Products
-    </a>
-    <a href="services.html">
-      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10h-3V7a5 5 0 0 0-10 0v3H3a1 1 0 0 0-1 1v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V11a1 1 0 0 0-1-1zM7 7a3 3 0 0 1 6 0v3H7zm12 14H5a1 1 0 0 1-1-1V12h16v8a1 1 0 0 1-1 1z"/></svg>
-      Services
-    </a>
-    <a href="contact.html">
-      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 8V7l-3 2.29V8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v0.29L3 7v1l8.5 5.5a1 1 0 0 0 1 0L21 8zm-2 2.46V18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7.54l7 4.53l7-4.53z"/></svg>
-      Contact
-    </a>
-  </nav>
+  </div>
   <script>
-    // Hamburger menu toggle
+    // Hamburger menu logic
     const menuBtn = document.getElementById('menuBtn');
-    const nav = document.getElementById('topNav');
+    const topNav = document.getElementById('topNav');
     menuBtn.addEventListener('click', () => {
-      nav.classList.toggle('open');
+      topNav.classList.toggle('open');
     });
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 850) nav.classList.remove('open');
+      if (window.innerWidth > 850) topNav.classList.remove('open');
     });
-    // Highlight nav active
-    function setActiveLinks() {
-      const path = location.pathname.split('/').pop();
-      document.querySelectorAll('nav a, .bottom-nav a').forEach(a => {
-        if((a.getAttribute('href') || '') === path) {
-          a.classList.add('active');
-        } else {
-          a.classList.remove('active');
-        }
-      });
+
+    // --- Promotion Slider Logic ---
+    const promos = [
+      {
+        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=500&q=80",
+        title: "Mosquito-Free Living",
+        quote: "Enjoy your home with fresh air & no bites — premium nets for every window."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?fit=crop&w=500&q=80",
+        title: "Easy Velcro System",
+        quote: "Quick install, easy to clean. Simple net solutions for busy families."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1464983953574-0892a716854b?fit=crop&w=500&q=80",
+        title: "Strong Frame Nets",
+        quote: "For those who want durability & peace of mind — sturdy, lasting protection."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1520880867055-1e30d1cb001c?fit=crop&w=500&q=80",
+        title: "Elegant Pleated Nets",
+        quote: "Foldable & stylish nets for large windows and doors. Modern look, max comfort."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?fit=crop&w=500&q=80",
+        title: "Magnetic Mesh Doors",
+        quote: "Easy in, easy out. Let your kids & pets enjoy — keeps bugs away."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?fit=crop&w=500&q=80",
+        title: "Fresh Air, No Compromise",
+        quote: "Let the breeze in, keep the insects out. Live healthy, live happy."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1523413363574-c30aa1c2a516?fit=crop&w=500&q=80",
+        title: "Trusted Since 2010",
+        quote: "Mysore’s preferred mosquito net specialists. Local, reliable, friendly."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?fit=crop&w=500&q=80",
+        title: "Quality & Service",
+        quote: "Affordable, reliable, and always local. Your comfort, our mission."
+      }
+    ];
+    let promoIdx = 0;
+    const promoImg = document.getElementById('promoImg');
+    const promoTitle = document.getElementById('promoTitle');
+    const promoQuote = document.getElementById('promoQuote');
+    function loadPromo(idx) {
+      promoImg.src = promos[idx].img;
+      promoTitle.textContent = promos[idx].title;
+      promoQuote.textContent = promos[idx].quote;
     }
-    setActiveLinks();
+    document.getElementById('promoPrev').onclick = function() {
+      promoIdx = (promoIdx + promos.length - 1) % promos.length;
+      loadPromo(promoIdx);
+    };
+    document.getElementById('promoNext').onclick = function() {
+      promoIdx = (promoIdx + 1) % promos.length;
+      loadPromo(promoIdx);
+    };
+    setInterval(function() {
+      promoIdx = (promoIdx + 1) % promos.length;
+      loadPromo(promoIdx);
+    }, 5000);
+    loadPromo(promoIdx);
+
+    // --- Search Bar Logic ---
+    document.getElementById('searchBar').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = this.value.toLowerCase();
+        if (!val) return;
+        if (val.includes('velcro') || val.includes('frame') || val.includes('pleated') || val.includes('mesh') || val.includes('product')) window.location = 'products.html';
+        else if (val.includes('service') || val.includes('install')) window.location = 'services.html';
+        else if (val.includes('estimate') || val.includes('price')) window.location = 'estimate.html';
+        else if (val.includes('contact') || val.includes('call')) window.location = 'contact.html';
+        else alert('No direct match found. Please use the menu.');
+      }
+    });
+
+    // --- Tab Menu Logic ---
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabDetails = {
+      appointment: document.getElementById('tab-appointment'),
+      price: document.getElementById('tab-price'),
+      estimate: document.getElementById('tab-estimate'),
+      call: document.getElementById('tab-call')
+    };
+    tabBtns.forEach(btn => {
+      btn.onclick = function() {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        Object.values(tabDetails).forEach(d => d.classList.remove('active'));
+        tabDetails[this.dataset.tab].classList.add('active');
+      };
+    });
   </script>
 </body>
 </html>
