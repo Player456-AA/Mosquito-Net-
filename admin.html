@@ -1,304 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Admin Login | Raj Marketing Mysore</title>
+  <meta charset="UTF-8"><title>Admin Panel</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --blue-dark: #133c7a;
-      --blue: #1976d2;
-      --blue-light: #64b5f6;
-      --blue-sky: #e3f2fd;
-      --white: #fff;
-      --shadow: 0 2px 8px rgba(19,60,122,0.08);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--blue-sky);
-      min-height: 100vh;
-      color: var(--blue-dark);
-      display: flex;
-      flex-direction: column;
-      padding-bottom: 65px;
-    }
-    header {
-      width: 100%;
-      background: var(--blue);
-      color: var(--white);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: var(--shadow);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.7rem 1rem;
-    }
-    .menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--white);
-      font-size: 2rem;
-      cursor: pointer;
-    }
-    nav {
-      display: flex;
-      gap: 1.2rem;
-    }
-    nav a {
-      color: var(--white);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color .2s;
-      padding: 0.3em 0.7em;
-      border-radius: 5px;
-    }
-    nav a:hover, nav a.active {
-      background: var(--blue-light);
-      color: var(--blue-dark);
-    }
-    main {
-      flex: 1;
-      padding: 1.2rem 1rem 1rem 1rem;
-      max-width: 400px;
-      margin: 0 auto;
-      width: 100%;
-      animation: fadeIn .8s;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px);}
-      to { opacity: 1; transform: translateY(0);}
-    }
-    h1 {
-      font-size: 1.4rem;
-      color: var(--blue);
-      font-weight: 700;
-      margin-bottom: 1.1rem;
-      text-align: center;
-    }
-    .admin-block {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 1.2rem 1.1rem 1.1rem 1.1rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .admin-block label {
-      display: block;
-      margin-bottom: 0.18rem;
-      margin-top: 0.75rem;
-      color: var(--blue-dark);
-      font-weight: 500;
-      text-align: left;
-    }
-    .admin-block input {
-      width: 100%;
-      padding: 0.58rem 0.7rem;
-      border: 1.3px solid var(--blue-light);
-      border-radius: 7px;
-      font-size: 1rem;
-      font-family: inherit;
-      margin-bottom: 0.2rem;
-      background: var(--blue-sky);
-      margin-bottom: 0.9rem;
-    }
-    .admin-block button {
-      margin-top: 1.1rem;
-      width: 100%;
-      padding: 0.7rem 0;
-      background: var(--blue);
-      color: var(--white);
-      border: none;
-      border-radius: 7px;
-      font-size: 1.07rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background .16s;
-      box-shadow: 0 2px 8px rgba(19,60,122,0.08);
-    }
-    .admin-block button:hover {
-      background: var(--blue-light);
-      color: var(--blue-dark);
-    }
-    #admin-msg {
-      color: var(--blue);
-      font-weight: 600;
-      font-size: 1.07rem;
-      padding-top: 0.7em;
-      display: none;
-      text-align: center;
-    }
-    @media (max-width: 600px) {
-      main { padding: 1rem 0.3rem 1rem 0.3rem; }
-      header { padding: 0.7rem 0.6rem; }
-    }
-    .business-info {
-      background: var(--white);
-      border-radius: 8px;
-      padding: 1.1rem;
-      margin: 2rem 0 1.3rem 0;
-      box-shadow: var(--shadow);
-      font-size: 1rem;
-      color: var(--blue-dark);
-    }
-    .business-info strong { color: var(--blue); }
-    /* Sticky bottom nav */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0; right: 0;
-      width: 100vw;
-      background: var(--blue);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      height: 56px;
-      z-index: 50;
-      box-shadow: 0 -2px 8px rgba(19,60,122,0.10);
-    }
-    .bottom-nav a {
-      flex: 1;
-      color: var(--white);
-      text-align: center;
-      text-decoration: none;
-      font-size: 0.95rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: color .18s;
-      height: 100%;
-      font-weight: 500;
-      padding: 0.3em 0 0.15em 0;
-    }
-    .bottom-nav a.active, .bottom-nav a:hover {
-      color: var(--blue-sky);
-      background: var(--blue-light);
-    }
-    .bottom-nav svg {
-      font-size: 1.25rem;
-      margin-bottom: 0.09em;
-    }
-    /* Hamburger menu mobile */
-    @media (max-width: 850px) {
-      nav {
-        display: none;
-        position: absolute;
-        top: 56px;
-        right: 0;
-        background: var(--blue);
-        flex-direction: column;
-        width: 210px;
-        box-shadow: var(--shadow);
-        border-radius: 0 0 8px 8px;
-        padding: 0.7rem 0;
-        z-index: 99;
-        gap: 0;
-      }
-      nav.open {
-        display: flex;
-      }
-      nav a {
-        padding: 0.7em 1.2em;
-        border-radius: 0;
-        border-bottom: 1px solid var(--blue-light);
-      }
-      nav a:last-child { border-bottom: none; }
-      .menu-btn { display: block; }
-    }
+    body {font-family:'Poppins',sans-serif;background:#17304B;color:#fff;padding:0;margin:0;}
+    .admin-box {max-width:500px;margin:40px auto;background:#fff;color:#17304B;padding:28px 20px 20px 20px;border-radius:16px;box-shadow:0 6px 28px 0 #1976d244;}
+    h1 {text-align:center;}
+    .hidden{display:none;}
+    .logout-btn{margin:1.5em 0 0 0;padding:7px 22px;border-radius:8px;border:none;background:#1976d2;color:#fff;font-weight:600;cursor:pointer;}
+    .tab-nav{display:flex;gap:8px;margin:0 0 18px 0;}
+    .tab-nav button{flex:1;background:#e3f2fd;color:#17304B;border:none;padding:10px 4px;border-radius:8px;font-weight:600;cursor:pointer;}
+    .tab-nav button.active{background:#1976d2;color:#fff;}
+    .tab-content{background:#f6fafd;padding:16px 16px;border-radius:10px;max-height:260px;overflow:auto;}
+    ul{margin:9px 0 0 18px;}
+    small{color:#1976d2;}
+    .visitbox{background:#d0e6f9;color:#17304B;border-radius:8px;margin:13px 0 14px 0;padding:7px 13px;font-size:1.02em;}
+    @media (max-width:520px){.admin-box{margin:13px 2vw}}
   </style>
 </head>
 <body>
-  <header>
-    <div style="font-weight:600;font-size:1.16rem;letter-spacing:1px">
-      Raj Marketing Mysore
-    </div>
-    <button class="menu-btn" id="menuBtn">&#9776;</button>
-    <nav id="topNav">
-      <a href="index.html">Home</a>
-      <a href="products.html">Products</a>
-      <a href="services.html">Services</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="estimate.html">Estimate</a>
-      <a href="admin.html" class="active">Admin</a>
-    </nav>
-  </header>
-  <main>
-    <h1>Admin Login</h1>
-    <div class="admin-block">
-      <form autocomplete="off" onsubmit="return showAdminMsg(event)">
-        <label for="admin-username">Username</label>
-        <input type="text" id="admin-username" name="admin-username" required maxlength="32" placeholder="Enter username">
-
-        <label for="admin-password">Password</label>
-        <input type="password" id="admin-password" name="admin-password" required maxlength="32" placeholder="Enter password">
-
-        <button type="submit">Login</button>
-      </form>
-      <div id="admin-msg">
-        (No backend) This is a placeholder login form.
+  <div class="admin-box">
+    <h1>Admin Panel</h1>
+    <form id="loginForm">
+      <input type="password" id="adminPwd" placeholder="Password" style="width:85%;padding:10px;border-radius:8px;border:1px solid #1976d2;font-size:1.1em;">
+      <button style="margin:12px 0 0 0;padding:8px 22px;border-radius:8px;border:none;background:#1976d2;color:#fff;font-weight:600;cursor:pointer;">Login</button>
+      <div id="loginError" style="color:#e22;font-weight:600;margin-top:9px;display:none;">Wrong password!</div>
+    </form>
+    <div id="adminContent" class="hidden">
+      <div class="visitbox"><b>Today's Visitors:</b> <span id="todayVisit">0</span></div>
+      <div class="tab-nav">
+        <button class="active" data-tab="appt">Appointments</button>
+        <button data-tab="price">Price Checks</button>
+        <button data-tab="estimate">Estimates</button>
       </div>
+      <div class="tab-content" id="tab-appt"></div>
+      <div class="tab-content hidden" id="tab-price"></div>
+      <div class="tab-content hidden" id="tab-estimate"></div>
+      <button class="logout-btn" onclick="location.reload()">Logout</button>
     </div>
-    <div class="business-info">
-      <strong>Raj Marketing Mysore</strong><br>
-      <span>Phone:</span> <a href="tel:+919483037385" style="color:var(--blue);text-decoration:underline;">+91 94830 37385</a><br>
-      <span>Address:</span> #84, Nrupatunga Road, Kuvempu Nagar,<br>Mysore, Karnataka, India
-    </div>
-  </main>
-  <nav class="bottom-nav">
-    <a href="index.html">
-      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      Home
-    </a>
-    <a href="products.html">
-      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M20.54 5.23l-1.39-4A2 2 0 0 0 17.26 0H6.74a2 2 0 0 0-1.89 1.23l-1.4 4A2 2 0 0 0 2 7v13a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-.46-1.77zM6.74 2h10.52l1.22 3.5H5.52zm13.26 18H4V7h16z"/></svg>
-      Products
-    </a>
-    <a href="services.html">
-      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 10h-3V7a5 5 0 0 0-10 0v3H3a1 1 0 0 0-1 1v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V11a1 1 0 0 0-1-1zM7 7a3 3 0 0 1 6 0v3H7zm12 14H5a1 1 0 0 1-1-1V12h16v8a1 1 0 0 1-1 1z"/></svg>
-      Services
-    </a>
-    <a href="contact.html">
-      <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M21 8V7l-3 2.29V8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v0.29L3 7v1l8.5 5.5a1 1 0 0 0 1 0L21 8zm-2 2.46V18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7.54l7 4.53l7-4.53z"/></svg>
-      Contact
-    </a>
-  </nav>
+  </div>
   <script>
-    // Hamburger menu toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const nav = document.getElementById('topNav');
-    menuBtn.addEventListener('click', () => {
-      nav.classList.toggle('open');
-    });
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 850) nav.classList.remove('open');
-    });
-    // Highlight nav active
-    function setActiveLinks() {
-      const path = location.pathname.split('/').pop();
-      document.querySelectorAll('nav a, .bottom-nav a').forEach(a => {
-        if((a.getAttribute('href') || '') === path) {
-          a.classList.add('active');
-        } else {
-          a.classList.remove('active');
-        }
-      });
-    }
-    setActiveLinks();
-    // Admin login placeholder
-    function showAdminMsg(e) {
+    // Simple password auth
+    const PWD = "admin123";
+    document.getElementById('loginForm').onsubmit = function(e){
       e.preventDefault();
-      document.getElementById('admin-msg').style.display = "block";
-      return false;
+      if(document.getElementById('adminPwd').value === PWD){
+        this.classList.add('hidden');
+        document.getElementById('loginError').style.display='none';
+        document.getElementById('adminContent').classList.remove('hidden');
+        loadTabs();
+      }else{
+        document.getElementById('loginError').style.display='block';
+      }
+    };
+    // Tabs
+    const navBtns = document.querySelectorAll('.tab-nav button');
+    navBtns.forEach(btn=>{
+      btn.onclick = function(){
+        navBtns.forEach(b=>b.classList.remove('active'));
+        this.classList.add('active');
+        ['appt','price','estimate'].forEach(tab=>{
+          document.getElementById('tab-'+tab).classList.add('hidden');
+        });
+        document.getElementById('tab-'+this.dataset.tab).classList.remove('hidden');
+      };
+    });
+    function loadTabs(){
+      function render(name, fields){
+        let arr=JSON.parse(localStorage.getItem(name)||'[]');
+        if(arr.length===0) return "<i>No records yet.</i>";
+        return '<ul>'+arr.map(d=>'<li>'+fields.map(f=>`<b>${f[0]}</b>: ${d[f[1]]}`).join(' | ')+' <small>('+d.time+')</small></li>').join('')+'</ul>';
+      }
+      // Visitor count
+      let stats = JSON.parse(localStorage.getItem('visitors_stats')||'{}');
+      let today = new Date().toISOString().slice(0,10);
+      document.getElementById('todayVisit').textContent = stats[today]||0;
+      // Tabs
+      document.getElementById('tab-appt').innerHTML = render('appointments', [['Name','name'],['Phone','phone']]);
+      document.getElementById('tab-price').innerHTML = render('priceChecks', [['Product','product'],['Size','size']]);
+      document.getElementById('tab-estimate').innerHTML = render('estimates', [['Name','name'],['Phone','phone'],['Details','details']]);
     }
   </script>
 </body>
