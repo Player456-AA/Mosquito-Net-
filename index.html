@@ -732,4 +732,102 @@
     document.getElementById('promoPrev').onclick = function() {
       promoIdx = (promoIdx + promos.length - 1) % promos.length;
       loadPromo(promoIdx);
-    
+        };
+    document.getElementById('promoNext').onclick = function() {
+      promoIdx = (promoIdx + 1) % promos.length;
+      loadPromo(promoIdx);
+    };
+    setInterval(function() {
+      promoIdx = (promoIdx + 1) % promos.length;
+      loadPromo(promoIdx);
+    }, 5000);
+    loadPromo(promoIdx);
+
+    // Search Bar Logic
+    document.getElementById('searchBar').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = this.value.toLowerCase();
+        if (!val) return;
+        if (val.includes('velcro') || val.includes('frame') || val.includes('pleated') || val.includes('mesh') || val.includes('product')) window.location = 'products.html';
+        else if (val.includes('service') || val.includes('install')) window.location = 'services.html';
+        else if (val.includes('estimate') || val.includes('price')) window.location = 'estimate.html';
+        else if (val.includes('contact') || val.includes('call')) window.location = 'contact.html';
+        else alert('No direct match found. Please use the menu.');
+      }
+    });
+
+    // Tab Menu Logic
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabDetails = {
+      appointment: document.getElementById('tab-appointment'),
+      price: document.getElementById('tab-price'),
+      estimate: document.getElementById('tab-estimate'),
+      call: document.getElementById('tab-call')
+    };
+    tabBtns.forEach(btn => {
+      btn.onclick = function() {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        Object.values(tabDetails).forEach(d => d.classList.remove('active'));
+        tabDetails[this.dataset.tab].classList.add('active');
+      };
+    });
+
+    // Visitor Counter (localStorage, resets daily)
+    function updateVisitorCount() {
+      const todayKey = 'visitor_' + new Date().toISOString().slice(0,10);
+      let count = localStorage.getItem(todayKey);
+      if (!count) count = 0;
+      count = parseInt(count,10)+1;
+      localStorage.setItem(todayKey, count);
+      document.getElementById('visitorCount').textContent = count;
+      // Also store for admin
+      let stats = JSON.parse(localStorage.getItem('visitors_stats')||'{}');
+      stats[new Date().toISOString().slice(0,10)] = count;
+      localStorage.setItem('visitors_stats', JSON.stringify(stats));
+    }
+    updateVisitorCount();
+
+    // Appointment Tab Logic
+    (function(){
+      const netType = document.getElementById('netType');
+      const qtyField = document.getElementById('qtyField');
+      const qtyInput = document.getElementById('qtyInput');
+      netType.onchange = function() {
+        if(this.value === "Velcro System" || this.value === "Frame System") {
+          qtyField.style.display = "";
+          qtyInput.placeholder = "Qty of Windows";
+        } else if(this.value === "Pleated Nets" || this.value === "Fly Mesh Door") {
+          qtyField.style.display = "";
+          qtyInput.placeholder = "Qty of Doors";
+        } else {
+          qtyField.style.display = "none";
+          qtyInput.value = "";
+        }
+      };
+      // Appointment form submit
+      const form = document.getElementById('appointmentForm');
+      const successDiv = document.getElementById('apptSuccess');
+      const whatsappBox = document.getElementById('whatsappBox');
+      const whatsappLink = document.getElementById('whatsappLink');
+      form.onsubmit = function(e){
+        e.preventDefault();
+        // Gather data
+        const data = {
+          name: form.name.value.trim(),
+          mobile: form.mobile.value.trim(),
+          address: form.address.value.trim(),
+          landmark: form.landmark.value.trim(),
+          city: form.city.value.trim(),
+          nettype: form.nettype.value,
+          qty: qtyInput.value.trim(),
+          purpose: form.purpose.value
+        };
+        // Save for admin (localStorage)
+        let appts = JSON.parse(localStorage.getItem('appointments')||'[]');
+        appts.push({
+          ...data,
+          date: new Date().toLocaleString()
+        });
+        localStorage.setItem('appointments', JSON.stringify(appts));
