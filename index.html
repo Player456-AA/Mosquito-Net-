@@ -914,17 +914,32 @@
     })();
 
     // Estimate Form
-    document.getElementById('estimateForm').onsubmit = function(e) {
-      e.preventDefault();
-      let arr = JSON.parse(localStorage.getItem('estimates')||'[]');
-      arr.push({
-        name: this.name.value, phone: this.phone.value, details: this.details.value, time: new Date().toLocaleString()
-      });
-      localStorage.setItem('estimates', JSON.stringify(arr));
-      this.reset();
-      document.getElementById('estimateSuccess').style.display = 'block';
-      setTimeout(()=>document.getElementById('estimateSuccess').style.display='none',1600);
-    };
+    // Modified Estimate Form logic for "Get Estimate" tab
+document.getElementById('estimateForm').onsubmit = function(e) {
+  e.preventDefault();
+  const name = document.getElementById('estimateName').value.trim();
+  const phone = document.getElementById('estimatePhone').value.trim();
+
+  // Save to localStorage as before
+  let arr = JSON.parse(localStorage.getItem('estimates')||'[]');
+  arr.push({
+    name: name, phone: phone, details: this.details.value, time: new Date().toLocaleString()
+  });
+  localStorage.setItem('estimates', JSON.stringify(arr));
+  this.reset();
+  document.getElementById('estimateSuccess').style.display = 'block';
+
+  // Show link to estimate page
+  document.getElementById('estimateLinkBox').style.display = 'block';
+  document.getElementById('estimateLink').onclick = function(){
+    document.getElementById('estimateLinkBox').style.display = 'none';
+    document.getElementById('estimateSuccess').style.display = 'none';
+  };
+
+  setTimeout(()=>{
+    document.getElementById('estimateSuccess').style.display='none';
+  },1600);
+};
 
     // Footer "Coming Soon" links
     function comingSoon(e) {
