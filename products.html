@@ -65,52 +65,49 @@
       color: var(--blue-dark);
     }
     nav.topnav {
-      display: flex;
-      gap: 1.25rem;
-      align-items: center;
-      margin-left: 1.2rem;
+      position: fixed;
+      top: 56px;
+      right: 0;
+      background: var(--blue-dark);
+      border-radius: 0 0 0 16px;
+      box-shadow: var(--shadow-card);
+      padding: 1.1rem 1.4rem 1.1rem 1.8rem;
+      z-index: 99;
+      display: none;
+      flex-direction: column;
+      gap: 1.1rem;
+      min-width: 180px;
+      animation: fadeIn .25s;
     }
+    nav.topnav.open { display: flex; }
     nav.topnav a {
       color: var(--white);
       text-decoration: none;
       font-weight: 500;
-      padding: 0.28em 0.85em;
-      border-radius: 6px;
-      font-size: 1.08rem;
+      padding: 0.32em 0.7em;
+      border-radius: 7px;
+      font-size: 1.09rem;
       transition: background .18s, color .18s;
       letter-spacing: .2px;
-      display: inline-block;
+      display: block;
     }
     nav.topnav a:hover, nav.topnav a.active {
       background: var(--sky-mid);
       color: var(--blue-dark);
     }
-    @media (max-width: 700px) {
+    @media (min-width: 701px) {
       nav.topnav {
-        display: none;
-        position: absolute;
-        top: 56px;
-        left: 0;
-        right: 0;
-        background: var(--blue-dark);
-        flex-direction: column;
-        box-shadow: var(--shadow-card);
-        border-radius: 0 0 8px 8px;
-        padding: 1.2rem 0.6rem 0.7rem 1rem;
-        z-index: 99;
-        gap: 0;
-      }
-      nav.topnav.open {
-        display: flex;
-      }
-      nav.topnav a {
-        padding: 0.7em 1.2em;
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background: transparent;
+        box-shadow: none;
         border-radius: 0;
-        border-bottom: 1px solid var(--sky-mid);
-        width: 100%;
+        padding: 0;
+        gap: 1.1rem;
+        min-width: unset;
       }
-      nav.topnav a:last-child { border-bottom: none; }
-      .menu-btn { display: block; }
+      .menu-btn { display: none; }
     }
     .container {
       max-width: 540px;
@@ -121,7 +118,7 @@
       font-size: 1.48rem;
       color: var(--blue-dark);
       font-weight: 700;
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.3rem;
       text-align: center;
       letter-spacing: 1.2px;
     }
@@ -132,9 +129,9 @@
     }
     .product-item {
       background: var(--white);
-      border-radius: 12px;
+      border-radius: 16px;
       box-shadow: var(--shadow-card);
-      padding: 1.2rem 1.1rem 1.1rem 1.1rem;
+      padding: 1.3rem 1.2rem 1.1rem 1.2rem;
       display: flex;
       align-items: flex-start;
       gap: 1.2rem;
@@ -186,6 +183,7 @@
       padding: 0.8em 1em;
       margin-top: 0.7em;
       margin-bottom: 0.7em;
+      display:block;
     }
     .business-info {
       background: rgba(255,255,255,0.90);
@@ -214,7 +212,7 @@
       align-items: center;
       justify-content: center;
       gap: 15px 22px;
-      margin-bottom: 17px;
+      margin-bottom: 13px;
     }
     .footer-link {
       color: var(--sky-mid);
@@ -236,7 +234,7 @@
       text-decoration: none;
       transition: background 0.18s;
       display: inline-block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .whatsapp-btn:hover { background: #128c7e; color:#fff;}
     .email-btn {
@@ -248,13 +246,26 @@
       text-decoration: none;
       transition: background 0.18s;
       display: inline-block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .email-btn:hover { background: var(--blue-dark); color: var(--white);}
+    .disclaimer-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 15px 22px;
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
     @media (max-width: 600px) {
       .container { padding:10px 0 45px 0; }
       h1 { font-size:1.09rem;}
-      .product-item { padding: 1.05rem 0.4rem 1rem 0.7rem; gap: 0.55rem;}
+      .product-item { padding: 1.1rem 0.6rem 1rem 0.6rem; gap: 0.55rem;}
       .product-icon { font-size:1.4rem; }
     }
   </style>
@@ -282,9 +293,7 @@
         </div>
         <div class="product-info">
           <h2>Velcro System</h2>
-          <p>Simple mosquito net attached via velcro. Easy to remove and wash. <br>
-            <span class="product-highlight">Budget-friendly option for quick protection!</span>
-          </p>
+          <p>Simple mosquito net attached via velcro. Easy to remove and wash. <span class="product-highlight">Budget-friendly option for quick protection!</span></p>
           <a class="product-link" href="velcro.html" target="_blank">Learn More</a>
         </div>
       </div>
@@ -294,9 +303,7 @@
         </div>
         <div class="product-info">
           <h2>Frame System</h2>
-          <p>Rigid framed mosquito net fitted to windows. Durable and long-lasting.<br>
-          <span class="product-highlight">Custom-made frames for a seamless fit to your windows.</span>
-          </p>
+          <p>Rigid framed mosquito net fitted to windows. Durable and long-lasting.<span class="product-highlight">Custom-made frames for a seamless fit to your windows.</span></p>
           <a class="product-link" href="frame.html" target="_blank">Learn More</a>
         </div>
       </div>
@@ -306,9 +313,7 @@
         </div>
         <div class="product-info">
           <h2>Pleated Nets</h2>
-          <p>Foldable design, ideal for wide windows and doors, elegant look.<br>
-            <span class="product-highlight">Best for balconies, french windows and large spaces!</span>
-          </p>
+          <p>Foldable design, ideal for wide windows and doors, elegant look.<span class="product-highlight">Best for balconies, french windows and large spaces!</span></p>
           <a class="product-link" href="pleated.html" target="_blank">Learn More</a>
         </div>
       </div>
@@ -318,9 +323,7 @@
         </div>
         <div class="product-info">
           <h2>Fly Mesh Door</h2>
-          <p>Magnetic or hinge-based mosquito mesh doors. Keeps insects out, airflow in.<br>
-            <span class="product-highlight">Easy for kids and pets, stylish for your main entrance!</span>
-          </p>
+          <p>Magnetic or hinge-based mosquito mesh doors. Keeps insects out, airflow in.<span class="product-highlight">Easy for kids and pets, stylish for your main entrance!</span></p>
           <a class="product-link" href="flymesh.html" target="_blank">Learn More</a>
         </div>
       </div>
@@ -335,6 +338,8 @@
     <div class="footer-links">
       <a href="https://wa.me/919483037385" class="whatsapp-btn" target="_blank">WhatsApp</a>
       <a href="mailto:rajmarketingmysore@gmail.com" class="email-btn" target="_blank">Email</a>
+    </div>
+    <div class="disclaimer-links">
       <a href="privacy.html" class="footer-link" target="_blank">Privacy Policy</a>
       <a href="disclaimer.html" class="footer-link" target="_blank">Disclaimer</a>
       <a href="terms.html" class="footer-link" target="_blank">Terms</a>
@@ -344,7 +349,7 @@
     </div>
   </footer>
   <script>
-    // Hamburger menu logic
+    // Hamburger menu logic, desktop = horizontal, mobile = overlay
     const menuBtn = document.getElementById('menuBtn');
     const topNav = document.getElementById('topNav');
     menuBtn.addEventListener('click', () => {
