@@ -642,4 +642,94 @@
         </div>
       </div>
     </div>
+    <!-- Visitor Counter -->
+    <div class="visitor-count">
+      Visitors today: <span id="visitorCount">0</span>
+    </div>
+    <!-- Business Info -->
+    <div class="business-info">
+      <strong>Raj Marketing Mysore</strong><br>
+      Phone: <a href="tel:+919483037385" style="color:var(--blue-dark);text-decoration:underline;">+91 94830 37385</a><br>
+      Address: #84, Nrupatunga Road, Kuvempu Nagar,<br>Mysore, Karnataka, India
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://wa.me/919483037385" class="whatsapp-btn" target="_blank">WhatsApp</a>
+      <a href="mailto:rajmarketingmysore@gmail.com" class="email-btn" target="_blank">Email</a>
+      <a href="privacy.html" class="footer-link" target="_blank">Privacy Policy</a>
+      <a href="disclaimer.html" class="footer-link" target="_blank">Disclaimer</a>
+      <a href="terms.html" class="footer-link" target="_blank">Terms</a>
+    </div>
+    <div style="color:#b8e0fd;font-size:0.98rem;">
+      &copy; 2025 Raj Marketing Mysore. All rights reserved.
+    </div>
+  </footer>
+  <script>
+    // Hamburger menu logic
+    const menuBtn = document.getElementById('menuBtn');
+    const topNav = document.getElementById('topNav');
+    menuBtn.addEventListener('click', () => {
+      topNav.classList.toggle('open');
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 850) topNav.classList.remove('open');
+    });
+
+    // Promotion Slider Logic
+    const promos = [
+      {
+        img: "3a406d9aa5603a215d4d6daf32c658b4.jpg",
+        title: "Mosquito-Free Living",
+        quote: "Enjoy your home with fresh air & no bites — premium nets for every window."
+      },
+      {
+        img: "ca5e7efd5555632b5caaed6497e6d6a8.jpg",
+        title: "Easy Velcro System",
+        quote: "Quick install, easy to clean. Simple net solutions for busy families."
+      },
+      {
+        img: "e3af268e8f063b35e7c38f4f33d0f537.jpg",
+        title: "Strong Frame Nets",
+        quote: "For those who want durability & peace of mind — sturdy, lasting protection."
+      },
+      {
+        img: "a05e01d16736d0b5d47c4464a9edb363.jpg",
+        title: "Elegant Pleated Nets",
+        quote: "Foldable & stylish nets for large windows and doors. Modern look, max comfort."
+      },
+      {
+        img: "7fc41c43ed5ce589c6ea13b7bcb69a6e.jpg",
+        title: "MAGNETIC Mesh Doors",
+        quote: "Easy in, easy out. Let your kids & pets enjoy — keeps bugs away."
+      },
+      {
+        img: "7fc41c43ed5ce589c6ea13b7bcb69a6e.jpg",
+        title: "Fresh Air, No Compromise",
+        quote: "Let the breeze in, keep the insects out. Live healthy, live happy."
+      },
+      {
+        img: "Picsart_24-12-31_22-56-52-882.jpg",
+        title: "Trusted Since 2010",
+        quote: "Mysore’s preferred mosquito net specialists. Local, reliable, friendly."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?fit=crop&w=500&q=80",
+        title: "Quality & Service",
+        quote: "Affordable, reliable, and always local. Your comfort, our mission."
+      }
+    ];
+    let promoIdx = 0;
+    const promoImg = document.getElementById('promoImg');
+    const promoTitle = document.getElementById('promoTitle');
+    const promoQuote = document.getElementById('promoQuote');
+    function loadPromo(idx) {
+      promoImg.src = promos[idx].img;
+      promoTitle.textContent = promos[idx].title;
+      promoQuote.textContent = promos[idx].quote;
+    }
+    document.getElementById('promoPrev').onclick = function() {
+      promoIdx = (promoIdx + promos.length - 1) % promos.length;
+      loadPromo(promoIdx);
     
