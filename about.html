@@ -41,7 +41,6 @@
       font-size: 1.14rem;
       font-weight: 600;
       letter-spacing: 1px;
-      border-bottom: 1.7px solid var(--sky-mid);
     }
     .header-title {
       font-size: 1.13rem;
@@ -67,36 +66,37 @@
     }
     nav.topnav {
       display: flex;
-      gap: 1.15rem;
+      gap: 1.25rem;
       align-items: center;
+      margin-left: 1.2rem;
     }
     nav.topnav a {
       color: var(--white);
       text-decoration: none;
       font-weight: 500;
-      padding: 0.3em 1.1em;
-      border-radius: 7px;
-      font-size: 1.07rem;
-      transition: background .16s, color .16s;
-      letter-spacing: .3px;
-      position: relative;
+      padding: 0.28em 0.85em;
+      border-radius: 6px;
+      font-size: 1.08rem;
+      transition: background .18s, color .18s;
+      letter-spacing: .2px;
+      display: inline-block;
     }
-    nav.topnav a.active, nav.topnav a:hover {
+    nav.topnav a:hover, nav.topnav a.active {
       background: var(--sky-mid);
       color: var(--blue-dark);
     }
-    @media (max-width: 850px) {
+    @media (max-width: 700px) {
       nav.topnav {
         display: none;
         position: absolute;
         top: 56px;
+        left: 0;
         right: 0;
         background: var(--blue-dark);
         flex-direction: column;
-        width: 210px;
         box-shadow: var(--shadow-card);
-        border-radius: 0 0 12px 12px;
-        padding: 1.1rem 1.3rem 1.1rem 1.6rem;
+        border-radius: 0 0 8px 8px;
+        padding: 1.2rem 0.6rem 0.7rem 1rem;
         z-index: 99;
         gap: 0;
       }
@@ -104,72 +104,62 @@
         display: flex;
       }
       nav.topnav a {
-        padding: 0.8em 1.1em;
+        padding: 0.7em 1.2em;
         border-radius: 0;
         border-bottom: 1px solid var(--sky-mid);
+        width: 100%;
       }
       nav.topnav a:last-child { border-bottom: none; }
       .menu-btn { display: block; }
     }
-    @media (max-width: 480px) {
-      header { padding: 0.8rem 0.7rem; font-size: 1rem; }
-      .header-title { font-size: 1.01rem; }
-      nav.topnav { padding: 1rem 0.8rem 1rem 1.2rem; min-width: 110px; }
-    }
-    main {
-      flex: 1;
-      padding: 1.2rem 1rem 1rem 1rem;
-      max-width: 650px;
+    .container {
+      max-width: 540px;
       margin: 0 auto;
-      width: 100%;
-      animation: fadeIn .8s;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px);}
-      to { opacity: 1; transform: translateY(0);}
+      padding: 26px 0 80px 0;
     }
     h1 {
-      font-size: 1.5rem;
-      color: var(--blue);
+      font-size: 1.52rem;
+      color: var(--blue-dark);
       font-weight: 700;
       margin-bottom: 1.1rem;
       text-align: center;
+      letter-spacing: 1.2px;
     }
     .about-box {
       background: var(--white);
       border-radius: 14px;
-      padding: 1.4rem 1.2rem 1.2rem 1.2rem;
+      padding: 1.5rem 1.1rem 1.2rem 1.1rem;
       box-shadow: var(--shadow-card);
       margin-bottom: 2rem;
     }
     .about-box h2 {
-      color: var(--blue-dark);
+      color: var(--blue);
       font-size: 1.13rem;
       margin-bottom: 0.6rem;
       font-weight: 600;
     }
     .about-box p {
       color: var(--blue-dark);
-      font-size: 1.06rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.045rem;
+      margin-bottom: 0.6rem;
     }
     .about-list {
       list-style: disc inside;
       margin: 0.7rem 0 0.6rem 1rem;
       color: var(--blue-dark);
-      font-size: 1.04rem;
+      font-size: 1rem;
     }
     .about-box strong {
       color: var(--blue);
     }
     .about-extra {
+      margin-top: 1.1rem;
       background: var(--sky-mid);
       color: var(--blue-dark);
-      border-radius: 9px;
       font-size: 1.01rem;
-      padding: 1rem 1.1rem;
-      margin-bottom: 1.3rem;
-      box-shadow: 0 2px 8px 0 rgba(25,118,210,0.09);
+      border-radius: 10px;
+      padding: 1em 1em 0.7em 1em;
+      box-shadow: var(--shadow);
     }
     .business-info {
       background: rgba(255,255,255,0.90);
@@ -235,12 +225,21 @@
       margin-bottom: 6px;
     }
     .email-btn:hover { background: var(--blue-dark); color: var(--white);}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 600px) {
+      .container { padding: 10px 0 50px 0; }
+      h1 { font-size:1.1rem;}
+      .about-box { padding: 1.1rem 0.6rem; }
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="header-title">Raj Marketing Mysore</div>
-    <button class="menu-btn" id="menuBtn" aria-label="Menu">&#9776;</button>
+    <button class="menu-btn" id="menuBtn">&#9776;</button>
     <nav class="topnav" id="topNav">
       <a href="index.html">Home</a>
       <a href="about.html" class="active">About</a>
@@ -251,12 +250,14 @@
       <a href="admin.html">Admin</a>
     </nav>
   </header>
-  <main>
-    <h1>About Us</h1>
+  <div class="container">
+    <h1>About Raj Marketing Mysore</h1>
     <div class="about-box">
       <h2>Our Story</h2>
       <p>
-        <strong>Raj Marketing Mysore</strong> is a family-owned business serving Mysore and surrounding areas since <strong>2010</strong>. We specialize in providing high-quality mosquito net solutions for homes, offices, and institutions. Our journey began with a commitment to protect families from mosquitoes and other insects, making homes more comfortable and healthy.
+        <strong>Raj Marketing Mysore</strong> is a family-owned business serving Mysore and surrounding areas since <strong>2010</strong>.
+        We specialize in providing high-quality mosquito net solutions for homes and businesses.
+        Our journey started with a simple mission: to help families sleep peacefully and work comfortably, free from mosquito-borne worries.
       </p>
       <h2>Why Choose Us?</h2>
       <ul class="about-list">
@@ -269,31 +270,27 @@
       </ul>
       <h2>Our Promise</h2>
       <p>
-        We believe in honest pricing, reliable service, and durable products. Your comfort and peace of mind are our top priorities. Experience hassle-free living with our premium mosquito net systems and enjoy a safer, more pleasant home environment.
+        We believe in honest pricing, reliable service, and durable products. Your comfort and peace of mind are our top priorities. Experience hassle-free living with our premium mosquito net systems.
       </p>
-    </div>
-    <div class="about-extra">
-      <h2 style="margin-bottom:0.4em;">Our Values & Vision</h2>
-      <ul>
-        <li>Continuous improvement in product quality and installation techniques</li>
-        <li>Environmental responsibility—our products are safe and eco-friendly</li>
-        <li>Supporting local communities and employment in Mysore</li>
-        <li>Customer education—advising clients on best solutions for their needs</li>
-      </ul>
-      <p>
-        We invite you to visit our store or call us for a free consultation. Our team is always ready to assist and offer the best mosquito net solutions for your property!
-      </p>
+      <div class="about-extra">
+        <b>What makes us different?</b><br>
+        • We use only high-grade mesh and frames, ensuring long-term protection.<br>
+        • Our team provides free on-site measurement and expert advice.<br>
+        • All products are made-to-measure for a perfect fit.<br>
+        • We offer both traditional and modern net systems including Velcro, Frame, Pleated, and Magnetic Mesh Doors.<br>
+        • Customer satisfaction is our main focus – we’re always just a call away!
+      </div>
     </div>
     <div class="business-info">
       <strong>Raj Marketing Mysore</strong><br>
       Phone: <a href="tel:+919483037385" style="color:var(--blue-dark);text-decoration:underline;">+91 94830 37385</a><br>
       Address: #84, Nrupatunga Road, Kuvempu Nagar,<br>Mysore, Karnataka, India
     </div>
-  </main>
+  </div>
   <footer>
     <div class="footer-links">
       <a href="https://wa.me/919483037385" class="whatsapp-btn" target="_blank">WhatsApp</a>
-      <a href="mailto:rajmarketingmysore@gmail.com" class="email-btn" target="_blank">Email</a>
+      <a href="mailto:rajmarketingmysore@gmail.com" class="email-btn" target="_blank">Email</a><br>
       <a href="privacy.html" class="footer-link" target="_blank">Privacy Policy</a>
       <a href="disclaimer.html" class="footer-link" target="_blank">Disclaimer</a>
       <a href="terms.html" class="footer-link" target="_blank">Terms</a>
@@ -303,14 +300,14 @@
     </div>
   </footer>
   <script>
-    // Hamburger menu toggle
+    // Hamburger menu logic
     const menuBtn = document.getElementById('menuBtn');
-    const nav = document.getElementById('topNav');
+    const topNav = document.getElementById('topNav');
     menuBtn.addEventListener('click', () => {
-      nav.classList.toggle('open');
+      topNav.classList.toggle('open');
     });
     window.addEventListener('resize', () => {
-      if (window.innerWidth > 850) nav.classList.remove('open');
+      if (window.innerWidth > 700) topNav.classList.remove('open');
     });
     // Highlight nav active
     function setActiveLinks() {
