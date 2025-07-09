@@ -863,4 +863,84 @@
       const pcPricePer = document.getElementById('pcPricePer');
       const pcPriceValue = document.getElementById('pcPriceValue');
       const pcDetailRows = document.getElementById('pcDetailRows');
-    
+    const pcSelectedType = document.getElementById('pcSelectedType');
+      const calcBtn = document.getElementById('calcBtn');
+      const pcResult = document.getElementById('pcResult');
+      const pcSqft = document.getElementById('pcSqft');
+      const pcTotal = document.getElementById('pcTotal');
+      const pcProductLink = document.getElementById('pcProductLink');
+      // Product Prices and Links
+      const NETS = {
+        "Velcro System": { price: 60, link: "velcro.html" },
+        "Frame System": { price: 180, link: "frame.html" },
+        "Pleated Nets": { price: 350, link: "pleated.html" },
+        "Fly Mesh Door": { price: 380, link: "flymesh.html" }
+      };
+      pcNetType.onchange = function() {
+        let v = pcNetType.value;
+        if(NETS[v]) {
+          pcPricePer.style.display = "";
+          pcPriceValue.textContent = `₹${NETS[v].price}/Sqft`;
+          pcDetailRows.style.display = "";
+          pcSelectedType.textContent = v;
+          pcResult.style.display = "none";
+        } else {
+          pcPricePer.style.display = "none";
+          pcDetailRows.style.display = "none";
+          pcResult.style.display = "none";
+        }
+      };
+      calcBtn.onclick = function() {
+        // Get user input
+        let width = parseFloat(document.getElementById('pcWidth').value);
+        let height = parseFloat(document.getElementById('pcHeight').value);
+        let qty = parseInt(document.getElementById('pcQty').value);
+        let v = pcNetType.value;
+        if(!width || !height || !qty || !NETS[v]) {
+          alert('Please fill all fields.');
+          return;
+        }
+        // Below 24" considered as 24"
+        if(width < 24) width = 24;
+        if(height < 24) height = 24;
+        let sqft = (width * height / 144) * qty;
+        sqft = Math.round(sqft * 100) / 100;
+        let total = Math.round(sqft * NETS[v].price);
+        pcSqft.textContent = sqft + " Sqft";
+        pcTotal.textContent = "₹" + total;
+        pcResult.style.display = "";
+        pcProductLink.innerHTML = `<a href="${NETS[v].link}" target="_blank" style="color:#1976d2;font-weight:700;text-decoration:underline;">Visit Product Page</a>`;
+      };
+    })();
+
+    // Estimate Form
+    document.getElementById('estimateForm').onsubmit = function(e) {
+      e.preventDefault();
+      let arr = JSON.parse(localStorage.getItem('estimates')||'[]');
+      arr.push({
+        name: this.name.value, phone: this.phone.value, details: this.details.value, time: new Date().toLocaleString()
+      });
+      localStorage.setItem('estimates', JSON.stringify(arr));
+      this.reset();
+      document.getElementById('estimateSuccess').style.display = 'block';
+      setTimeout(()=>document.getElementById('estimateSuccess').style.display='none',1600);
+    };
+
+    // Footer "Coming Soon" links
+    function comingSoon(e) {
+      e.preventDefault();
+      alert('Coming Soon!');
+    }
+    Array.from(document.querySelectorAll('a.footer-link')).forEach(a=>{
+      a.onclick = comingSoon;
+    });
+    // Product cards "Learn More" links
+    Array.from(document.querySelectorAll('.product-link')).forEach(a=>{
+      a.onclick = function(e){
+        e.preventDefault();
+        alert('Coming Soon!');
+      };
+    });
+  </script>
+</body>
+</html>
