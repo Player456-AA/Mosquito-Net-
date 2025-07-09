@@ -698,4 +698,75 @@
       },
       {
         img: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?fit=crop&w=500&q=80",
-        
+        title: "Magnetic Mesh Doors",
+        quote: "Easy in, easy out. Let your kids & pets enjoy — keeps bugs away."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?fit=crop&w=500&q=80",
+        title: "Fresh Air, No Compromise",
+        quote: "Let the breeze in, keep the insects out. Live healthy, live happy."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1523413363574-c30aa1c2a516?fit=crop&w=500&q=80",
+        title: "Trusted Since 2010",
+        quote: "Mysore’s preferred mosquito net specialists. Local, reliable, friendly."
+      },
+      {
+        img: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?fit=crop&w=500&q=80",
+        title: "Quality & Service",
+        quote: "Affordable, reliable, and always local. Your comfort, our mission."
+      }
+    ];
+    let promoIdx = 0;
+    const promoImg = document.getElementById('promoImg');
+    const promoTitle = document.getElementById('promoTitle');
+    const promoQuote = document.getElementById('promoQuote');
+    function loadPromo(idx) {
+      promoImg.src = promos[idx].img;
+      promoTitle.textContent = promos[idx].title;
+      promoQuote.textContent = promos[idx].quote;
+    }
+    document.getElementById('promoPrev').onclick = function() {
+      promoIdx = (promoIdx + promos.length - 1) % promos.length;
+      loadPromo(promoIdx);
+    };
+    document.getElementById('promoNext').onclick = function() {
+      promoIdx = (promoIdx + 1) % promos.length;
+      loadPromo(promoIdx);
+    };
+    setInterval(function() {
+      promoIdx = (promoIdx + 1) % promos.length;
+      loadPromo(promoIdx);
+    }, 5000);
+    loadPromo(promoIdx);
+
+    // Search Bar Logic
+    document.getElementById('searchBar').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = this.value.toLowerCase();
+        if (!val) return;
+        if (val.includes('velcro') || val.includes('frame') || val.includes('pleated') || val.includes('mesh') || val.includes('product')) window.location = 'products.html';
+        else if (val.includes('service') || val.includes('install')) window.location = 'services.html';
+        else if (val.includes('estimate') || val.includes('price')) window.location = 'estimate.html';
+        else if (val.includes('contact') || val.includes('call')) window.location = 'contact.html';
+        else alert('No direct match found. Please use the menu.');
+      }
+    });
+
+    // Tab Menu Logic
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabDetails = {
+      appointment: document.getElementById('tab-appointment'),
+      price: document.getElementById('tab-price'),
+      estimate: document.getElementById('tab-estimate'),
+      call: document.getElementById('tab-call')
+    };
+    tabBtns.forEach(btn => {
+      btn.onclick = function() {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        Object.values(tabDetails).forEach(d => d.classList.remove('active'));
+        tabDetails[this.dataset.tab].classList.add('active');
+      };
+    
