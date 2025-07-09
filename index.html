@@ -482,6 +482,53 @@
       .product-card { min-width: 175px; max-width: 210px;}
       .product-img { width: 70px; height: 70px;}
     }
+      .quote-slider-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto 0 auto;
+  text-align: left;
+  position: relative;
+  min-height: 180px;
+}
+.quote-slider-quote {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #111;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s, transform 0.5s;
+  position: absolute;
+  left: 0;
+  right: 0;
+  min-height: 100px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  white-space: pre-line;
+}
+.quote-slider-quote.active {
+  opacity: 1;
+  transform: translateY(0);
+  z-index: 1;
+}
+.quote-slider-bar {
+  display: block;
+  width: 50px;
+  height: 6px;
+  background: #111;
+  margin-bottom: 18px;
+  border-radius: 8px;
+}
+@media (max-width: 700px) {
+  .quote-slider-container {
+    max-width: 95vw;
+  }
+  .quote-slider-quote {
+    font-size: 1.2rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -520,6 +567,9 @@
       <span class="search-icon">&#128269;</span>
       <input class="search-bar" id="searchBar" placeholder="Search for mosquito nets, services..." autocomplete="off">
     </div>
+<div class="quote-slider-container" id="quoteSlider">
+  <!-- Quotes will be injected here by JS -->
+</div>
     <!-- Moveable Tab Bar -->
     <div class="tab-bar-wrap">
       <div class="tab-bar" id="tabBar">
@@ -949,6 +999,48 @@
     Array.from(document.querySelectorAll('a.footer-link')).forEach(a=>{
       a.onclick = comingSoon;
     });
+    // Business-related quotes for Mosquito Net
+  const quotes = [
+    "Make it\nSimple,\nBut\nSignificant",
+    "Master\nthe art of\nobserving.",
+    "silent moves.\nloud results.",
+    "Protection,\nwithout compromise.",
+    "Let the breeze in,\nkeep the bugs out.",
+    "Quality mesh for\nquality living.",
+    "Enjoy the outdoors,\nindoors.",
+    "Fresh air,\nmosquito-free nights.",
+    "Invisible shield for\nyour home.",
+    "Comfort meets\nprotection.",
+    "Your windows,\nour promise.",
+    "Strong on pests,\nsoft on style.",
+    "Engineered for safety,\ndesigned for beauty.",
+    "Simple solutions,\nlasting results.",
+    "Peaceful sleep,\nprotected by Mosquito Net.",
+    "Where innovation\nmeets comfort.",
+    "Elegance and\neffective defense.",
+    "The smart way to\nsecure your home."
+  ];
+
+  const quoteSlider = document.getElementById('quoteSlider');
+
+  // Render quotes
+  quotes.forEach((quote, idx) => {
+    const div = document.createElement('div');
+    div.className = 'quote-slider-quote' + (idx === 0 ? ' active' : '');
+    div.innerHTML =
+      (idx === 0 ? '<span class="quote-slider-bar"></span>' : '') +
+      quote.replace(/\n/g, '<br>');
+    quoteSlider.appendChild(div);
+  });
+
+  // Slider logic
+  let current = 0;
+  const quoteDivs = document.querySelectorAll('.quote-slider-quote');
+  setInterval(() => {
+    quoteDivs[current].classList.remove('active');
+    current = (current + 1) % quoteDivs.length;
+    quoteDivs[current].classList.add('active');
+  }, 2500); // Change quote every 2.5 seconds
   </script>
 </body>
 </html>
