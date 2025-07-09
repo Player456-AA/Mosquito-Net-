@@ -594,17 +594,17 @@
         <div style="font-size:0.93em;margin-top:11px;color:#888;">*terms and conditions apply on price and measurements.</div>
         <div id="pcProductLink" style="margin-top:8px;"></div>
       </div>
-    </div>
-    <div class="tab-details" id="tab-estimate">
-      <strong>Get a Free Estimate:</strong><br>
-      <form id="estimateForm">
-        <input type="text" name="name" required placeholder="Your Name" style="margin-top:10px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
-        <input type="tel" name="phone" required placeholder="Your Phone" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
-        <input type="text" name="details" required placeholder="Product & Size" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
-        <button type="submit" style="margin-top:12px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;">Get Estimate</button>
-      </form>
-      <div id="estimateSuccess" style="color:var(--green);font-weight:600;display:none;margin-top:13px;">Estimate submitted!</div>
-    </div>
+      <div>
+    <form id="estimateForm">
+  <input type="text" name="name" id="estimateName" required placeholder="Your Name" style="margin-top:10px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+  <input type="tel" name="phone" id="estimatePhone" required placeholder="Your Phone" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+  <input type="text" name="details" required placeholder="Product & Size" style="margin-top:8px;width:90%;padding:8px;border-radius:7px;border:1px solid var(--sky-mid);">
+  <button type="submit" style="margin-top:12px;background:var(--blue-dark);color:#fff;padding:8px 20px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:1.04rem;">Get Estimate</button>
+</form>
+<div id="estimateSuccess" style="color:var(--green);font-weight:600;display:none;margin-top:13px;">Estimate submitted!</div>
+<div id="estimateLinkBox" style="display:none;margin-top:13px;">
+  <a id="estimateLink" href="estimate.html" target="_blank" style="background:var(--blue-mid);color:#1976d2;font-weight:700;padding:10px 26px;border-radius:8px;text-decoration:none;">Go to Estimate Page</a>
+</div>
     <div class="tab-details" id="tab-call">
       <strong>Call Now:</strong><br>
       <a href="tel:+919483037385" style="color:var(--blue-dark);font-weight:600;font-size:1.13rem;text-decoration:underline;">+91 94830 37385</a><br>
