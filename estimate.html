@@ -135,7 +135,6 @@
       letter-spacing: 0.2px;
       margin-bottom: 2px;
     }
-
     h2 {
       text-align: center;
       color: var(--blue-dark);
@@ -167,10 +166,6 @@
       font-weight: 700;
       color: var(--blue);
       letter-spacing: 0.7px;
-      background: var(--sky-mid);
-      padding: 6px 18px;
-      border-radius: 9px;
-      box-shadow: 0 1px 10px 0 var(--sky-mid);
       margin-bottom: 0.5em;
     }
     .form-row-flex {
@@ -303,9 +298,6 @@
       letter-spacing: .8px;
     }
     .preview-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
       background: var(--sky-mid);
       padding: 15px 10px 10px 10px;
       border-radius: 12px;
@@ -313,7 +305,11 @@
       margin-bottom: 24px;
       flex-wrap: wrap;
       gap: 8px 15px;
+      text-align:center;
     }
+    .preview-header .business-name { margin-bottom:2px;}
+    .preview-header .business-details {margin-bottom:3px;}
+    .preview-header .business-address {margin-bottom:0;}
     .preview-details {
       border-radius: 11px;
       background: var(--gray);
@@ -340,7 +336,6 @@
       margin-right: 6px;
       vertical-align: middle;
     }
-    /* Responsive */
     @media (max-width: 680px) {
       .container { max-width: 99vw; padding: 10px 0 40px 0; }
       h2 { font-size: 1.09rem;}
@@ -405,20 +400,6 @@
       margin-bottom: 6px;
     }
     .email-btn:hover { background: var(--blue-dark); color: var(--white);}
-    .print-preview header, .print-preview form.estimate-form, .print-preview .btn, .print-preview footer {
-      display: none !important;
-    }
-    @media print {
-      header, form.estimate-form, .btn, footer {
-        display: none !important;
-      }
-      .print-preview {
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-    }
   </style>
 </head>
 <body>
@@ -497,17 +478,12 @@
       <button type="button" class="btn" id="genPreviewBtn">Preview Estimate</button>
     </form>
     <div class="preview-block" id="previewBlock" style="display:none;">
-      <div class="preview-title">Estimate</div>
       <div class="preview-header">
-        <div>
-          <div class="business-name" style="margin-bottom:2px;">Raj Marketing Mysore</div>
-          <div class="business-details">+91 94830 37385</div>
-          <div class="business-address" style="margin-bottom:0;">#84, Nrupatunga Road, Kuvempu Nagar, Mysore, Karnataka, India</div>
-        </div>
-        <div>
-          <span class="estimate-id" id="previewEstimateId"></span>
-        </div>
+        <div class="business-name">Raj Marketing Mysore</div>
+        <div class="business-details">+91 94830 37385</div>
+        <div class="business-address">#84, Nrupatunga Road, Kuvempu Nagar, Mysore, Karnataka, India</div>
       </div>
+      <div class="preview-title" id="previewEstimateId"></div>
       <div class="preview-details" id="previewDetails"></div>
       <div id="previewTableBlock"></div>
       <div class="signatory">
@@ -530,6 +506,8 @@
       &copy; 2025 Raj Marketing Mysore. All rights reserved.
     </div>
   </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     // Hamburger menu logic
     const menuBtn = document.getElementById('menuBtn');
@@ -586,13 +564,13 @@
     });
 
     // Items Table Logic
-    function addRow(w=24, h=48, q=1) {
+    function addRow(w='', h='', q=1) {
       const tbody = document.getElementById('itemsTable').querySelector('tbody');
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><input type="number" min="1" value="${w}" onchange="updateTotals()"></td>
-        <td><input type="number" min="1" value="${h}" onchange="updateTotals()"></td>
-        <td><input type="number" min="1" value="${q}" onchange="updateTotals()"></td>
+        <td><input type="number" min="0" step="0.01" value="${w}" onchange="updateTotals()" placeholder="inches"></td>
+        <td><input type="number" min="0" step="0.01" value="${h}" onchange="updateTotals()" placeholder="inches"></td>
+        <td><input type="number" min="1" step="1" value="${q}" onchange="updateTotals()"></td>
         <td class="sqft">0.00</td>
         <td class="price">0.00</td>
         <td><button type="button" onclick="this.closest('tr').remove();updateTotals()" style="background:var(--sky-mid);color:var(--blue-dark);border:none;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;">×</button></td>
@@ -616,7 +594,8 @@
         // Apply rule: below 24" = 24"
         width = width < 24 ? 24 : width;
         height = height < 24 ? 24 : height;
-        const sqft = (width * height * qty) / 144;
+        // keep 2 decimal for input, 2 decimal for calculation
+        const sqft = (parseFloat(width) * parseFloat(height) * qty) / 144;
         const price = sqft * ppsqft;
         row.cells[3].innerText = sqft.toFixed(2);
         row.cells[4].innerText = price.toFixed(2);
@@ -639,92 +618,10 @@
       const customerId = document.getElementById('customerId').value.trim();
       const netType = netTypeSel.value;
       const ppsqft = pricePerSqft.value;
-     // Table data
+      // Table data
       let itemRows = '';
       let rows = document.querySelectorAll("#itemsTable tbody tr");
       let totalQty = 0, totalSqft = 0, totalPrice = 0;
       rows.forEach(row=>{
         let width = parseFloat(row.cells[0].querySelector('input').value) || 0;
-        let height = parseFloat(row.cells[1].querySelector('input').value) || 0;
-        const qty = parseFloat(row.cells[2].querySelector('input').value) || 0;
-        width = width < 24 ? 24 : width;
-        height = height < 24 ? 24 : height;
-        const sqft = (width * height * qty) / 144;
-        const price = sqft * ppsqft;
-        totalQty += qty;
-        totalSqft += sqft;
-        totalPrice += price;
-        itemRows += `<tr>
-          <td>${width}</td><td>${height}</td><td>${qty}</td><td>${sqft.toFixed(2)}</td><td>₹${price.toFixed(2)}</td>
-        </tr>`;
-      });
-      // Attractive Preview
-      document.getElementById('previewEstimateId').textContent = estimateId;
-      document.getElementById('previewDetails').innerHTML = `
-        <div><b>Customer Name:</b> ${customerName}</div>
-        <div><b>Mobile:</b> ${mobile}</div>
-        <div><b>Address:</b> ${address}</div>
-        <div><b>Date:</b> ${date}</div>
-        <div><b>Customer ID:</b> ${customerId}</div>
-        <div><b>Type of Product:</b> ${netType}</div>
-        <div><b>Price per Sqft:</b> ₹${ppsqft}</div>
-      `;
-      document.getElementById('previewTableBlock').innerHTML = `
-        <table style="width:100%;margin:13px 0 13px 0;font-size:0.99rem;border-collapse:collapse;" border="1">
-          <thead>
-            <tr>
-              <th>Width (in)</th>
-              <th>Height (in)</th>
-              <th>Qty</th>
-              <th>Total Sqft</th>
-              <th>Price (₹)</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${itemRows}
-          </tbody>
-        </table>
-        <div style="margin-top:10px;font-size:1.08em;text-align:right;">
-          <b>Total Qty:</b> ${totalQty} &nbsp; | &nbsp; <b>Total Sqft:</b> ${totalSqft.toFixed(2)} &nbsp; | &nbsp; <b>Total Estimate:</b> <span style="color:#18c964">₹${totalPrice.toFixed(2)}</span>
-        </div>
-      `;
-      document.getElementById('previewBlock').style.display = '';
-      // Save to admin (localStorage)
-      let est = JSON.parse(localStorage.getItem('estimates')||'[]');
-      est.push({
-        estimateId, customerName, mobile, address, date, customerId, netType, ppsqft,
-        items: Array.from(rows).map(row=>({
-          width: row.cells[0].querySelector('input').value,
-          height: row.cells[1].querySelector('input').value,
-          qty: row.cells[2].querySelector('input').value,
-          sqft: row.cells[3].innerText,
-          price: row.cells[4].innerText
-        })),
-        totalQty, totalSqft: totalSqft.toFixed(2), totalPrice: totalPrice.toFixed(2),
-        created: new Date().toLocaleString()
-      });
-      localStorage.setItem('estimates', JSON.stringify(est));
-      window.scrollTo({top:document.getElementById('previewBlock').offsetTop-22,behavior:'smooth'});
-    };
-
-    // Download as PDF (using browser print)
-    document.getElementById('downloadBtn').onclick = function() {
-      document.body.classList.add('print-preview');
-      document.getElementById('previewBlock').classList.add('print-preview');
-      document.title = document.getElementById('previewEstimateId').textContent + " - Raj Marketing Mysore";
-      window.print();
-      setTimeout(()=>{
-        document.body.classList.remove('print-preview');
-        document.getElementById('previewBlock').classList.remove('print-preview');
-        document.title = "Estimate | Raj Marketing Mysore";
-      }, 600);
-    };
-
-    // Save admin on every change (optional: for auto-save)
-    document.getElementById('estimateForm').addEventListener('input', ()=>{
-      // Optionally, auto-save logic if you want
-      // Disabled for performance unless required
-    });
-  </script>
-</body>
-</html>
+        
