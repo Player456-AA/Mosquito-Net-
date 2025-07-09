@@ -639,5 +639,92 @@
       const customerId = document.getElementById('customerId').value.trim();
       const netType = netTypeSel.value;
       const ppsqft = pricePerSqft.value;
-      // Table data
-      let i
+     // Table data
+      let itemRows = '';
+      let rows = document.querySelectorAll("#itemsTable tbody tr");
+      let totalQty = 0, totalSqft = 0, totalPrice = 0;
+      rows.forEach(row=>{
+        let width = parseFloat(row.cells[0].querySelector('input').value) || 0;
+        let height = parseFloat(row.cells[1].querySelector('input').value) || 0;
+        const qty = parseFloat(row.cells[2].querySelector('input').value) || 0;
+        width = width < 24 ? 24 : width;
+        height = height < 24 ? 24 : height;
+        const sqft = (width * height * qty) / 144;
+        const price = sqft * ppsqft;
+        totalQty += qty;
+        totalSqft += sqft;
+        totalPrice += price;
+        itemRows += `<tr>
+          <td>${width}</td><td>${height}</td><td>${qty}</td><td>${sqft.toFixed(2)}</td><td>₹${price.toFixed(2)}</td>
+        </tr>`;
+      });
+      // Attractive Preview
+      document.getElementById('previewEstimateId').textContent = estimateId;
+      document.getElementById('previewDetails').innerHTML = `
+        <div><b>Customer Name:</b> ${customerName}</div>
+        <div><b>Mobile:</b> ${mobile}</div>
+        <div><b>Address:</b> ${address}</div>
+        <div><b>Date:</b> ${date}</div>
+        <div><b>Customer ID:</b> ${customerId}</div>
+        <div><b>Type of Product:</b> ${netType}</div>
+        <div><b>Price per Sqft:</b> ₹${ppsqft}</div>
+      `;
+      document.getElementById('previewTableBlock').innerHTML = `
+        <table style="width:100%;margin:13px 0 13px 0;font-size:0.99rem;border-collapse:collapse;" border="1">
+          <thead>
+            <tr>
+              <th>Width (in)</th>
+              <th>Height (in)</th>
+              <th>Qty</th>
+              <th>Total Sqft</th>
+              <th>Price (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemRows}
+          </tbody>
+        </table>
+        <div style="margin-top:10px;font-size:1.08em;text-align:right;">
+          <b>Total Qty:</b> ${totalQty} &nbsp; | &nbsp; <b>Total Sqft:</b> ${totalSqft.toFixed(2)} &nbsp; | &nbsp; <b>Total Estimate:</b> <span style="color:#18c964">₹${totalPrice.toFixed(2)}</span>
+        </div>
+      `;
+      document.getElementById('previewBlock').style.display = '';
+      // Save to admin (localStorage)
+      let est = JSON.parse(localStorage.getItem('estimates')||'[]');
+      est.push({
+        estimateId, customerName, mobile, address, date, customerId, netType, ppsqft,
+        items: Array.from(rows).map(row=>({
+          width: row.cells[0].querySelector('input').value,
+          height: row.cells[1].querySelector('input').value,
+          qty: row.cells[2].querySelector('input').value,
+          sqft: row.cells[3].innerText,
+          price: row.cells[4].innerText
+        })),
+        totalQty, totalSqft: totalSqft.toFixed(2), totalPrice: totalPrice.toFixed(2),
+        created: new Date().toLocaleString()
+      });
+      localStorage.setItem('estimates', JSON.stringify(est));
+      window.scrollTo({top:document.getElementById('previewBlock').offsetTop-22,behavior:'smooth'});
+    };
+
+    // Download as PDF (using browser print)
+    document.getElementById('downloadBtn').onclick = function() {
+      document.body.classList.add('print-preview');
+      document.getElementById('previewBlock').classList.add('print-preview');
+      document.title = document.getElementById('previewEstimateId').textContent + " - Raj Marketing Mysore";
+      window.print();
+      setTimeout(()=>{
+        document.body.classList.remove('print-preview');
+        document.getElementById('previewBlock').classList.remove('print-preview');
+        document.title = "Estimate | Raj Marketing Mysore";
+      }, 600);
+    };
+
+    // Save admin on every change (optional: for auto-save)
+    document.getElementById('estimateForm').addEventListener('input', ()=>{
+      // Optionally, auto-save logic if you want
+      // Disabled for performance unless required
+    });
+  </script>
+</body>
+</html>
