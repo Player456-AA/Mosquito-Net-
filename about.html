@@ -65,52 +65,49 @@
       color: var(--blue-dark);
     }
     nav.topnav {
-      display: flex;
-      gap: 1.25rem;
-      align-items: center;
-      margin-left: 1.2rem;
+      position: fixed;
+      top: 56px;
+      right: 0;
+      background: var(--blue-dark);
+      border-radius: 0 0 0 16px;
+      box-shadow: var(--shadow-card);
+      padding: 1.1rem 1.4rem 1.1rem 1.8rem;
+      z-index: 99;
+      display: none;
+      flex-direction: column;
+      gap: 1.1rem;
+      min-width: 180px;
+      animation: fadeIn .25s;
     }
+    nav.topnav.open { display: flex; }
     nav.topnav a {
       color: var(--white);
       text-decoration: none;
       font-weight: 500;
-      padding: 0.28em 0.85em;
-      border-radius: 6px;
-      font-size: 1.08rem;
+      padding: 0.32em 0.7em;
+      border-radius: 7px;
+      font-size: 1.09rem;
       transition: background .18s, color .18s;
       letter-spacing: .2px;
-      display: inline-block;
+      display: block;
     }
     nav.topnav a:hover, nav.topnav a.active {
       background: var(--sky-mid);
       color: var(--blue-dark);
     }
-    @media (max-width: 700px) {
+    @media (min-width: 701px) {
       nav.topnav {
-        display: none;
-        position: absolute;
-        top: 56px;
-        left: 0;
-        right: 0;
-        background: var(--blue-dark);
-        flex-direction: column;
-        box-shadow: var(--shadow-card);
-        border-radius: 0 0 8px 8px;
-        padding: 1.2rem 0.6rem 0.7rem 1rem;
-        z-index: 99;
-        gap: 0;
-      }
-      nav.topnav.open {
-        display: flex;
-      }
-      nav.topnav a {
-        padding: 0.7em 1.2em;
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background: transparent;
+        box-shadow: none;
         border-radius: 0;
-        border-bottom: 1px solid var(--sky-mid);
-        width: 100%;
+        padding: 0;
+        gap: 1.1rem;
+        min-width: unset;
       }
-      nav.topnav a:last-child { border-bottom: none; }
-      .menu-btn { display: block; }
+      .menu-btn { display: none; }
     }
     .container {
       max-width: 540px;
@@ -188,7 +185,7 @@
       align-items: center;
       justify-content: center;
       gap: 15px 22px;
-      margin-bottom: 17px;
+      margin-bottom: 13px;
     }
     .footer-link {
       color: var(--sky-mid);
@@ -210,7 +207,7 @@
       text-decoration: none;
       transition: background 0.18s;
       display: inline-block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .whatsapp-btn:hover { background: #128c7e; color:#fff;}
     .email-btn {
@@ -222,9 +219,18 @@
       text-decoration: none;
       transition: background 0.18s;
       display: inline-block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
     .email-btn:hover { background: var(--blue-dark); color: var(--white);}
+    .disclaimer-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 15px 22px;
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(18px);}
       to { opacity: 1; transform: translateY(0);}
@@ -290,7 +296,9 @@
   <footer>
     <div class="footer-links">
       <a href="https://wa.me/919483037385" class="whatsapp-btn" target="_blank">WhatsApp</a>
-      <a href="mailto:rajmarketingmysore@gmail.com" class="email-btn" target="_blank">Email</a><br>
+      <a href="mailto:rajmarketingmysore@gmail.com" class="email-btn" target="_blank">Email</a>
+    </div>
+    <div class="disclaimer-links">
       <a href="privacy.html" class="footer-link" target="_blank">Privacy Policy</a>
       <a href="disclaimer.html" class="footer-link" target="_blank">Disclaimer</a>
       <a href="terms.html" class="footer-link" target="_blank">Terms</a>
@@ -300,7 +308,7 @@
     </div>
   </footer>
   <script>
-    // Hamburger menu logic
+    // Hamburger menu logic, desktop = horizontal, mobile = overlay
     const menuBtn = document.getElementById('menuBtn');
     const topNav = document.getElementById('topNav');
     menuBtn.addEventListener('click', () => {
