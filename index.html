@@ -831,3 +831,81 @@
           date: new Date().toLocaleString()
         });
         localStorage.setItem('appointments', JSON.stringify(appts));
+// Purpose logic
+        if(data.purpose === "Confirmation Order") {
+          // Show WhatsApp button
+          let deliveryDate = new Date(Date.now() + 2*24*60*60*1000);
+          let deliveryStr = deliveryDate.toLocaleDateString() + " Morning 10:00 to 11:00am";
+          let msg = `Order Confirmation:%0AName: ${data.name}%0AMobile: ${data.mobile}%0AAddress: ${data.address}%0ALandmark: ${data.landmark}%0ACity: ${data.city}%0AType of Net: ${data.nettype}%0A${data.qty ? 'Qty: ' + data.qty + '%0A' : ''}Purpose: ${data.purpose}%0ARequested At: ${new Date().toLocaleString()}%0ADelivery: ${deliveryStr}`;
+          whatsappLink.href = "https://wa.me/919483037385?text=" + msg;
+          whatsappBox.style.display = "";
+          successDiv.style.display = "none";
+          // After click WhatsApp, show thank you
+          whatsappLink.onclick = function(){
+            whatsappBox.style.display = "none";
+            successDiv.style.display = "";
+            successDiv.innerHTML = 'Thank you for your order confirmation!<br>Delivery Date: <b>' + deliveryStr + '</b>';
+            form.reset();
+            qtyField.style.display = "none";
+            setTimeout(()=>successDiv.style.display="none",5000);
+          };
+        } else if(data.purpose === "Just for Query") {
+          whatsappBox.style.display = "none";
+          successDiv.style.display = "";
+          successDiv.textContent = "Thank you for your time.";
+          form.reset();
+          qtyField.style.display = "none";
+          setTimeout(()=>successDiv.style.display="none",3000);
+        }
+      };
+    })();
+
+    // Price Checker Tab Logic
+    (function(){
+      const pcNetType = document.getElementById('pcNetType');
+      const pcPricePer = document.getElementById('pcPricePer');
+      const pcPriceValue = document.getElementById('pcPriceValue');
+      const pcDetailRows = document.getElementById('pcDetailRows');
+      const pcSelectedType = document.getElementById('pcSelectedType');
+      const calcBtn = document.getElementById('calcBtn');
+      const pcResult = document.getElementById('pcResult');
+      const pcSqft = document.getElementById('pcSqft');
+      const pcTotal = document.getElementById('pcTotal');
+      const pcProductLink = document.getElementById('pcProductLink');
+      // Product Prices and Links
+      const NETS = {
+        "Velcro System": { price: 60, link: "velcro.html" },
+        "Frame System": { price: 180, link: "frame.html" },
+        "Pleated Nets": { price: 350, link: "pleated.html" },
+        "Fly Mesh Door": { price: 380, link: "flymesh.html" }
+      };
+      pcNetType.onchange = function() {
+        let v = pcNetType.value;
+        if(NETS[v]) {
+          pcPricePer.style.display = "";
+          pcPriceValue.textContent = `₹${NETS[v].price}/Sqft`;
+          pcDetailRows.style.display = "";
+          pcSelectedType.textContent = v;
+          pcResult.style.display = "none";
+        } else {
+          pcPricePer.style.display = "none";
+          pcDetailRows.style.display = "none";
+          pcResult.style.display = "none";
+        }
+      };
+      calcBtn.onclick = function() {
+        // Get user input
+        let width = parseFloat(document.getElementById('pcWidth').value);
+        let height = parseFloat(document.getElementById('pcHeight').value);
+        let qty = parseInt(document.getElementById('pcQty').value);
+        let v = pcNetType.value;
+        if(!width || !height || !qty || !NETS[v]) {
+          alert('Please fill all fields.');
+          return;
+        }
+        // Below 24" considered as 24"
+        if(width < 24) width = 24;
+        if(height < 24) height = 24;
+        let sqft = (width * height / 144) * qty;
+        sqft = Math.round(sqft * 100) / 100;
+    
