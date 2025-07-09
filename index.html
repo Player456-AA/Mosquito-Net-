@@ -769,4 +769,98 @@
         Object.values(tabDetails).forEach(d => d.classList.remove('active'));
         tabDetails[this.dataset.tab].classList.add('active');
       };
+        });
+
+    // Visitor Counter (localStorage, resets daily)
+    function updateVisitorCount() {
+      const todayKey = 'visitor_' + new Date().toISOString().slice(0,10);
+      let count = localStorage.getItem(todayKey);
+      if (!count) count = 0;
+      count = parseInt(count,10)+1;
+      localStorage.setItem(todayKey, count);
+      document.getElementById('visitorCount').textContent = count;
+      // Also store for admin
+      let stats = JSON.parse(localStorage.getItem('visitors_stats')||'{}');
+      stats[new Date().toISOString().slice(0,10)] = count;
+      localStorage.setItem('visitors_stats', JSON.stringify(stats));
+    }
+    updateVisitorCount();
+
+    // Appointment Tab Logic
+    (function(){
+      const netType = document.getElementById('netType');
+      const qtyField = document.getElementById('qtyField');
+      const qtyInput = document.getElementById('qtyInput');
+      netType.onchange = function() {
+        if(this.value === "Velcro System" || this.value === "Frame System") {
+          qtyField.style.display = "";
+          qtyInput.placeholder = "Qty of Windows";
+        } else if(this.value === "Pleated Nets" || this.value === "Fly Mesh Door") {
+          qtyField.style.display = "";
+          qtyInput.placeholder = "Qty of Doors";
+        } else {
+          qtyField.style.display = "none";
+          qtyInput.value = "";
+        }
+      };
+      // Appointment form submit
+      const form = document.getElementById('appointmentForm');
+      const successDiv = document.getElementById('apptSuccess');
+      const whatsappBox = document.getElementById('whatsappBox');
+      const whatsappLink = document.getElementById('whatsappLink');
+      form.onsubmit = function(e){
+        e.preventDefault();
+        // Gather data
+        const data = {
+          name: form.name.value.trim(),
+          mobile: form.mobile.value.trim(),
+          address: form.address.value.trim(),
+          landmark: form.landmark.value.trim(),
+          city: form.city.value.trim(),
+          nettype: form.nettype.value,
+          qty: qtyInput.value.trim(),
+          purpose: form.purpose.value
+        };
+        // Save for admin (localStorage)
+        let appts = JSON.parse(localStorage.getItem('appointments')||'[]');
+        appts.push({
+          ...data,
+          date: new Date().toLocaleString()
+        });
+        localStorage.setItem('appointments', JSON.stringify(appts));
+        // Purpose logic
+        if(data.purpose === "Confirmation Order") {
+          // Show WhatsApp button
+          let deliveryDate = new Date(Date.now() + 2*24*60*60*1000);
+          let deliveryStr = deliveryDate.toLocaleDateString() + " Morning 10:00 to 11:00am";
+          let msg = `Order Confirmation:%0AName: ${data.name}%0AMobile: ${data.mobile}%0AAddress: ${data.address}%0ALandmark: ${data.landmark}%0ACity: ${data.city}%0AType of Net: ${data.nettype}%0A${data.qty?("Qty: "+data.qty):""}%0ADelivery Date: ${deliveryStr}`;
+          whatsappLink.href = "https://wa.me/919483037385?text=" + msg;
+          whatsappBox.style.display = "";
+          successDiv.style.display = "none";
+          // After click WhatsApp, show thank you
+          whatsappLink.onclick = function(){
+            whatsappBox.style.display = "none";
+            successDiv.style.display = "";
+            successDiv.innerHTML = 'Thank you for your order confirmation!<br>Delivery Date: <b>' + deliveryStr + '</b>';
+            form.reset();
+            qtyField.style.display = "none";
+            setTimeout(()=>successDiv.style.display="none",5000);
+          };
+        } else if(data.purpose === "Just for Query" || data.purpose === "Time Pass") {
+          whatsappBox.style.display = "none";
+          successDiv.style.display = "";
+          successDiv.textContent = "Thank you for your time.";
+          form.reset();
+          qtyField.style.display = "none";
+          setTimeout(()=>successDiv.style.display="none",3000);
+        }
+      };
+    })();
+
+    // Price Checker Tab Logic
+    (function(){
+      const pcNetType = document.getElementById('pcNetType');
+      const pcPricePer = document.getElementById('pcPricePer');
+      const pcPriceValue = document.getElementById('pcPriceValue');
+      const pcDetailRows = document.getElementById('pcDetailRows');
     
