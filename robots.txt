@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://player456-aa.github.io/Mosquito-Net-/sitemap.xml
