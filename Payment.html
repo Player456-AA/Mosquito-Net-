@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Professional Payment — Mosquito Net</title>
+  <meta name="description" content="Payment capture console with QR PDF viewer, UTR capture and receipt preview" />
   <style>
     /* Typography & variables */
     :root{
@@ -16,6 +17,7 @@
       --danger:#ef4444;
       --glass: rgba(255,255,255,0.65);
       --radius:14px;
+      --shadow-strong: 0 20px 50px rgba(6,20,40,0.12);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
     *{box-sizing:border-box}
@@ -23,7 +25,7 @@
     body{
       margin:0;
       background:
-        radial-gradient(800px 300px at 10% 10%, rgba(15,98,254,0.06), transparent 8%),
+        radial-gradient(900px 300px at 6% 8%, rgba(15,98,254,0.06), transparent 8%),
         linear-gradient(180deg,#f8fbff 0%, #eef6fb 100%);
       padding:28px;
       color:#061426;
@@ -39,22 +41,22 @@
       align-items:start;
     }
 
-    /* HEADER small */
+    /* HEADER */
     header.app{
       grid-column:1/-1;
       display:flex;
       align-items:center;
       gap:16px;
-      margin-bottom:6px;
+      margin-bottom:12px;
     }
     .brand{
       display:flex;
       align-items:center;
-      gap:12px;
+      gap:16px;
     }
     .logo{
-      width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:0 8px 30px rgba(6,20,76,0.08)
+      width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:800;box-shadow:0 12px 40px rgba(6,20,76,0.10);font-size:18px;
     }
     h1{font-size:18px;margin:0}
     p.lead{margin:0;color:var(--muted);font-size:13px}
@@ -64,7 +66,7 @@
       background:var(--card);
       border-radius:var(--radius);
       padding:18px;
-      box-shadow: 0 10px 30px rgba(6,20,40,0.06);
+      box-shadow: var(--shadow-strong);
       border: 1px solid rgba(10,37,90,0.03);
     }
 
@@ -82,7 +84,7 @@
     }
     input:focus, textarea:focus{
       border-color:var(--accent);
-      box-shadow:0 8px 30px rgba(15,98,254,0.08);
+      box-shadow:0 12px 30px rgba(15,98,254,0.08);
       transform:translateY(-1px);
     }
     textarea{resize:vertical;min-height:72px}
@@ -100,7 +102,7 @@
       color:white;
       background:var(--accent);
       box-shadow: 0 10px 30px rgba(15,98,254,0.12);
-      transition:transform .08s, box-shadow .12s;
+      transition:transform .08s, box-shadow .12s, opacity .12s;
     }
     button:hover{transform:translateY(-2px)}
     button.ghost{
@@ -124,28 +126,31 @@
       position:relative;
       background:linear-gradient(180deg, #ffffff, #f6fbff);
       border:1px solid rgba(10,37,90,0.03);
+      display:flex;
+      flex-direction:column;
     }
     .pdf-top{
       display:flex;
       justify-content:space-between;
       align-items:center;
       padding:12px 14px;border-bottom:1px solid rgba(6,20,40,0.03);
-      background:linear-gradient(180deg, rgba(255,255,255,0.8), transparent);
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), transparent);
     }
     .pdf-body{height:100%;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff,#f7fbff)}
 
     iframe.pdf{
       width:100%;height:100%;border:0;
+      background: #f7f9fc;
     }
 
     .scan-overlay{
-      position:absolute;right:22px;top:22px;width:220px;height:220px;border-radius:12px;padding:12px;
-      background:linear-gradient(180deg,rgba(255,255,255,0.86),rgba(255,255,255,0.70));
-      box-shadow:0 10px 30px rgba(6,20,40,0.08);display:flex;flex-direction:column;gap:8px;
-      align-items:center;justify-content:center;border:1px solid rgba(10,37,90,0.04)
+      position:absolute;right:22px;top:22px;width:240px;height:240px;border-radius:12px;padding:16px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.78));
+      box-shadow:0 18px 50px rgba(6,20,40,0.10);display:flex;flex-direction:column;gap:10px;
+      align-items:center;justify-content:center;border:1px solid rgba(10,37,90,0.04);z-index:40;backdrop-filter: blur(2px);
     }
-    .scan-overlay .dot{width:10px;height:10px;border-radius:50%;background:var(--success);box-shadow:0 6px 18px rgba(22,163,74,0.12)}
-    .scan-instructions{text-align:center;font-size:13px;color:#06314b}
+    .scan-overlay .dot{width:12px;height:12px;border-radius:50%;background:var(--success);box-shadow:0 8px 18px rgba(22,163,74,0.12);animation:ping 1.6s infinite;}
+    @keyframes ping{0%{transform:scale(1)}50%{transform:scale(1.6);opacity:.6}100%{transform:scale(1);opacity:1}}
 
     /* summary card */
     .summary{
@@ -171,7 +176,7 @@
       position:fixed;inset:0;background:rgba(3,7,18,0.45);display:flex;align-items:center;justify-content:center;z-index:80;
     }
     .modal{
-      width:540px;max-width:96%;border-radius:12px;padding:18px;background:var(--card);box-shadow:0 24px 60px rgba(6,20,40,0.36)
+      width:640px;max-width:96%;border-radius:12px;padding:18px;background:var(--card);box-shadow:0 24px 60px rgba(6,20,40,0.36)
     }
     .modal .row{display:flex;gap:10px}
 
@@ -180,6 +185,7 @@
       .wrap{grid-template-columns:1fr; padding:12px}
       .pdf-card{height:420px}
       .scan-overlay{right:12px;top:12px;width:180px;height:180px}
+      .logo{width:52px;height:52px;font-size:16px}
     }
   </style>
 </head>
@@ -193,8 +199,10 @@
           <p class="lead">Professional payment capture — show QR, collect UTR, print receipt</p>
         </div>
       </div>
-      <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+      <div style="margin-left:auto;display:flex;gap:12px;align-items:center">
         <div class="muted">Session: <strong style="color:#08345a;margin-left:6px">Player456-AA</strong></div>
+        <button id="btnDownloadPdf" class="small-btn ghost" title="Download QR PDF" style="white-space:nowrap">Download PDF</button>
+        <button id="btnPrintPdf" class="small-btn ghost" title="Print PDF">Print</button>
       </div>
     </header>
 
@@ -298,17 +306,18 @@
 
         <div class="pdf-body" id="pdfBody">
           <!-- initial placeholder -->
-          <div id="pdfPlaceholder" style="text-align:center;color:var(--muted)">
+          <div id="pdfPlaceholder" style="text-align:center;color:var(--muted);padding:28px">
             <svg width="86" height="86" viewBox="0 0 24 24" fill="none" style="opacity:.12"><path d="M3 7h4V3H3v4zM17 3v4h4V3h-4zM3 13h4v8H3v-8zM17 13h4v8h-4v-8z" fill="#062635"/></svg>
             <div style="font-size:15px;margin-top:10px">Click "Open QR PDF" to display the company's QR for scanning</div>
           </div>
           <!-- iframe will be injected -->
           <div id="pdfEmbed" style="width:100%;height:100%;display:none"></div>
 
-          <div class="scan-overlay" id="scanOverlay" style="display:none">
+          <div class="scan-overlay" id="scanOverlay" style="display:none" aria-hidden="true">
             <div style="font-weight:700;color:#07335a">Awaiting Scan</div>
-            <div class="dot" aria-hidden></div>
-            <div class="scan-instructions">Ask customer to scan the QR using their bank app</div>
+            <div class="dot" aria-hidden="true"></div>
+            <div class="scan-instructions" style="text-align:center;font-size:13px;color:#06314b">Ask customer to scan the QR using their bank app</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:6px">Auto-hide in <span id="scanCountdown">20</span>s</div>
           </div>
         </div>
       </div>
@@ -349,23 +358,30 @@
 
   <script>
     // --- CONFIG: replace this with your PDF path (relative to site root or absolute) ---
-    const PDF_SRC = 'Raj marketing QR Code (1).pdf'; // <-- put real PDF path here
+    // Set to empty string to disable PDF auto-open
+    const PDF_SRC = 'Raj marketing QR Code (1).pdf';
+
+    // Option to auto open PDF on load (persisted)
+    const AUTO_OPEN_KEY = 'mn_pdf_auto_open';
 
     // --- state & elements ---
     const state = {
       customer: null,
       payments: [], // {amount, utr, time, type}
+      scanAutoHideTimer: null,
+      scanCountdownTimer: null
     };
 
     const el = id => document.getElementById(id);
     const cname = el('cname'), phone = el('phone'), email = el('email'), address = el('address');
     const total = el('total'), advance = el('advance'), collect = el('collect'), balance = el('balance');
     const utr = el('utr');
-    const btnOpenPdf = el('btnOpenPdf'), btnHidePdf = el('btnHidePdf'), pdfEmbed = el('pdfEmbed'), pdfPlaceholder = el('pdfPlaceholder'), pdfName = el('pdfName'), pdfStatus = el('pdfStatus'), scanOverlay = el('scanOverlay'), pdfBody = el('pdfBody');
+    const btnOpenPdf = el('btnOpenPdf'), btnHidePdf = el('btnHidePdf'), pdfEmbed = el('pdfEmbed'), pdfPlaceholder = el('pdfPlaceholder'), pdfName = el('pdfName'), pdfStatus = el('pdfStatus'), scanOverlay = el('scanOverlay');
     const btnRecord = el('btnRecord'), btnCollectBalance = el('btnCollectBalance'), btnFinish = el('btnFinish'), btnReceipt = el('btnReceipt'), btnReset = el('btnReset');
     const summaryCustomer = el('summaryCustomer'), summaryPhone = el('summaryPhone'), summaryDue = el('summaryDue'), summaryBal = el('summaryBal');
     const progressBar = el('progressBar'), paymentsList = el('paymentsList');
     const btnClearPayments = el('btnClearPayments'), btnExport = el('btnExport');
+    const btnDownloadPdf = el('btnDownloadPdf'), btnPrintPdf = el('btnPrintPdf'), scanCountdownEl = el('scanCountdown');
 
     // Utilities
     const fmt = v => '₹' + Number(v||0).toFixed(2);
@@ -389,8 +405,8 @@
         state.customer = data.customer || null;
         state.payments = data.payments || [];
         if(data.meta){
-          if(data.meta.total) total.value = data.meta.total;
-          if(data.meta.advance) advance.value = data.meta.advance;
+          if(data.meta.total !== undefined) total.value = data.meta.total;
+          if(data.meta.advance !== undefined) advance.value = data.meta.advance;
         }
         if(state.customer){
           cname.value = state.customer.name||'';
@@ -430,10 +446,10 @@
           const item = document.createElement('div');
           item.className = 'pay-item';
           const left = document.createElement('div');
-          left.innerHTML = `<div style="font-weight:700">${fmt(p.amount)}</div><small>${p.type} • ${p.utr || ''}</small>`;
+          left.innerHTML = `<div style="font-weight:700">${fmt(p.amount)}</div><small>${escapeHtml(p.type)} • ${escapeHtml(p.utr || '')}</small>`;
           const right = document.createElement('div');
           right.style.textAlign='right';
-          right.innerHTML = `<small>${new Date(p.time).toLocaleString()}</small><div style="font-weight:700;color:${p.type==='Final'? 'var(--success)':'#08345a'}">${p.type}</div>`;
+          right.innerHTML = `<small>${new Date(p.time).toLocaleString()}</small><div style="font-weight:700;color:${p.type==='Final'? 'var(--success)':'#08345a'}">${escapeHtml(p.type)}</div>`;
           item.appendChild(left); item.appendChild(right);
           paymentsList.appendChild(item);
         });
@@ -443,25 +459,79 @@
 
     // PDF handling
     let iframeEl = null;
-    function showPdf(){
+    function showPdf(auto=false){
+      if(!PDF_SRC || PDF_SRC.trim()===''){ pdfStatus.textContent = 'No PDF configured'; return; }
       pdfPlaceholder.style.display = 'none';
       pdfEmbed.style.display = 'block';
       pdfEmbed.innerHTML = '';
       iframeEl = document.createElement('iframe');
       iframeEl.className = 'pdf';
+      // hide toolbar & nav for a cleaner look
       iframeEl.src = PDF_SRC + '#toolbar=0&navpanes=0';
-      iframeEl.onload = ()=>{ pdfStatus.textContent = 'PDF loaded'; scanOverlay.style.display='flex'; };
-      iframeEl.onerror = ()=>{ pdfStatus.textContent = 'Failed to load PDF'; alert('Could not load PDF. Check PDF_SRC in code.'); };
+      iframeEl.onload = ()=>{ pdfStatus.textContent = 'PDF loaded'; startScanOverlay(); };
+      iframeEl.onerror = ()=>{ pdfStatus.textContent = 'Failed to load PDF'; alert('Could not load PDF. Check PDF_SRC in code or network path.'); };
       pdfEmbed.appendChild(iframeEl);
       pdfName.textContent = (PDF_SRC.split('/').pop() || PDF_SRC);
       pdfStatus.textContent = 'Show to customer — ask them to scan';
+      // controls to download / print are enabled
+      try{ localStorage.setItem(AUTO_OPEN_KEY, !!auto); }catch(e){}
     }
     function hidePdf(){
       pdfEmbed.style.display='none';
       pdfEmbed.innerHTML='';
       pdfPlaceholder.style.display='block';
       pdfStatus.textContent = 'Hidden';
-      scanOverlay.style.display='none';
+      stopScanOverlay();
+    }
+
+    function downloadPdf(){
+      if(!PDF_SRC) return alert('No PDF configured');
+      // open in new tab which will allow the user to download
+      window.open(PDF_SRC, '_blank');
+    }
+    function printPdf(){
+      if(!iframeEl){
+        openInNewPrintWindow(PDF_SRC);
+        return;
+      }
+      try{
+        iframeEl.contentWindow.focus();
+        iframeEl.contentWindow.print();
+      }catch(e){
+        // fallback
+        openInNewPrintWindow(PDF_SRC);
+      }
+    }
+    function openInNewPrintWindow(src){
+      const w = window.open(src, '_blank');
+      if(!w) return alert('Popup blocked');
+      // user can print from new tab
+    }
+
+    // scan overlay auto-hide with countdown
+    function startScanOverlay(){
+      clearScanTimers();
+      scanOverlay.style.display = 'flex';
+      let countdown = 20; // seconds
+      scanCountdownEl.textContent = countdown;
+      state.scanCountdownTimer = setInterval(()=>{
+        countdown -= 1;
+        scanCountdownEl.textContent = countdown;
+        if(countdown <= 0){
+          stopScanOverlay();
+        }
+      }, 1000);
+      // also auto-hide in case of long waits
+      state.scanAutoHideTimer = setTimeout(()=> stopScanOverlay(), 21000);
+    }
+    function stopScanOverlay(){
+      clearScanTimers();
+      scanOverlay.style.display = 'none';
+      scanCountdownEl.textContent = '0';
+    }
+    function clearScanTimers(){
+      if(state.scanAutoHideTimer){ clearTimeout(state.scanAutoHideTimer); state.scanAutoHideTimer = null; }
+      if(state.scanCountdownTimer){ clearInterval(state.scanCountdownTimer); state.scanCountdownTimer = null; }
     }
 
     // Modal helpers
@@ -471,13 +541,13 @@
       modalRoot.innerHTML = `<div class="modal-backdrop" id="modalBackdrop">
         <div class="modal" role="dialog" aria-modal="true">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <div style="font-weight:800">${title}</div>
+            <div style="font-weight:800">${escapeHtml(title)}</div>
             <button id="modalClose" class="small-btn ghost">✕</button>
           </div>
           <div id="modalInner">${html}</div>
           <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-            <button id="modalCancel" class="small-btn ghost">${secondary}</button>
-            <button id="modalOk" class="small-btn">${primary}</button>
+            <button id="modalCancel" class="small-btn ghost">${escapeHtml(secondary)}</button>
+            <button id="modalOk" class="small-btn">${escapeHtml(primary)}</button>
           </div>
         </div>
       </div>`;
@@ -496,10 +566,19 @@
       if(amt <= 0){ alert('Enter an amount to record.'); return; }
       const utrVal = utr.value.trim();
       if(!utrVal && !confirm('No UTR entered. Continue to record payment without UTR?')) return;
+
+      // update customer snapshot
       state.customer = { name: cname.value.trim(), phone: phone.value.trim(), email: email.value.trim(), address: address.value.trim() };
-      const rec = { amount: amt, utr: utrVal || 'UTR-' + Date.now(), time: Date.now(), type: 'Partial' };
-           
-state.payments.push(rec);
+
+      // clamp to remaining
+      const T = parseNum(total.value), A = parseNum(advance.value);
+      const paid = state.payments.reduce((s,p)=>s+p.amount,0);
+      const remaining = Math.max(0, T - A - paid);
+      const amountToRecord = Math.min(amt, remaining || amt);
+
+      const rec = { amount: amountToRecord, utr: utrVal || ('UTR-' + Date.now()), time: Date.now(), type: remaining - amountToRecord <= 0 ? 'Final' : 'Partial' };
+      state.payments.push(rec);
+
       utr.value='';
       collect.value = '0';
       recalc();
@@ -548,12 +627,13 @@ state.payments.push(rec);
       const w = window.open('', '_blank', 'width=650,height=800');
       if(!w){ alert('Popup blocked'); return; }
       w.document.write(html);
- w.document.close();
+      w.document.close();
     });
     // Reset all (demo)
     btnReset.addEventListener('click', ()=>{
       if(!confirm('Reset all demo data (localStorage)?')) return;
       localStorage.removeItem('mn_payment_demo');
+      localStorage.removeItem(AUTO_OPEN_KEY);
       location.reload();
     });
     // Clear payments
@@ -572,6 +652,10 @@ state.payments.push(rec);
       a.href = url; a.download = 'payments-export-' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.json';
       document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
     });
+    // download / print handlers
+    btnDownloadPdf.addEventListener('click', downloadPdf);
+    btnPrintPdf.addEventListener('click', printPdf);
+
     // small toast
     let toastTimer=0;
     function flash(msg, ms=1200){
@@ -586,7 +670,7 @@ state.payments.push(rec);
       const paid = state.payments.reduce((s,p)=>s+p.amount,0);
       const remaining = Math.max(0, T - A - paid);
       const now = new Date();
-      const paymentsHtml = state.payments.map(p=>`<tr><td style="padding:6px;border-bottom:1px solid #eee">${new Date(p.time).toLocaleString()}</td><td style="padding:6px;border-bottom:1px solid #eee">${escapeHtml(p.utr||'')}</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:right">${p.amount.toFixed(2)}</td></tr>`).join('');
+      const paymentsHtml = state.payments.map(p=>`<tr><td style="padding:6px;border-bottom:1px solid #eee">${new Date(p.time).toLocaleString()}</td><td style="padding:6px;border-bottom:1px solid #eee">${escapeHtml(p.utr||'')}</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:right">${Number(p.amount).toFixed(2)}</td></tr>`).join('');
       const customerHtml = `
         <div><strong>${escapeHtml(cname.value||'')}</strong></div>
         <div style="color:#556674">${escapeHtml(phone.value||'')} ${escapeHtml(email.value? ' • ' + email.value : '')}</div>
@@ -623,21 +707,39 @@ state.payments.push(rec);
       </body></html>`;
     }
     // small helpers
-    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; }); }
+    function escapeHtml(s){ if(s===undefined || s===null) return ''; return String(s).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; }); }
     // events: show/hide pdf
-    btnOpenPdf.addEventListener('click', ()=>{ showPdf(); });
+    btnOpenPdf.addEventListener('click', ()=>{ showPdf(true); });
     btnHidePdf.addEventListener('click', ()=>{ hidePdf(); });
     // recalc when relevant fields change
     [total, advance, collect, cname, phone, email, address].forEach(i => i.addEventListener('input', recalc));
+
+    // small housekeeping: keyboard shortcuts
+    document.addEventListener('keydown', (e)=>{
+      if(e.altKey && e.key.toLowerCase()==='p'){ // Alt+P -> preview receipt
+        e.preventDefault(); btnReceipt.click();
+      }
+      if(e.altKey && e.key.toLowerCase()==='q'){ // Alt+Q -> open pdf
+        e.preventDefault(); btnOpenPdf.click();
+      }
+    });
+
     // on load
     (function init(){
       load();
       recalc();
-      // default balance compute trigger
-      recalc();
       // expose state for debugging
       window._mn_state = state;
       window._mn_showPdf = showPdf;
+      // Auto open PDF if configured and saved preference is true
+      try{
+        const auto = localStorage.getItem(AUTO_OPEN_KEY);
+        if((auto === null && PDF_SRC) || auto === 'true'){ // default to auto-open if configured and never set
+          showPdf(false);
+        }
+      }catch(e){
+        if(PDF_SRC) showPdf(false);
+      }
     })();
   </script>
 </body>
