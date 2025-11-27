@@ -498,7 +498,8 @@
       if(!utrVal && !confirm('No UTR entered. Continue to record payment without UTR?')) return;
       state.customer = { name: cname.value.trim(), phone: phone.value.trim(), email: email.value.trim(), address: address.value.trim() };
       const rec = { amount: amt, utr: utrVal || 'UTR-' + Date.now(), time: Date.now(), type: 'Partial' };
-      state.payments.push(rec);
+           
+state.payments.push(rec);
       utr.value='';
       collect.value = '0';
       recalc();
@@ -507,4 +508,137 @@
 
     // Collect remaining balance (final)
     btnCollectBalance.addEventListener('click', ()=>{
-      const T = parseNum(total.value)
+      const T = parseNum(total.value), A = parseNum(advance.value);
+      const paid = state.payments.reduce((s,p)=>s+p.amount,0);
+      const remaining = Math.max(0, T - A - paid);
+      if(remaining <= 0){ alert('No outstanding balance to collect.'); return; }
+      openModal({
+        title: 'Collect Remaining Balance',
+        html: `<div style="display:grid;gap:8px">
+                <label>Amount (₹)</label>
+                <input id="modalAmt" type="number" value="${remaining.toFixed(2)}">
+                <label>UTR / Ref</label>
+                <input id="modalUtr" type="text" placeholder="Enter UTR">
+               </div>`,
+        primary: 'Collect & Close',
+        onPrimary: ()=>{
+          const a = parseNum(document.getElementById('modalAmt').value);
+          const u = document.getElementById('modalUtr').value.trim() || ('UTR-' + Date.now());
+          if(a <= 0){ alert('Enter valid amount'); return false; }
+          state.payments.push({ amount: a, utr: u, time: Date.now(), type: 'Final' });
+          recalc();
+          flash('Final payment recorded', 1600);
+          return true;
+        }
+      });
+    });
+
+    // Mark finished (note)
+    btnFinish.addEventListener('click', ()=>{
+      if(!confirm('Mark work finished? This will add a note to the record.')) return;
+      const note = prompt('Add a short note (optional):', 'Work finished');
+      state.payments.push({ amount: 0, utr: (note||'Marked finished'), time: Date.now(), type: 'Note' });
+      recalc();
+      flash('Work marked finished', 1200);
+    });
+
+    // receipt preview/print
+    btnReceipt.addEventListener('click', ()=>{
+      const html = buildReceipt();
+      const w = window.open('', '_blank', 'width=650,height=800');
+      if(!w){ alert('Popup blocked'); return; }
+      w.document.write(html);
+ w.document.close();
+    });
+    // Reset all (demo)
+    btnReset.addEventListener('click', ()=>{
+      if(!confirm('Reset all demo data (localStorage)?')) return;
+      localStorage.removeItem('mn_payment_demo');
+      location.reload();
+    });
+    // Clear payments
+    btnClearPayments.addEventListener('click', ()=>{
+      if(!confirm('Remove all recorded payments?')) return;
+      state.payments = [];
+      recalc();
+      flash('Payments cleared', 1200);
+    });
+    // Export JSON
+    btnExport.addEventListener('click', ()=>{
+      const data = { customer: state.customer, payments: state.payments, meta: { total: total.value, advance: advance.value } };
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'payments-export-' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.json';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+    // small toast
+    let toastTimer=0;
+    function flash(msg, ms=1200){
+      const prev = pdfStatus.textContent;
+      pdfStatus.textContent = msg;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>{ pdfStatus.textContent = prev; }, ms);
+    }
+    // receipt builder
+    function buildReceipt(){
+      const T = parseNum(total.value), A = parseNum(advance.value);
+      const paid = state.payments.reduce((s,p)=>s+p.amount,0);
+      const remaining = Math.max(0, T - A - paid);
+      const now = new Date();
+      const paymentsHtml = state.payments.map(p=>`<tr><td style="padding:6px;border-bottom:1px solid #eee">${new Date(p.time).toLocaleString()}</td><td style="padding:6px;border-bottom:1px solid #eee">${escapeHtml(p.utr||'')}</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:right">${p.amount.toFixed(2)}</td></tr>`).join('');
+      const customerHtml = `
+        <div><strong>${escapeHtml(cname.value||'')}</strong></div>
+        <div style="color:#556674">${escapeHtml(phone.value||'')} ${escapeHtml(email.value? ' • ' + email.value : '')}</div>
+        <div style="color:#6b7280;margin-top:6px">${escapeHtml(address.value||'')}</div>
+      `;
+      return `<!doctype html><html><head><meta charset="utf-8"><title>Receipt</title>
+      <style>
+        body{font-family:Inter, Arial, Helvetica, sans-serif;color:#061426;padding:20px}
+        h2{margin:0}
+        .meta{color:#6b7280;font-size:13px}
+        table{width:100%;border-collapse:collapse;margin-top:14px}
+        th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+        .right{text-align:right}
+        .total{font-weight:800}
+      </style>
+      </head><body>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><h2>Mosquito Net</h2><div class="meta">Payment Receipt</div></div>
+          <div class="meta">${now.toLocaleString()}</div>
+        </div>
+        <div style="margin-top:12px">${customerHtml}</div>
+        <table><thead><tr><th>Description</th><th class="right">Amount (₹)</th></tr></thead>
+        <tbody>
+          <tr><td>Invoice Total</td><td class="right">${T.toFixed(2)}</td></tr>
+          <tr><td>Advance</td><td class="right">${A.toFixed(2)}</td></tr>
+        </tbody></table>
+        <div style="margin-top:12px;font-weight:700">Payments</div>
+        <table><thead><tr><th>Date</th><th>UTR</th><th class="right">Amount</th></tr></thead>
+        <tbody>${paymentsHtml || '<tr><td colspan="3" style="padding:8px;color:#6b7280">No payments recorded</td></tr>'}</tbody></table>
+        <div style="margin-top:12px;text-align:right">
+          <div>Remaining: <strong>${remaining.toFixed(2)}</strong></div>
+        </div>
+        <div style="margin-top:18px;color:#6b7280;font-size:13px">This is a system generated receipt. Keep UTR for reconciliation.</div>
+      </body></html>`;
+    }
+    // small helpers
+    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; }); }
+    // events: show/hide pdf
+    btnOpenPdf.addEventListener('click', ()=>{ showPdf(); });
+    btnHidePdf.addEventListener('click', ()=>{ hidePdf(); });
+    // recalc when relevant fields change
+    [total, advance, collect, cname, phone, email, address].forEach(i => i.addEventListener('input', recalc));
+    // on load
+    (function init(){
+      load();
+      recalc();
+      // default balance compute trigger
+      recalc();
+      // expose state for debugging
+      window._mn_state = state;
+      window._mn_showPdf = showPdf;
+    })();
+  </script>
+</body>
+</html>
