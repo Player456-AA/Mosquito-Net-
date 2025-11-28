@@ -3,183 +3,191 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Payment — Scan QR</title>
+  <title>Scan to Pay — QR</title>
   <style>
     :root{
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --muted: #68707a;
-      --accent: #1f7be0;
-      --accent-2: #e03a89;
-      --shadow: 0 10px 30px rgba(11,14,20,0.06);
-      --radius: 18px;
+      --bg: #f7f9fc;
+      --accent: #1f7be0;     /* business name color */
+      --accent-2: #e0337a;   /* address/contact color */
+      --muted: #6b7178;
+      --card-radius: 14px;
       font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,#f7f9fc,#f2f5fb);-webkit-font-smoothing:antialiased;}
-    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;}
-    .card{
-      width:420px;
-      max-width:100%;
-      background:var(--card);
-      border-radius:20px;
-      box-shadow:var(--shadow);
-      padding:22px;
-      box-sizing:border-box;
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:#081026;
+    }
+
+    /* Layout: header (top center) + large QR area */
+    .page{
+      min-height:100vh;
       display:flex;
       flex-direction:column;
-      gap:16px;
+      align-items:center;
+      box-sizing:border-box;
     }
 
     header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-    }
-
-    .biz{
+      width:100%;
+      max-width:980px;
+      padding:28px 20px 12px;
+      box-sizing:border-box;
       display:flex;
       flex-direction:column;
+      align-items:center;
+      text-align:center;
       gap:6px;
     }
 
-    .biz .name{
+    .biz-name{
       font-weight:900;
       color:var(--accent);
-      font-size:18px;
+      font-size:22px;
+      letter-spacing:-0.2px;
     }
 
-    .biz .address{
+    .biz-address{
       font-weight:800;
       color:var(--accent-2);
-      font-size:13px;
+      font-size:14px;
     }
 
-    .biz .contact{
+    .biz-contact{
       font-weight:800;
       color:#0b1220;
-      font-size:13px;
+      font-size:14px;
     }
 
     .datetime{
-      text-align:right;
+      margin-top:8px;
       font-weight:700;
       color:var(--muted);
       font-size:13px;
-      min-width:110px;
     }
 
-    .qr-wrap{
+    /* Main area holds the QR and makes it as large as possible */
+    main{
+      width:100%;
+      flex:1 1 auto;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:14px;
-      border-radius:14px;
-      background:linear-gradient(180deg, rgba(31,123,224,0.03), rgba(224,58,137,0.02));
-      border:1px solid rgba(11,14,20,0.03);
+      padding:12px;
+      box-sizing:border-box;
+    }
+
+    .qr-viewport{
+      width:min(980px, 100%);
+      height:100%;
+      max-height:calc(100vh - 160px); /* leave space for header */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      box-sizing:border-box;
+      pointer-events:auto;
     }
 
     .qr{
-      width:320px;
-      height:320px;
-      border-radius:12px;
-      background:#fff;
+      width:100%;
+      height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
+      background:#fff;
+      border-radius:var(--card-radius);
+      box-shadow: 0 20px 48px rgba(12,14,20,0.08);
+      border:1px solid rgba(3,10,18,0.04);
       overflow:hidden;
-      box-shadow:0 14px 34px rgba(11,14,20,0.06);
-      border:1px solid rgba(0,0,0,0.04);
     }
 
+    /* Make image fill the qr container but preserve aspect ratio */
     .qr img{
-      width:88%;
-      height:88%;
+      width:100%;
+      height:100%;
       object-fit:contain;
       display:block;
+      background: #fff;
     }
 
-    .caption{
-      text-align:center;
-      font-weight:700;
-      color:var(--muted);
-      font-size:12px;
-      margin-top:6px;
-      user-select:text;
-      word-break:break-all;
+    /* Mobile tweaks: reduce header padding and allow large QR */
+    @media (max-width:640px){
+      header{ padding:20px 12px 8px; }
+      .biz-name{ font-size:18px; }
+      .biz-address, .biz-contact{ font-size:13px; }
+      .qr-viewport{ padding:8px; max-height: calc(100vh - 140px); }
     }
 
-    /* simple responsive */
-    @media (max-width:460px){
-      .card{ width:100%; padding:16px; border-radius:14px; }
-      .qr{ width:260px; height:260px; }
+    /* Extra small devices: allow QR to use most of viewport */
+    @media (max-width:420px){
+      .qr-viewport{ max-height: calc(100vh - 120px); }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <main class="card" role="main" aria-labelledby="title">
-      <header>
-        <div class="biz" aria-label="Business details">
-          <div id="bizName" class="name">Raj Marketing Mysore </div>
-          <div id="bizAddress" class="address">65, Hootghalli industries area, Hootghalli, Mysore, Karnataka India.</div>
-          <div id="bizContact" class="contact">+91 9483037385 | inforajmarketingmysore@gmail.com</div>
-        </div>
+  <div class="page" role="application" aria-labelledby="biz-name">
+    <header role="banner">
+      <div id="biz-name" class="biz-name">Mosquito Net for Windows and Doors</div>
+      <div id="biz-address" class="biz-address">456 Window Lane, Unit A, YourCity</div>
+      <div id="biz-contact" class="biz-contact">+91 98765 43210 | info@mosquitonet.example</div>
+      <div class="datetime" aria-live="polite">
+        <span id="date">Date: --</span> &nbsp;•&nbsp; <span id="time">Time: --:--:--</span>
+      </div>
+    </header>
 
-        <div class="datetime" aria-live="polite">
-          <div id="date">Date: --</div>
-          <div id="time">Time: --:--:--</div>
-        </div>
-      </header>
-
-      <div class="qr-wrap" aria-hidden="false">
-        <div class="qr" id="qrContainer" aria-label="QR code image container">
+    <main>
+      <div class="qr-viewport" aria-label="QR code area">
+        <div class="qr" id="qrContainer">
           <img id="qrImage" src="" alt="QR Code — scan to pay" />
         </div>
-      </div>
-
-      <div class="caption" id="caption">
-        Thank you for your Payment 
       </div>
     </main>
   </div>
 
   <script>
-    // Set the QR image source (replace or host the file at this path)
+    // === CONFIG: update the image filename/path if hosted elsewhere ===
     const imageUrl = "Screenshot_2025-11-27-06-12-41-98_c37d74246d9c81aa0bb824b57eaf7062.jpg";
 
-    // Populate the QR image
-    const qrImg = document.getElementById("qrImage");
+    // Set the QR image source
+    const qrImg = document.getElementById('qrImage');
     qrImg.src = imageUrl;
 
-    // Fallback in case the supplied image path fails to load
-    qrImg.addEventListener("error", () => {
-      qrImg.src = "data:image/svg+xml;utf8," + encodeURIComponent(
-        '<svg xmlns="http://www.w3.org/2000/svg" width="720" height="720">' +
-        '<rect width="100%" height="100%" fill="#fff"/>' +
-        '<text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle" fill="#cdd3db" font-size="20">QR image not found</text>' +
-        '<text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" fill="#cdd3db" font-size="14">' + imageUrl + '</text>' +
+    // Fallback SVG if image fails to load
+    qrImg.addEventListener('error', () => {
+      qrImg.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000">' +
+          '<rect width="100%" height="100%" fill="#ffffff"/>' +
+          '<text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle" fill="#c8ced6" font-size="28">QR image not available</text>' +
+          '<text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle" fill="#c8ced6" font-size="16">' + imageUrl + '</text>' +
         '</svg>'
       );
     });
 
-    // Live date/time update
-    function updateDateTime(){
+    // Live date & time
+    function updateDateTime() {
       const now = new Date();
-      const dateEl = document.getElementById("date");
-      const timeEl = document.getElementById("time");
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      dateEl.textContent = "Date: " + now.toLocaleDateString(undefined, options);
-      timeEl.textContent = "Time: " + now.toLocaleTimeString();
+      const dateEl = document.getElementById('date');
+      const timeEl = document.getElementById('time');
+      const dateOpts = { year: 'numeric', month: 'short', day: 'numeric' };
+      dateEl.textContent = 'Date: ' + now.toLocaleDateString(undefined, dateOpts);
+      timeEl.textContent = 'Time: ' + now.toLocaleTimeString();
     }
     updateDateTime();
     setInterval(updateDateTime, 1000);
 
-    // Populate business details are already present, but you can set them from JS if needed:
-    // document.getElementById("bizName").textContent = "Your Business Name";
-    // document.getElementById("bizAddress").textContent = "Your Address";
-    // document.getElementById("bizContact").textContent = "Your Contact";
+    // Optional: center scroll to QR on load (useful if header takes only a small top area)
+    window.addEventListener('load', () => {
+      const rect = document.getElementById('qrContainer').getBoundingClientRect();
+      // If QR is partially off-screen on small devices, scroll it into view
+      if (rect.top < 0 || rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) {
+        document.getElementById('qrContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
   </script>
 </body>
 </html>
