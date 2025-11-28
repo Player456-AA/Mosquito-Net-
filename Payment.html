@@ -3,744 +3,183 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Professional Payment — Mosquito Net</title>
-  <meta name="description" content="Payment capture console with QR PDF viewer, UTR capture and receipt preview" />
+  <title>Payment — Scan QR</title>
   <style>
-    /* Typography & variables */
     :root{
-      --bg:#eef6fb;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent:#0f62fe;
-      --accent-2:#0549a6;
-      --success:#16a34a;
-      --danger:#ef4444;
-      --glass: rgba(255,255,255,0.65);
-      --radius:14px;
-      --shadow-strong: 0 20px 50px rgba(6,20,40,0.12);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:
-        radial-gradient(900px 300px at 6% 8%, rgba(15,98,254,0.06), transparent 8%),
-        linear-gradient(180deg,#f8fbff 0%, #eef6fb 100%);
-      padding:28px;
-      color:#061426;
-      -webkit-font-smoothing:antialiased;
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --muted: #68707a;
+      --accent: #1f7be0;
+      --accent-2: #e03a89;
+      --shadow: 0 10px 30px rgba(11,14,20,0.06);
+      --radius: 18px;
+      font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
-    .wrap{
-      max-width:1200px;
-      margin:0 auto;
-      display:grid;
-      grid-template-columns: 420px 1fr;
-      gap:22px;
-      align-items:start;
-    }
-
-    /* HEADER */
-    header.app{
-      grid-column:1/-1;
-      display:flex;
-      align-items:center;
-      gap:16px;
-      margin-bottom:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:16px;
-    }
-    .logo{
-      width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      display:flex;align-items:center;justify-content:center;color:white;font-weight:800;box-shadow:0 12px 40px rgba(6,20,76,0.10);font-size:18px;
-    }
-    h1{font-size:18px;margin:0}
-    p.lead{margin:0;color:var(--muted);font-size:13px}
-
-    /* Left form card */
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#f7f9fc,#f2f5fb);-webkit-font-smoothing:antialiased;}
+    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;}
     .card{
+      width:420px;
+      max-width:100%;
       background:var(--card);
-      border-radius:var(--radius);
-      padding:18px;
-      box-shadow: var(--shadow-strong);
-      border: 1px solid rgba(10,37,90,0.03);
-    }
-
-    label{display:block;font-size:13px;color:#0b273f;margin-bottom:6px}
-    input[type="text"], input[type="tel"], input[type="number"], textarea, select{
-      width:100%;
-      padding:10px 12px;
-      border-radius:10px;
-      border:1px solid #e6eef9;
-      background:#fff;
-      font-size:14px;
-      color:#062635;
-      outline:none;
-      transition:box-shadow .12s, border-color .12s, transform .06s;
-    }
-    input:focus, textarea:focus{
-      border-color:var(--accent);
-      box-shadow:0 12px 30px rgba(15,98,254,0.08);
-      transform:translateY(-1px);
-    }
-    textarea{resize:vertical;min-height:72px}
-
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .muted{color:var(--muted);font-size:13px}
-
-    .actions{display:flex;gap:10px;margin-top:14px}
-    button{
-      border:0;
-      padding:10px 14px;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:700;
-      color:white;
-      background:var(--accent);
-      box-shadow: 0 10px 30px rgba(15,98,254,0.12);
-      transition:transform .08s, box-shadow .12s, opacity .12s;
-    }
-    button:hover{transform:translateY(-2px)}
-    button.ghost{
-      background:transparent;color:var(--accent-2);box-shadow:none;border:1px solid rgba(5,73,166,0.08)
-    }
-    button.danger{background:var(--danger)}
-    button.success{background:var(--success)}
-
-    .small-btn{padding:8px 10px;border-radius:8px;font-weight:600}
-
-    /* right column / viewer */
-    .viewer{
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      padding:22px;
+      box-sizing:border-box;
       display:flex;
       flex-direction:column;
       gap:16px;
     }
-    .pdf-card{
-      height:560px;
-      border-radius:var(--radius);
-      overflow:hidden;
-      position:relative;
-      background:linear-gradient(180deg, #ffffff, #f6fbff);
-      border:1px solid rgba(10,37,90,0.03);
+
+    header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .biz{
       display:flex;
       flex-direction:column;
+      gap:6px;
     }
-    .pdf-top{
+
+    .biz .name{
+      font-weight:900;
+      color:var(--accent);
+      font-size:18px;
+    }
+
+    .biz .address{
+      font-weight:800;
+      color:var(--accent-2);
+      font-size:13px;
+    }
+
+    .biz .contact{
+      font-weight:800;
+      color:#0b1220;
+      font-size:13px;
+    }
+
+    .datetime{
+      text-align:right;
+      font-weight:700;
+      color:var(--muted);
+      font-size:13px;
+      min-width:110px;
+    }
+
+    .qr-wrap{
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      padding:12px 14px;border-bottom:1px solid rgba(6,20,40,0.03);
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), transparent);
-    }
-    .pdf-body{height:100%;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff,#f7fbff)}
-
-    iframe.pdf{
-      width:100%;height:100%;border:0;
-      background: #f7f9fc;
+      justify-content:center;
+      padding:14px;
+      border-radius:14px;
+      background:linear-gradient(180deg, rgba(31,123,224,0.03), rgba(224,58,137,0.02));
+      border:1px solid rgba(11,14,20,0.03);
     }
 
-    .scan-overlay{
-      position:absolute;right:22px;top:22px;width:240px;height:240px;border-radius:12px;padding:16px;
-      background:linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.78));
-      box-shadow:0 18px 50px rgba(6,20,40,0.10);display:flex;flex-direction:column;gap:10px;
-      align-items:center;justify-content:center;border:1px solid rgba(10,37,90,0.04);z-index:40;backdrop-filter: blur(2px);
-    }
-    .scan-overlay .dot{width:12px;height:12px;border-radius:50%;background:var(--success);box-shadow:0 8px 18px rgba(22,163,74,0.12);animation:ping 1.6s infinite;}
-    @keyframes ping{0%{transform:scale(1)}50%{transform:scale(1.6);opacity:.6}100%{transform:scale(1);opacity:1}}
-
-    /* summary card */
-    .summary{
+    .qr{
+      width:320px;
+      height:320px;
+      border-radius:12px;
+      background:#fff;
       display:flex;
-      gap:12px;
       align-items:center;
-      justify-content:space-between;
-      padding:14px;border-radius:12px;background:linear-gradient(90deg, rgba(6,98,254,0.04), rgba(5,73,166,0.02));
+      justify-content:center;
+      overflow:hidden;
+      box-shadow:0 14px 34px rgba(11,14,20,0.06);
+      border:1px solid rgba(0,0,0,0.04);
     }
-    .progress{
-      background:rgba(15,98,254,0.08);height:12px;border-radius:999px;overflow:hidden;margin-top:8px;
+
+    .qr img{
+      width:88%;
+      height:88%;
+      object-fit:contain;
+      display:block;
     }
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%}
 
-    .payments-list{margin-top:12px;display:flex;flex-direction:column;gap:8px}
-    .pay-item{display:flex;justify-content:space-between;padding:10px;border-radius:10px;background:#fff;border:1px solid rgba(10,37,90,0.03)}
-    .pay-item small{color:var(--muted)}
-
-    footer.note{margin-top:10px;color:var(--muted);font-size:13px}
-
-    /* modal */
-    .modal-backdrop{
-      position:fixed;inset:0;background:rgba(3,7,18,0.45);display:flex;align-items:center;justify-content:center;z-index:80;
+    .caption{
+      text-align:center;
+      font-weight:700;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:6px;
+      user-select:text;
+      word-break:break-all;
     }
-    .modal{
-      width:640px;max-width:96%;border-radius:12px;padding:18px;background:var(--card);box-shadow:0 24px 60px rgba(6,20,40,0.36)
-    }
-    .modal .row{display:flex;gap:10px}
 
-    /* responsiveness */
-    @media (max-width:1000px){
-      .wrap{grid-template-columns:1fr; padding:12px}
-      .pdf-card{height:420px}
-      .scan-overlay{right:12px;top:12px;width:180px;height:180px}
-      .logo{width:52px;height:52px;font-size:16px}
+    /* simple responsive */
+    @media (max-width:460px){
+      .card{ width:100%; padding:16px; border-radius:14px; }
+      .qr{ width:260px; height:260px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header class="app">
-      <div class="brand">
-        <div class="logo">MN</div>
-        <div>
-          <h1>Payment Console</h1>
-          <p class="lead">Professional payment capture — show QR, collect UTR, print receipt</p>
+    <main class="card" role="main" aria-labelledby="title">
+      <header>
+        <div class="biz" aria-label="Business details">
+          <div id="bizName" class="name">Raj Marketing Mysore </div>
+          <div id="bizAddress" class="address">65, Hootghalli industries area, Hootghalli, Mysore, Karnataka India.</div>
+          <div id="bizContact" class="contact">+91 9483037385 | inforajmarketingmysore@gmail.com</div>
         </div>
-      </div>
-      <div style="margin-left:auto;display:flex;gap:12px;align-items:center">
-        <div class="muted">Session: <strong style="color:#08345a;margin-left:6px">Player456-AA</strong></div>
-        <button id="btnDownloadPdf" class="small-btn ghost" title="Download QR PDF" style="white-space:nowrap">Download PDF</button>
-        <button id="btnPrintPdf" class="small-btn ghost" title="Print PDF">Print</button>
-      </div>
-    </header>
 
-    <!-- LEFT: FORM -->
-    <div class="card" aria-labelledby="formTitle">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <h2 id="formTitle" style="margin:0;font-size:16px">Customer & Payment Details</h2>
-          <div class="muted" style="margin-top:4px">Complete fields, show QR and record payments</div>
+        <div class="datetime" aria-live="polite">
+          <div id="date">Date: --</div>
+          <div id="time">Time: --:--:--</div>
         </div>
-        <div style="display:flex;gap:8px">
-          <button id="btnOpenPdf" class="small-btn ghost">Open QR PDF</button>
-          <button id="btnReset" class="small-btn ghost">Reset</button>
+      </header>
+
+      <div class="qr-wrap" aria-hidden="false">
+        <div class="qr" id="qrContainer" aria-label="QR code image container">
+          <img id="qrImage" src="" alt="QR Code — scan to pay" />
         </div>
       </div>
 
-      <div style="height:12px"></div>
-
-      <label for="cname">Name</label>
-      <input id="cname" type="text" placeholder="Customer full name" required>
-
-      <div style="height:10px"></div>
-
-      <div class="form-grid">
-        <div>
-          <label for="phone">Phone</label>
-          <input id="phone" type="tel" placeholder="+91 98765 43210">
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input id="email" type="text" placeholder="Optional email">
-        </div>
+      <div class="caption" id="caption">
+        Thank you for your Payment 
       </div>
-
-      <div style="height:10px"></div>
-
-      <label for="address">Address</label>
-      <textarea id="address" placeholder="Street, City, PIN, State"></textarea>
-
-      <div style="height:12px"></div>
-
-      <div class="form-grid">
-        <div>
-          <label for="total">Total Invoice (₹)</label>
-          <input id="total" type="number" min="0" value="2000">
-        </div>
-        <div>
-          <label for="advance">Advance (₹)</label>
-          <input id="advance" type="number" min="0" value="500">
-        </div>
-      </div>
-
-      <div style="height:10px"></div>
-
-      <div class="form-grid">
-        <div>
-          <label for="collect">Collect Now (₹)</label>
-          <input id="collect" type="number" min="0" value="1500">
-        </div>
-        <div>
-          <label for="balance">Balance (₹)</label>
-          <input id="balance" type="number" readonly>
-        </div>
-      </div>
-
-      <div style="height:12px"></div>
-
-      <label for="utr">UTR / Transaction ID</label>
-      <input id="utr" type="text" placeholder="Enter UTR after payment">
-
-      <div class="actions" style="margin-top:12px">
-        <button id="btnRecord" title="Record payment">Record Payment</button>
-        <button id="btnCollectBalance" class="ghost" title="Collect remaining balance">Collect Balance</button>
-        <button id="btnFinish" class="ghost" title="Mark work finished">Mark Finished</button>
-      </div>
-
-      <div style="height:12px"></div>
-      <div style="display:flex;gap:10px;align-items:center">
-        <button id="btnReceipt" class="ghost">Preview Receipt</button>
-        <div style="margin-left:auto" class="muted">Saved locally for demo</div>
-      </div>
-
-      <footer class="note">
-        Tip: Click "Open QR PDF" to show the company's QR for customers to scan. After payment, enter UTR and Record.
-      </footer>
-    </div>
-
-    <!-- RIGHT: PDF Viewer & Summary -->
-    <div class="viewer">
-      <div class="pdf-card card" role="region" aria-label="QR PDF viewer">
-        <div class="pdf-top">
-          <div>
-            <div style="font-weight:700">Company QR — PDF Viewer</div>
-            <div class="muted" id="pdfName">No file loaded</div>
-          </div>
-          <div style="display:flex;gap:10px;align-items:center">
-            <div class="muted" id="pdfStatus">Idle</div>
-            <button id="btnHidePdf" class="small-btn ghost">Hide</button>
-          </div>
-        </div>
-
-        <div class="pdf-body" id="pdfBody">
-          <!-- initial placeholder -->
-          <div id="pdfPlaceholder" style="text-align:center;color:var(--muted);padding:28px">
-            <svg width="86" height="86" viewBox="0 0 24 24" fill="none" style="opacity:.12"><path d="M3 7h4V3H3v4zM17 3v4h4V3h-4zM3 13h4v8H3v-8zM17 13h4v8h-4v-8z" fill="#062635"/></svg>
-            <div style="font-size:15px;margin-top:10px">Click "Open QR PDF" to display the company's QR for scanning</div>
-          </div>
-          <!-- iframe will be injected -->
-          <div id="pdfEmbed" style="width:100%;height:100%;display:none"></div>
-
-          <div class="scan-overlay" id="scanOverlay" style="display:none" aria-hidden="true">
-            <div style="font-weight:700;color:#07335a">Awaiting Scan</div>
-            <div class="dot" aria-hidden="true"></div>
-            <div class="scan-instructions" style="text-align:center;font-size:13px;color:#06314b">Ask customer to scan the QR using their bank app</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:6px">Auto-hide in <span id="scanCountdown">20</span>s</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div class="muted">Summary</div>
-            <div style="font-weight:800;font-size:18px" id="summaryCustomer">—</div>
-            <div class="muted" id="summaryPhone">—</div>
-          </div>
-          <div style="text-align:right">
-            <div class="muted">Due</div>
-            <div style="font-weight:800;font-size:20px" id="summaryDue">₹0</div>
-            <div class="muted" id="summaryBal">Balance: ₹0</div>
-          </div>
-        </div>
-
-        <div style="height:10px"></div>
-        <div class="muted">Payment progress</div>
-        <div class="progress"><i id="progressBar" style="width:0%"></i></div>
-
-        <div class="payments-list" id="paymentsList" aria-live="polite" style="margin-top:12px">
-          <div class="muted">No payments recorded</div>
-        </div>
-
-        <div style="height:12px"></div>
-        <div style="display:flex;gap:8px">
-          <button id="btnClearPayments" class="ghost">Clear Records</button>
-          <button id="btnExport" class="ghost" style="margin-left:auto">Export (JSON)</button>
-        </div>
-      </div>
-    </div>
+    </main>
   </div>
 
-  <!-- Modal root -->
-  <div id="modalRoot" style="display:none"></div>
-
   <script>
-    // --- CONFIG: replace this with your PDF path (relative to site root or absolute) ---
-    // Set to empty string to disable PDF auto-open
-    const PDF_SRC = 'Raj marketing QR Code (1).pdf';
+    // Set the QR image source (replace or host the file at this path)
+    const imageUrl = "Screenshot_2025-11-27-06-12-41-98_c37d74246d9c81aa0bb824b57eaf7062.jpg";
 
-    // Option to auto open PDF on load (persisted)
-    const AUTO_OPEN_KEY = 'mn_pdf_auto_open';
+    // Populate the QR image
+    const qrImg = document.getElementById("qrImage");
+    qrImg.src = imageUrl;
 
-    // --- state & elements ---
-    const state = {
-      customer: null,
-      payments: [], // {amount, utr, time, type}
-      scanAutoHideTimer: null,
-      scanCountdownTimer: null
-    };
-
-    const el = id => document.getElementById(id);
-    const cname = el('cname'), phone = el('phone'), email = el('email'), address = el('address');
-    const total = el('total'), advance = el('advance'), collect = el('collect'), balance = el('balance');
-    const utr = el('utr');
-    const btnOpenPdf = el('btnOpenPdf'), btnHidePdf = el('btnHidePdf'), pdfEmbed = el('pdfEmbed'), pdfPlaceholder = el('pdfPlaceholder'), pdfName = el('pdfName'), pdfStatus = el('pdfStatus'), scanOverlay = el('scanOverlay');
-    const btnRecord = el('btnRecord'), btnCollectBalance = el('btnCollectBalance'), btnFinish = el('btnFinish'), btnReceipt = el('btnReceipt'), btnReset = el('btnReset');
-    const summaryCustomer = el('summaryCustomer'), summaryPhone = el('summaryPhone'), summaryDue = el('summaryDue'), summaryBal = el('summaryBal');
-    const progressBar = el('progressBar'), paymentsList = el('paymentsList');
-    const btnClearPayments = el('btnClearPayments'), btnExport = el('btnExport');
-    const btnDownloadPdf = el('btnDownloadPdf'), btnPrintPdf = el('btnPrintPdf'), scanCountdownEl = el('scanCountdown');
-
-    // Utilities
-    const fmt = v => '₹' + Number(v||0).toFixed(2);
-    const parseNum = v => { const n = parseFloat(String(v).replace(/[^\d.\-]/g,'')); return isNaN(n)?0:n; };
-    const nowISO = ()=> new Date().toISOString();
-
-    // Persistence
-    function save(){
-      const payload = {
-        customer: state.customer,
-        payments: state.payments,
-        meta: { total: total.value, advance: advance.value }
-      };
-      localStorage.setItem('mn_payment_demo', JSON.stringify(payload));
-    }
-    function load(){
-      try{
-        const raw = localStorage.getItem('mn_payment_demo');
-        if(!raw) return;
-        const data = JSON.parse(raw);
-        state.customer = data.customer || null;
-        state.payments = data.payments || [];
-        if(data.meta){
-          if(data.meta.total !== undefined) total.value = data.meta.total;
-          if(data.meta.advance !== undefined) advance.value = data.meta.advance;
-        }
-        if(state.customer){
-          cname.value = state.customer.name||'';
-          phone.value = state.customer.phone||'';
-          email.value = state.customer.email||'';
-          address.value = state.customer.address||'';
-        }
-      }catch(e){ console.warn(e) }
-    }
-
-    // Render
-    function recalc(){
-      const T = parseNum(total.value);
-      const A = parseNum(advance.value);
-      const paid = state.payments.reduce((s,p)=>s+p.amount,0);
-      const collecting = parseNum(collect.value);
-      const bal = Math.max(0, T - A - paid - collecting);
-      balance.value = bal.toFixed(2);
-
-      // Customer summary
-      summaryCustomer.textContent = cname.value.trim() || '—';
-      summaryPhone.textContent = (phone.value.trim() || email.value.trim() || '—');
-
-      // totals & progress
-      const remainingAfterRecorded = Math.max(0, T - A - paid);
-      summaryDue.textContent = fmt(T);
-      summaryBal.textContent = 'Balance: ' + fmt(remainingAfterRecorded);
-      const percent = T > 0 ? Math.min(100, ((A + paid) / T) * 100) : 0;
-      progressBar.style.width = percent + '%';
-
-      // payments list
-      if(state.payments.length === 0){
-        paymentsList.innerHTML = '<div class="muted">No payments recorded</div>';
-      } else {
-        paymentsList.innerHTML = '';
-        state.payments.slice().reverse().forEach(p=>{
-          const item = document.createElement('div');
-          item.className = 'pay-item';
-          const left = document.createElement('div');
-          left.innerHTML = `<div style="font-weight:700">${fmt(p.amount)}</div><small>${escapeHtml(p.type)} • ${escapeHtml(p.utr || '')}</small>`;
-          const right = document.createElement('div');
-          right.style.textAlign='right';
-          right.innerHTML = `<small>${new Date(p.time).toLocaleString()}</small><div style="font-weight:700;color:${p.type==='Final'? 'var(--success)':'#08345a'}">${escapeHtml(p.type)}</div>`;
-          item.appendChild(left); item.appendChild(right);
-          paymentsList.appendChild(item);
-        });
-      }
-      save();
-    }
-
-    // PDF handling
-    let iframeEl = null;
-    function showPdf(auto=false){
-      if(!PDF_SRC || PDF_SRC.trim()===''){ pdfStatus.textContent = 'No PDF configured'; return; }
-      pdfPlaceholder.style.display = 'none';
-      pdfEmbed.style.display = 'block';
-      pdfEmbed.innerHTML = '';
-      iframeEl = document.createElement('iframe');
-      iframeEl.className = 'pdf';
-      // hide toolbar & nav for a cleaner look
-      iframeEl.src = PDF_SRC + '#toolbar=0&navpanes=0';
-      iframeEl.onload = ()=>{ pdfStatus.textContent = 'PDF loaded'; startScanOverlay(); };
-      iframeEl.onerror = ()=>{ pdfStatus.textContent = 'Failed to load PDF'; alert('Could not load PDF. Check PDF_SRC in code or network path.'); };
-      pdfEmbed.appendChild(iframeEl);
-      pdfName.textContent = (PDF_SRC.split('/').pop() || PDF_SRC);
-      pdfStatus.textContent = 'Show to customer — ask them to scan';
-      // controls to download / print are enabled
-      try{ localStorage.setItem(AUTO_OPEN_KEY, !!auto); }catch(e){}
-    }
-    function hidePdf(){
-      pdfEmbed.style.display='none';
-      pdfEmbed.innerHTML='';
-      pdfPlaceholder.style.display='block';
-      pdfStatus.textContent = 'Hidden';
-      stopScanOverlay();
-    }
-
-    function downloadPdf(){
-      if(!PDF_SRC) return alert('No PDF configured');
-      // open in new tab which will allow the user to download
-      window.open(PDF_SRC, '_blank');
-    }
-    function printPdf(){
-      if(!iframeEl){
-        openInNewPrintWindow(PDF_SRC);
-        return;
-      }
-      try{
-        iframeEl.contentWindow.focus();
-        iframeEl.contentWindow.print();
-      }catch(e){
-        // fallback
-        openInNewPrintWindow(PDF_SRC);
-      }
-    }
-    function openInNewPrintWindow(src){
-      const w = window.open(src, '_blank');
-      if(!w) return alert('Popup blocked');
-      // user can print from new tab
-    }
-
-    // scan overlay auto-hide with countdown
-    function startScanOverlay(){
-      clearScanTimers();
-      scanOverlay.style.display = 'flex';
-      let countdown = 20; // seconds
-      scanCountdownEl.textContent = countdown;
-      state.scanCountdownTimer = setInterval(()=>{
-        countdown -= 1;
-        scanCountdownEl.textContent = countdown;
-        if(countdown <= 0){
-          stopScanOverlay();
-        }
-      }, 1000);
-      // also auto-hide in case of long waits
-      state.scanAutoHideTimer = setTimeout(()=> stopScanOverlay(), 21000);
-    }
-    function stopScanOverlay(){
-      clearScanTimers();
-      scanOverlay.style.display = 'none';
-      scanCountdownEl.textContent = '0';
-    }
-    function clearScanTimers(){
-      if(state.scanAutoHideTimer){ clearTimeout(state.scanAutoHideTimer); state.scanAutoHideTimer = null; }
-      if(state.scanCountdownTimer){ clearInterval(state.scanCountdownTimer); state.scanCountdownTimer = null; }
-    }
-
-    // Modal helpers
-    const modalRoot = el('modalRoot');
-    function openModal({title, html, primary='OK', onPrimary, secondary='Cancel'}){
-      modalRoot.style.display='block';
-      modalRoot.innerHTML = `<div class="modal-backdrop" id="modalBackdrop">
-        <div class="modal" role="dialog" aria-modal="true">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <div style="font-weight:800">${escapeHtml(title)}</div>
-            <button id="modalClose" class="small-btn ghost">✕</button>
-          </div>
-          <div id="modalInner">${html}</div>
-          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-            <button id="modalCancel" class="small-btn ghost">${escapeHtml(secondary)}</button>
-            <button id="modalOk" class="small-btn">${escapeHtml(primary)}</button>
-          </div>
-        </div>
-      </div>`;
-      document.getElementById('modalBackdrop').addEventListener('click', (e)=>{ if(e.target.id==='modalBackdrop') closeModal(); });
-      document.getElementById('modalClose').addEventListener('click', closeModal);
-      document.getElementById('modalCancel').addEventListener('click', closeModal);
-      document.getElementById('modalOk').addEventListener('click', ()=>{
-        if(onPrimary){ const ok = onPrimary(); if(ok !== false) closeModal(); } else closeModal();
-      });
-    }
-    function closeModal(){ modalRoot.style.display='none'; modalRoot.innerHTML=''; }
-
-    // Recording payment
-    btnRecord.addEventListener('click', ()=>{
-      const amt = parseNum(collect.value);
-      if(amt <= 0){ alert('Enter an amount to record.'); return; }
-      const utrVal = utr.value.trim();
-      if(!utrVal && !confirm('No UTR entered. Continue to record payment without UTR?')) return;
-
-      // update customer snapshot
-      state.customer = { name: cname.value.trim(), phone: phone.value.trim(), email: email.value.trim(), address: address.value.trim() };
-
-      // clamp to remaining
-      const T = parseNum(total.value), A = parseNum(advance.value);
-      const paid = state.payments.reduce((s,p)=>s+p.amount,0);
-      const remaining = Math.max(0, T - A - paid);
-      const amountToRecord = Math.min(amt, remaining || amt);
-
-      const rec = { amount: amountToRecord, utr: utrVal || ('UTR-' + Date.now()), time: Date.now(), type: remaining - amountToRecord <= 0 ? 'Final' : 'Partial' };
-      state.payments.push(rec);
-
-      utr.value='';
-      collect.value = '0';
-      recalc();
-      flash('Payment recorded', 1400);
+    // Fallback in case the supplied image path fails to load
+    qrImg.addEventListener("error", () => {
+      qrImg.src = "data:image/svg+xml;utf8," + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="720" height="720">' +
+        '<rect width="100%" height="100%" fill="#fff"/>' +
+        '<text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle" fill="#cdd3db" font-size="20">QR image not found</text>' +
+        '<text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" fill="#cdd3db" font-size="14">' + imageUrl + '</text>' +
+        '</svg>'
+      );
     });
 
-    // Collect remaining balance (final)
-    btnCollectBalance.addEventListener('click', ()=>{
-      const T = parseNum(total.value), A = parseNum(advance.value);
-      const paid = state.payments.reduce((s,p)=>s+p.amount,0);
-      const remaining = Math.max(0, T - A - paid);
-      if(remaining <= 0){ alert('No outstanding balance to collect.'); return; }
-      openModal({
-        title: 'Collect Remaining Balance',
-        html: `<div style="display:grid;gap:8px">
-                <label>Amount (₹)</label>
-                <input id="modalAmt" type="number" value="${remaining.toFixed(2)}">
-                <label>UTR / Ref</label>
-                <input id="modalUtr" type="text" placeholder="Enter UTR">
-               </div>`,
-        primary: 'Collect & Close',
-        onPrimary: ()=>{
-          const a = parseNum(document.getElementById('modalAmt').value);
-          const u = document.getElementById('modalUtr').value.trim() || ('UTR-' + Date.now());
-          if(a <= 0){ alert('Enter valid amount'); return false; }
-          state.payments.push({ amount: a, utr: u, time: Date.now(), type: 'Final' });
-          recalc();
-          flash('Final payment recorded', 1600);
-          return true;
-        }
-      });
-    });
-
-    // Mark finished (note)
-    btnFinish.addEventListener('click', ()=>{
-      if(!confirm('Mark work finished? This will add a note to the record.')) return;
-      const note = prompt('Add a short note (optional):', 'Work finished');
-      state.payments.push({ amount: 0, utr: (note||'Marked finished'), time: Date.now(), type: 'Note' });
-      recalc();
-      flash('Work marked finished', 1200);
-    });
-
-    // receipt preview/print
-    btnReceipt.addEventListener('click', ()=>{
-      const html = buildReceipt();
-      const w = window.open('', '_blank', 'width=650,height=800');
-      if(!w){ alert('Popup blocked'); return; }
-      w.document.write(html);
-      w.document.close();
-    });
-    // Reset all (demo)
-    btnReset.addEventListener('click', ()=>{
-      if(!confirm('Reset all demo data (localStorage)?')) return;
-      localStorage.removeItem('mn_payment_demo');
-      localStorage.removeItem(AUTO_OPEN_KEY);
-      location.reload();
-    });
-    // Clear payments
-    btnClearPayments.addEventListener('click', ()=>{
-      if(!confirm('Remove all recorded payments?')) return;
-      state.payments = [];
-      recalc();
-      flash('Payments cleared', 1200);
-    });
-    // Export JSON
-    btnExport.addEventListener('click', ()=>{
-      const data = { customer: state.customer, payments: state.payments, meta: { total: total.value, advance: advance.value } };
-      const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'payments-export-' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.json';
-      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    });
-    // download / print handlers
-    btnDownloadPdf.addEventListener('click', downloadPdf);
-    btnPrintPdf.addEventListener('click', printPdf);
-
-    // small toast
-    let toastTimer=0;
-    function flash(msg, ms=1200){
-      const prev = pdfStatus.textContent;
-      pdfStatus.textContent = msg;
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=>{ pdfStatus.textContent = prev; }, ms);
-    }
-    // receipt builder
-    function buildReceipt(){
-      const T = parseNum(total.value), A = parseNum(advance.value);
-      const paid = state.payments.reduce((s,p)=>s+p.amount,0);
-      const remaining = Math.max(0, T - A - paid);
+    // Live date/time update
+    function updateDateTime(){
       const now = new Date();
-      const paymentsHtml = state.payments.map(p=>`<tr><td style="padding:6px;border-bottom:1px solid #eee">${new Date(p.time).toLocaleString()}</td><td style="padding:6px;border-bottom:1px solid #eee">${escapeHtml(p.utr||'')}</td><td style="padding:6px;border-bottom:1px solid #eee;text-align:right">${Number(p.amount).toFixed(2)}</td></tr>`).join('');
-      const customerHtml = `
-        <div><strong>${escapeHtml(cname.value||'')}</strong></div>
-        <div style="color:#556674">${escapeHtml(phone.value||'')} ${escapeHtml(email.value? ' • ' + email.value : '')}</div>
-        <div style="color:#6b7280;margin-top:6px">${escapeHtml(address.value||'')}</div>
-      `;
-      return `<!doctype html><html><head><meta charset="utf-8"><title>Receipt</title>
-      <style>
-        body{font-family:Inter, Arial, Helvetica, sans-serif;color:#061426;padding:20px}
-        h2{margin:0}
-        .meta{color:#6b7280;font-size:13px}
-        table{width:100%;border-collapse:collapse;margin-top:14px}
-        th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-        .right{text-align:right}
-        .total{font-weight:800}
-      </style>
-      </head><body>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><h2>Mosquito Net</h2><div class="meta">Payment Receipt</div></div>
-          <div class="meta">${now.toLocaleString()}</div>
-        </div>
-        <div style="margin-top:12px">${customerHtml}</div>
-        <table><thead><tr><th>Description</th><th class="right">Amount (₹)</th></tr></thead>
-        <tbody>
-          <tr><td>Invoice Total</td><td class="right">${T.toFixed(2)}</td></tr>
-          <tr><td>Advance</td><td class="right">${A.toFixed(2)}</td></tr>
-        </tbody></table>
-        <div style="margin-top:12px;font-weight:700">Payments</div>
-        <table><thead><tr><th>Date</th><th>UTR</th><th class="right">Amount</th></tr></thead>
-        <tbody>${paymentsHtml || '<tr><td colspan="3" style="padding:8px;color:#6b7280">No payments recorded</td></tr>'}</tbody></table>
-        <div style="margin-top:12px;text-align:right">
-          <div>Remaining: <strong>${remaining.toFixed(2)}</strong></div>
-        </div>
-        <div style="margin-top:18px;color:#6b7280;font-size:13px">This is a system generated receipt. Keep UTR for reconciliation.</div>
-      </body></html>`;
+      const dateEl = document.getElementById("date");
+      const timeEl = document.getElementById("time");
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      dateEl.textContent = "Date: " + now.toLocaleDateString(undefined, options);
+      timeEl.textContent = "Time: " + now.toLocaleTimeString();
     }
-    // small helpers
-    function escapeHtml(s){ if(s===undefined || s===null) return ''; return String(s).replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; }); }
-    // events: show/hide pdf
-    btnOpenPdf.addEventListener('click', ()=>{ showPdf(true); });
-    btnHidePdf.addEventListener('click', ()=>{ hidePdf(); });
-    // recalc when relevant fields change
-    [total, advance, collect, cname, phone, email, address].forEach(i => i.addEventListener('input', recalc));
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
 
-    // small housekeeping: keyboard shortcuts
-    document.addEventListener('keydown', (e)=>{
-      if(e.altKey && e.key.toLowerCase()==='p'){ // Alt+P -> preview receipt
-        e.preventDefault(); btnReceipt.click();
-      }
-      if(e.altKey && e.key.toLowerCase()==='q'){ // Alt+Q -> open pdf
-        e.preventDefault(); btnOpenPdf.click();
-      }
-    });
-
-    // on load
-    (function init(){
-      load();
-      recalc();
-      // expose state for debugging
-      window._mn_state = state;
-      window._mn_showPdf = showPdf;
-      // Auto open PDF if configured and saved preference is true
-      try{
-        const auto = localStorage.getItem(AUTO_OPEN_KEY);
-        if((auto === null && PDF_SRC) || auto === 'true'){ // default to auto-open if configured and never set
-          showPdf(false);
-        }
-      }catch(e){
-        if(PDF_SRC) showPdf(false);
-      }
-    })();
+    // Populate business details are already present, but you can set them from JS if needed:
+    // document.getElementById("bizName").textContent = "Your Business Name";
+    // document.getElementById("bizAddress").textContent = "Your Address";
+    // document.getElementById("bizContact").textContent = "Your Contact";
   </script>
 </body>
 </html>
