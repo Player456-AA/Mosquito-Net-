@@ -68,21 +68,43 @@
     </section>
 
     <!-- RATINGS & REVIEWS -->
-    <section class="glass-card">
-        <h2>Customer Reviews</h2>
-        <div id="reviews"></div>
+<section class="glass-card">
+    <h2>Customer Reviews</h2>
 
-        <h3>Write a Review</h3>
-        <select id="reviewStars">
-            <option value="5">5 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="2">2 Stars</option>
-            <option value="1">1 Star</option>
+    <!-- Rating Summary -->
+    <div class="rating-summary">
+        <h3 id="avgRatingBig">0.0</h3>
+        <p>Average Rating</p>
+
+        <div class="rating-bars" id="ratingBars">
+            <!-- Filled dynamically -->
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="review-filters">
+        <select id="reviewSort">
+            <option value="newest">Newest First</option>
+            <option value="highest">Highest Rated</option>
+            <option value="lowest">Lowest Rated</option>
         </select>
-        <textarea id="reviewText" placeholder="Write your comment..."></textarea>
-        <button class="btn btn-primary" id="addReviewBtn">Submit Review</button>
-    </section>
+    </div>
+
+    <!-- Review List -->
+    <div id="reviews"></div>
+
+    <!-- Add Review -->
+    <h3>Write a Review</h3>
+    <select id="reviewStars">
+        <option value="5">5 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="2">2 Stars</option>
+        <option value="1">1 Star</option>
+    </select>
+    <textarea id="reviewText" placeholder="Write your comment..."></textarea>
+    <button class="btn btn-primary" id="addReviewBtn">Submit Review</button>
+</section>
 
     <!-- REPORT DEALER -->
     <section class="glass-card report-box">
