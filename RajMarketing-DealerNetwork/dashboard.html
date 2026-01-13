@@ -103,15 +103,47 @@
                 <p id="avgRating"></p>
             </div>
 
-            <!-- Agreement Panel -->
-            <div id="agreementPanel" class="panel-section" style="display:none;">
-                <h2>Dealer Agreement</h2>
-                <p>Download or sign the agreement digitally.</p>
+            <!-- AGREEMENT PANEL -->
+<div id="agreementPanel" class="panel-section" style="display:none;">
+    <h2>Dealer Agreement & Certification</h2>
 
-                <button class="btn btn-primary" id="downloadAgreementBtn">
-                    Download Agreement PDF
-                </button>
-            </div>
+    <p class="agreement-desc">
+        Please review and digitally sign the Raj Marketing Authorized Dealer Agreement.
+        After signing, a verified dealer certificate will be automatically generated for download.
+    </p>
+
+    <h3>Agreement Text</h3>
+    <div class="agreement-box glass-card" id="agreementText">
+        <h4>Raj Marketing – Authorized Dealer Agreement</h4>
+        <p>This agreement defines the terms under which the dealer is authorized to sell, promote, and install mosquito net products of Raj Marketing.</p>
+
+        <h4>1. Branding & Usage</h4>
+        <p>The dealer must use Raj Marketing branding, logo, and materials exactly as per brand guidelines.</p>
+
+        <h4>2. Quality Compliance</h4>
+        <p>Installation quality must meet Raj Marketing standards. Poor quality may result in suspension.</p>
+
+        <h4>3. Pricing Policy</h4>
+        <p>Dealers must follow approved pricing and cannot misuse the brand to offer misleading discounts.</p>
+
+        <h4>4. Misconduct</h4>
+        <p>If a dealer misbehaves with customers, violates brand policy, or misrepresents products, Raj Marketing reserves the right to suspend or revoke authorization.</p>
+
+        <h4>5. Certificate Validity</h4>
+        <p>The digital certificate is valid for 1 year from the date of issuance.</p>
+    </div>
+
+    <h3>Digital Signature</h3>
+    <canvas id="signaturePad" class="signature-pad"></canvas>
+    <button class="btn btn-outline" id="clearSignatureBtn">Clear</button>
+
+    <button class="btn btn-primary" id="signAgreementBtn">Submit Signature</button>
+
+    <div id="certificateBox" style="display:none; margin-top:20px;">
+        <h3>Your Certificate</h3>
+        <button class="btn btn-primary" id="downloadCertBtn">Download Certificate PDF</button>
+    </div>
+</div>
 
         </section>
 
