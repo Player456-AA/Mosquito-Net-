@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealer Directory – Raj Marketing</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dealers.css">
+
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <img src="images/logo.png" class="logo">
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="dealers.html" class="active">Dealers</a>
+            <a href="login.html">Dealer Login</a>
+            <a href="admin.html">Admin</a>
+        </div>
+    </div>
+
+    <!-- PAGE TITLE -->
+    <header class="page-header">
+        <h1>Dealer Directory</h1>
+        <p>Find authorized Raj Marketing mosquito net dealers nationwide.</p>
+    </header>
+
+    <!-- SEARCH BAR -->
+    <div class="search-container">
+        <input type="text" id="searchText" placeholder="Search name, city, product...">
+        <button onclick="applyFilters()"><i class="fa fa-search"></i></button>
+    </div>
+
+    <!-- FILTER PANEL -->
+    <section class="filters">
+
+        <select id="filterCity">
+            <option value="">All Cities</option>
+        </select>
+
+        <select id="filterProduct">
+            <option value="">All Products</option>
+        </select>
+
+        <select id="filterBadge">
+            <option value="">All Badges</option>
+            <option value="gold">Gold</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+        </select>
+
+        <select id="filterRating">
+            <option value="">All Ratings</option>
+            <option value="4">4★ & above</option>
+            <option value="3">3★ & above</option>
+            <option value="2">2★ & above</option>
+        </select>
+
+        <select id="filterActive">
+            <option value="">Active + Inactive</option>
+            <option value="true">Active Only</option>
+            <option value="false">Inactive Only</option>
+        </select>
+    </section>
+
+    <!-- SORT PANEL -->
+    <section class="sort-panel">
+        <label>Sort by:</label>
+        <select id="sortBy" onchange="applyFilters()">
+            <option value="premium">Premium First</option>
+            <option value="rating">Highest Rated</option>
+            <option value="new">Newly Added</option>
+            <option value="nearest">Nearest First (GPS)</option>
+        </select>
+    </section>
+
+    <!-- DEALER GRID -->
+    <section id="dealerGrid" class="grid"></section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Raj Marketing Mysore – National Dealer Network</p>
+    </footer>
+
+    <script type="module" src="js/dealers.js"></script>
+
+</body>
+</html>
