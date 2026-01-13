@@ -101,7 +101,9 @@ function renderDealersTable() {
 window.editDealer = function(id) {
     alert("Editing not fully implemented here for simplicity.");
 };
-
+if (RM_CONFIG.storageMode === "firebase") {
+   await firebaseAddDealer(newDealer);
+}
 /* ACTIVATE / DEACTIVATE */
 window.toggleActive = async function(id) {
     const index = dealers.findIndex(d => d.id === id);
@@ -150,7 +152,9 @@ document.getElementById("addDealerBtn").onclick = async () => {
     renderDealersTable();
     renderStats();
 };
-
+if (RM_CONFIG.storageMode === "firebase") {
+   await firebaseAddDealer(newDealer);
+}
 /* -----------------------------------------
    BANNERS
 ------------------------------------------*/
