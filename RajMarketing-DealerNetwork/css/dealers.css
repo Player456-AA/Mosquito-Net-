@@ -1,0 +1,73 @@
+/* ----------------------------------------------------------
+   Raj Marketing – Dealer Directory Page
+   File: css/dealers.css
+-----------------------------------------------------------*/
+
+.page-header {
+    text-align: center;
+    padding: 35px 20px;
+    background: var(--white);
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 25px;
+}
+
+.search-container {
+    display: flex;
+    width: 92%;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-container button {
+    background: var(--primary);
+    color: white;
+    padding: 0 24px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 12px;
+    padding: 20px 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filters select {
+    padding: 12px 15px;
+    border-radius: var(--radius);
+    border: 2px solid var(--primary);
+    background: white;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Sort */
+.sort-panel {
+    text-align: center;
+    margin: 15px;
+}
+
+.sort-panel select {
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    border: 2px solid var(--primary);
+}
+
+/* Grid override */
+#dealerGrid {
+    padding: 20px 40px;
+}
