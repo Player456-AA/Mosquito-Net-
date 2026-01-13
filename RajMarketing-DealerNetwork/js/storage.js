@@ -20,11 +20,18 @@ const LocalEngine = {
         } catch (e) {
             return [];
         }
+       if (RM_CONFIG.storageMode === "firebase") {
+    await initFirebase();
+    data = await firebaseLoadDealers();
+       }
     },
 
     save(data) {
         localStorage.setItem("rm_dealers", JSON.stringify(data));
     }
+   if (RM_CONFIG.storageMode === "firebase") {
+    await firebaseSaveDealers(data);
+}
 };
 
 /* ------------------------------------------
@@ -101,7 +108,10 @@ const FirebaseEngine = {
         await set(ref(this.db, "dealers"), data);
     }
 };
+import { initFirebase, firebaseLoadDealers, firebaseSaveDealers } 
+    from "./firebase.js";
 
+};
 /* ------------------------------------------
    PUBLIC API
 -------------------------------------------*/
