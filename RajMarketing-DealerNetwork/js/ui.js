@@ -27,3 +27,10 @@ const UI = {
 };
 
 export default UI;
+
+export function showLoading() {
+    document.getElementById("loadingSpinner").style.display = "flex";
+}
+export function hideLoading() {
+    document.getElementById("loadingSpinner").style.display = "none";
+}
