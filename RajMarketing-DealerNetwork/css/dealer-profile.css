@@ -75,3 +75,54 @@ textarea {
 .report-box {
     margin-bottom: 40px;
 }
+/* Rating Summary */
+.rating-summary {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 15px 0;
+}
+
+#avgRatingBig {
+    font-size: 42px;
+    color: var(--primary);
+    margin: 0;
+}
+
+.rating-bars {
+    flex: 1;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    margin: 3px 0;
+}
+
+.rating-bar span {
+    width: 40px;
+    font-weight: 600;
+}
+
+.rating-track {
+    height: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.rating-fill {
+    height: 100%;
+    background: var(--primary);
+}
+
+.review-filters {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.review-box {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
