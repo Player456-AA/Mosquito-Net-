@@ -47,6 +47,20 @@ const JSONEngine = {
         }
     }
 };
+async load() {
+    try {
+        const response = await fetch(RM_CONFIG.jsonFilePath + "?v=" + Date.now());
+        const data = await response.json();
+
+        // Cache to LocalStorage
+        LocalEngine.save(data);
+
+        return data;
+    } catch (err) {
+        console.error("JSON Load Error:", err);
+        return LocalEngine.load();
+    }
+};
 
 /* ------------------------------------------
    FIREBASE ENGINE
