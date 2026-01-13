@@ -1,0 +1,20 @@
+[
+    {
+        "id": "RM1001",
+        "businessName": "Sri Windows & Nets",
+        "ownerName": "Manjunath",
+        "phone": "9876543210",
+        "city": "Mysore",
+        "pincode": "570001",
+        "address": "Near Double Road, Mysore",
+        "badge": "gold",
+        "products": ["Windows Nets", "Door Nets", "Installation Service"],
+        "coverPhoto": "/images/dealers/dealer1/cover.jpg",
+        "profilePhoto": "/images/dealers/dealer1/profile.jpg",
+        "gallery": [],
+        "rating": 4.8,
+        "reviews": [],
+        "active": true,
+        "createdAt": 1700000000000
+    }
+]
