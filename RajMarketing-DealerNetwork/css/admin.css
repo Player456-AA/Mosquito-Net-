@@ -1,0 +1,87 @@
+/* ----------------------------------------------------------
+   Raj Marketing – Admin Panel
+   File: css/admin.css
+-----------------------------------------------------------*/
+
+.admin-login {
+    width: 380px;
+    margin: 70px auto;
+    padding: 32px;
+    text-align: center;
+}
+
+.admin-logo {
+    width: 120px;
+    margin-bottom: 15px;
+}
+
+.admin-container {
+    display: flex;
+    padding: 25px;
+    gap: 25px;
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: 260px;
+    padding: 20px;
+}
+
+.admin-sidebar ul {
+    list-style: none;
+}
+
+.admin-sidebar ul li {
+    margin: 15px 0;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.admin-sidebar ul li.active {
+    color: var(--primary);
+}
+
+/* Main panel */
+.admin-main {
+    flex: 1;
+    padding: 25px;
+}
+
+/* Analytics */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+}
+
+/* Table */
+.dealer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.dealer-table th,
+.dealer-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Banner List */
+#bannerList {
+    list-style: none;
+    padding: 0;
+}
+
+#bannerList li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+}
