@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raj Marketing – National Dealer Network</title>
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- ---------------------------------------------------------
+         NAVBAR
+    ---------------------------------------------------------- -->
+    <div class="navbar">
+        <img src="images/logo.png" class="logo">
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="dealers.html">Dealers</a>
+            <a href="login.html">Dealer Login</a>
+            <a href="admin.html">Admin</a>
+        </div>
+    </div>
+
+    <!-- ---------------------------------------------------------
+         HERO SECTION
+    ---------------------------------------------------------- -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find Your Nearest <span>Raj Marketing Authorized Dealer</span></h1>
+            <p>Premium mosquito net solutions for windows & doors, trusted nationwide.</p>
+            <button class="btn btn-primary" onclick="location.href='dealers.html'">
+                Search Dealers
+            </button>
+        </div>
+
+        <div class="hero-animation"></div>
+    </section>
+
+    <!-- ---------------------------------------------------------
+         PREMIUM SLIDER
+    ---------------------------------------------------------- -->
+    <section class="slider-section">
+        <h2>Premium Dealer Spotlight</h2>
+
+        <div class="slider" id="homeSlider">
+            <div class="slide"><img src="images/sliders/s1.jpg"></div>
+            <div class="slide"><img src="images/sliders/s2.jpg"></div>
+            <div class="slide"><img src="images/sliders/s3.jpg"></div>
+        </div>
+    </section>
+
+    <!-- ---------------------------------------------------------
+         SEARCH BAR
+    ---------------------------------------------------------- -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by name, city, product...">
+        <button onclick="goSearch()"><i class="fa fa-search"></i></button>
+    </div>
+
+    <!-- ---------------------------------------------------------
+         CATEGORY BUTTONS
+    ---------------------------------------------------------- -->
+    <section class="categories">
+        <button class="cat-btn">Windows Nets</button>
+        <button class="cat-btn">Door Nets</button>
+        <button class="cat-btn">Sliding Nets</button>
+        <button class="cat-btn">Installation Service</button>
+    </section>
+
+    <!-- ---------------------------------------------------------
+         FEATURED GOLD DEALERS
+    ---------------------------------------------------------- -->
+    <section class="featured">
+        <h2>Top Gold Verified Dealers</h2>
+        <div id="featuredDealers" class="grid"></div>
+    </section>
+
+    <!-- ---------------------------------------------------------
+         FOOTER
+    ---------------------------------------------------------- -->
+    <footer>
+        <p>© 2026 Raj Marketing Mysore – National Dealer Network</p>
+    </footer>
+
+
+    <!-- ---------------------------------------------------------
+         JAVASCRIPT
+    ---------------------------------------------------------- -->
+    <script type="module">
+
+        import Storage from './js/storage.js';
+        import UI from './js/ui.js';
+
+        function autoSlider() {
+            let i = 0;
+            const slides = document.querySelectorAll(".slide");
+            setInterval(() => {
+                slides.forEach(s => s.style.display = "none");
+                slides[i].style.display = "block";
+                i = (i + 1) % slides.length;
+            }, 3000);
+        }
+        autoSlider();
+
+
+        // Load featured gold dealers
+        async function loadFeatured() {
+            const all = await Storage.loadDealers();
+            const gold = all.filter(d => d.badge === "gold");
+
+            const html = gold.map(g => UI.renderDealerCard(g)).join("");
+            UI.insertHTML("#featuredDealers", html);
+        }
+        loadFeatured();
+
+        // Search redirect
+        window.goSearch = function() {
+            const q = document.getElementById("searchInput").value.trim();
+            if (q.length > 0) {
+                location.href = `dealers.html?search=${encodeURIComponent(q)}`;
+            }
+        };
+    </script>
+
+</body>
+  </html>
