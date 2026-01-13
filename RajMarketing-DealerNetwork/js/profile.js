@@ -111,8 +111,16 @@ function renderReviews() {
         </div>
     `).join("");
 }
+/* ----------------------------------------------------------
+   UPDATE: Review System Integration
+-----------------------------------------------------------*/
 
-/* ADD REVIEW */
+import { initReviews, addReview } from "./reviews.js";
+
+/* inside renderProfile() */
+initReviews(dealer);
+
+/* ADD REVIEW BUTTON */
 document.getElementById("addReviewBtn").onclick = async () => {
 
     const stars = Number(document.getElementById("reviewStars").value);
@@ -120,23 +128,10 @@ document.getElementById("addReviewBtn").onclick = async () => {
 
     if (!text) return alert("Write a review");
 
-    dealer.reviews.push({
-        stars,
-        text,
-        date: Date.now()
-    });
-
-    dealer.rating = calculateAverageRating(dealer.reviews);
-
-    // Save
-    const all = await Storage.loadDealers();
-    const index = all.findIndex(d => d.id === dealer.id);
-    all[index] = dealer;
-    await Storage.saveDealers(all);
+    await addReview(dealer, stars, text);
 
     document.getElementById("reviewText").value = "";
-    renderReviews();
-};
+};;
 
 /* -----------------------------------------
    REPORT DEALER
