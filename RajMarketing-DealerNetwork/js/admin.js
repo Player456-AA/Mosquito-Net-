@@ -90,10 +90,12 @@ function renderDealersTable() {
                         ${d.active ? "Deactivate" : "Activate"}
                     </button>
                     <button onclick="deleteDealer('${d.id}')">Delete</button>
+                    <button onclick="viewReviews('${d.id}')">Reviews</button>
                 </td>
             </tr>
         `).join("");
 }
+
 
 /* EDIT DEALER */
 window.editDealer = function(id) {
