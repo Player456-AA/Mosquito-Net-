@@ -28,3 +28,14 @@ const RM_CONFIG = {
 };
 
 export default RM_CONFIG;
+storageMode: "firebase",
+firebaseEnabled: true,
+firebaseConfig: {
+   apiKey: "YOUR_KEY",
+   authDomain: "xxxxx.firebaseapp.com",
+   databaseURL: "...",
+   projectId: "...",
+   storageBucket: "...",
+   messagingSenderId: "...",
+   appId: "..."
+}
