@@ -1,0 +1,88 @@
+/* ----------------------------------------------------------
+   Raj Marketing – Dealer Dashboard CSS
+   File: css/dashboard.css
+-----------------------------------------------------------*/
+
+.login-container {
+    width: 380px;
+    margin: 60px auto;
+    padding: 30px;
+    text-align: center;
+}
+
+.login-logo {
+    width: 110px;
+    margin-bottom: 10px;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: var(--radius);
+    border: 2px solid var(--primary);
+}
+
+.otp-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--primary-dark);
+}
+
+.dashboard-container {
+    display: flex;
+    padding: 25px;
+    gap: 25px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    padding: 20px;
+    border-radius: var(--radius);
+    height: max-content;
+}
+
+.sidebar h2 {
+    margin-bottom: 25px;
+}
+
+.sidebar-name {
+    background: var(--primary);
+    color: white;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Panel */
+.panel {
+    flex: 1;
+    padding: 25px;
+}
+
+.panel-section label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: 600;
+}
+
+.panel-section input,
+.panel-section textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius);
+    border: 2px solid var(--primary);
+    margin-bottom: 10px;
+}
