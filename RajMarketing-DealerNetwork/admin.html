@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel – Raj Marketing</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div id="adminLogin" class="admin-login glass-card">
+        <img src="images/logo.png" class="admin-logo">
+
+        <h2>Admin Login</h2>
+
+        <input type="text" id="adminUser" placeholder="Username">
+        <input type="password" id="adminPass" placeholder="Password">
+
+        <button class="btn btn-primary" id="adminLoginBtn">Login</button>
+
+        <p id="adminLoginMsg" class="login-msg"></p>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="adminDashboard" style="display:none;">
+
+        <!-- NAVBAR -->
+        <div class="navbar">
+            <img src="images/logo.png" class="logo">
+            <div class="navbar-links">
+                <a href="#" onclick="logoutAdmin()">Logout</a>
+            </div>
+        </div>
+
+        <div class="admin-container">
+
+            <!-- SIDEBAR -->
+            <aside class="admin-sidebar glass-card">
+                <h2>Admin Panel</h2>
+
+                <ul>
+                    <li onclick="showAdminPanel('statsPanel')" class="active">
+                        <i class="fa fa-chart-line"></i> Analytics
+                    </li>
+
+                    <li onclick="showAdminPanel('dealersPanel')">
+                        <i class="fa fa-store"></i> Dealers
+                    </li>
+
+                    <li onclick="showAdminPanel('addDealerPanel')">
+                        <i class="fa fa-plus"></i> Add Dealer
+                    </li>
+
+                    <li onclick="showAdminPanel('bannerPanel')">
+                        <i class="fa fa-image"></i> Banner Management
+                    </li>
+
+                </ul>
+            </aside>
+
+            <!-- MAIN PANEL -->
+            <section id="adminContent" class="admin-main glass-card">
+
+                <!-- ANALYTICS PANEL -->
+                <div id="statsPanel" class="admin-section">
+                    <h2>Analytics Dashboard</h2>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Dealers</h3>
+                            <p id="statTotal">0</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3>Premium Dealers</h3>
+                            <p id="statPremium">0</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3>City Coverage</h3>
+                            <p id="statCity">0</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3>Avg Rating</h3>
+                            <p id="statAvgRating">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DEALERS TABLE -->
+                <div id="dealersPanel" class="admin-section" style="display:none;">
+                    <h2>All Dealers</h2>
+
+                    <table class="dealer-table" id="dealerTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Business</th>
+                                <th>City</th>
+                                <th>Badge</th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <button class="btn btn-primary" onclick="exportCSV()">Export CSV</button>
+                </div>
+
+                <!-- ADD DEALER -->
+                <div id="addDealerPanel" class="admin-section" style="display:none;">
+                    <h2>Add New Dealer</h2>
+
+                    <label>Business Name</label>
+                    <input id="newBusinessName" type="text">
+
+                    <label>Owner Name</label>
+                    <input id="newOwnerName" type="text">
+
+                    <label>Phone</label>
+                    <input id="newPhone" type="text">
+
+                    <label>City</label>
+                    <input id="newCity" type="text">
+
+                    <label>Pincode</label>
+                    <input id="newPincode" type="text">
+
+                    <label>Address</label>
+                    <textarea id="newAddress"></textarea>
+
+                    <label>Verification Level</label>
+                    <select id="newBadge">
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="gold">Gold</option>
+                    </select>
+
+                    <button class="btn btn-primary" id="addDealerBtn">Add Dealer</button>
+                </div>
+
+                <!-- BANNER MANAGEMENT -->
+                <div id="bannerPanel" class="admin-section" style="display:none;">
+                    <h2>Homepage Banner Management</h2>
+
+                    <label>Banner Image URL</label>
+                    <input id="bannerURL" type="text">
+
+                    <button class="btn btn-primary" id="addBannerBtn">Add Banner</button>
+
+                    <h3>Existing Banners</h3>
+                    <ul id="bannerList"></ul>
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Raj Marketing Mysore – National Dealer Network</p>
+    </footer>
+
+<script type="module" src="js/admin.js"></script>
+
+</body>
+              </html>
