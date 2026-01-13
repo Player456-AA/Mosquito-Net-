@@ -184,3 +184,14 @@ window.exportCSV = function() {
     a.download = "dealers.csv";
     a.click();
 };
+window.viewReviews = function(id) {
+    const dealer = dealers.find(d => d.id === id);
+
+    let text = "Dealer Reviews:\n\n";
+
+    dealer.reviews.forEach(r => {
+        text += `${r.stars}★ - ${r.text}\n`;
+    });
+
+    alert(text || "No reviews");
+};
