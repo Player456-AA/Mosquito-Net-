@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealer Profile – Raj Marketing</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dealer-profile.css">
+
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <img src="images/logo.png" class="logo">
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="dealers.html">Dealers</a>
+            <a href="login.html">Dealer Login</a>
+        </div>
+    </div>
+
+    <!-- COVER BANNER -->
+    <div id="coverBanner" class="cover-banner"></div>
+
+    <!-- PROFILE -->
+    <section class="profile-section">
+
+        <img id="profilePhoto" class="profile-photo">
+
+        <h1 id="businessName"></h1>
+        <p id="badge"></p>
+
+        <h3 id="ownerName"></h3>
+        <p id="address"></p>
+
+        <div class="contact-box">
+            <a id="callBtn" class="btn btn-primary"><i class="fa fa-phone"></i> Call</a>
+            <a id="waBtn" class="btn btn-outline"><i class="fa fa-brands fa-whatsapp"></i> WhatsApp</a>
+        </div>
+
+    </section>
+
+    <!-- PRODUCT LIST -->
+    <section class="glass-card product-list">
+        <h2>Products Available</h2>
+        <ul id="productList"></ul>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery-section">
+        <h2>Gallery</h2>
+        <div id="galleryGrid" class="gallery-grid"></div>
+    </section>
+
+    <!-- MAP -->
+    <section class="glass-card map-box">
+        <h2>Location</h2>
+        <iframe id="mapFrame" width="100%" height="300"
+            style="border:0;" loading="lazy"></iframe>
+
+        <button id="mapBtn" class="btn btn-primary" style="margin-top: 10px;">
+            Open Directions
+        </button>
+    </section>
+
+    <!-- RATINGS & REVIEWS -->
+    <section class="glass-card">
+        <h2>Customer Reviews</h2>
+        <div id="reviews"></div>
+
+        <h3>Write a Review</h3>
+        <select id="reviewStars">
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="1">1 Star</option>
+        </select>
+        <textarea id="reviewText" placeholder="Write your comment..."></textarea>
+        <button class="btn btn-primary" id="addReviewBtn">Submit Review</button>
+    </section>
+
+    <!-- REPORT DEALER -->
+    <section class="glass-card report-box">
+        <h2>Report a Problem</h2>
+        <textarea id="reportText" placeholder="Describe the issue..."></textarea>
+        <button class="btn btn-outline" id="reportBtn">Submit Report</button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Raj Marketing Mysore – National Dealer Network</p>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script type="module" src="js/profile.js"></script>
+
+</body>
+</html>
