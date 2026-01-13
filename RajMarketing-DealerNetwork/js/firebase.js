@@ -100,3 +100,11 @@ export async function uploadFile(file, path) {
     await uploadBytes(storageRef, file);
     return await getDownloadURL(storageRef);
 }
+export async function uploadFile(file, path) {
+    const { ref, uploadBytes, getDownloadURL } =
+        await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js");
+
+    const storageRef = ref(storage, path);
+    await uploadBytes(storageRef, file);
+    return await getDownloadURL(storageRef);
+}
