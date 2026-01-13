@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealer Dashboard – Raj Marketing</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <div class="navbar">
+        <img src="images/logo.png" class="logo">
+        <div class="navbar-links">
+            <a href="index.html">Home</a>
+            <a href="dealers.html">Dealers</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+
+        <!-- LEFT MENU -->
+        <aside class="sidebar glass-card">
+            <h2>Dealer Panel</h2>
+
+            <p id="dealerNameSidebar" class="sidebar-name"></p>
+
+            <ul>
+                <li onclick="showPanel('profilePanel')"><i class="fa fa-user"></i> Profile</li>
+                <li onclick="showPanel('photosPanel')"><i class="fa fa-image"></i> Photos</li>
+                <li onclick="showPanel('productsPanel')"><i class="fa fa-list"></i> Products</li>
+                <li onclick="showPanel('reviewsPanel')"><i class="fa fa-star"></i> Reviews</li>
+                <li onclick="showPanel('agreementPanel')"><i class="fa fa-file-pdf"></i> Agreement</li>
+                <li onclick="logout()"><i class="fa fa-right-from-bracket"></i> Logout</li>
+            </ul>
+        </aside>
+
+        <!-- MAIN PANEL -->
+        <section id="panelContent" class="panel glass-card">
+
+            <!-- Profile Panel -->
+            <div id="profilePanel" class="panel-section">
+                <h2>Business Profile</h2>
+
+                <label>Business Name</label>
+                <input id="pBusinessName" type="text">
+
+                <label>Owner Name</label>
+                <input id="pOwnerName" type="text">
+
+                <label>Phone</label>
+                <input id="pPhone" type="text">
+
+                <label>Address</label>
+                <textarea id="pAddress"></textarea>
+
+                <label>City</label>
+                <input id="pCity" type="text">
+
+                <label>Pincode</label>
+                <input id="pPincode" type="text">
+
+                <button class="btn btn-primary" id="saveProfileBtn">Save Profile</button>
+            </div>
+
+            <!-- Photos Panel -->
+            <div id="photosPanel" class="panel-section" style="display:none;">
+                <h2>Photos</h2>
+
+                <label>Profile Photo URL</label>
+                <input id="photoProfile" type="text">
+
+                <label>Cover Photo URL</label>
+                <input id="photoCover" type="text">
+
+                <label>Gallery Photos (comma-separated URLs)</label>
+                <textarea id="photoGallery"></textarea>
+
+                <button class="btn btn-primary" id="savePhotosBtn">Save Photos</button>
+            </div>
+
+            <!-- Products Panel -->
+            <div id="productsPanel" class="panel-section" style="display:none;">
+                <h2>Manage Products</h2>
+
+                <textarea id="productText" placeholder="One product per line"></textarea>
+                <button class="btn btn-primary" id="saveProductsBtn">Save Products</button>
+            </div>
+
+            <!-- Reviews Panel -->
+            <div id="reviewsPanel" class="panel-section" style="display:none;">
+                <h2>Customer Reviews</h2>
+
+                <div id="reviewList"></div>
+
+                <h3>Rating Summary</h3>
+                <p id="avgRating"></p>
+            </div>
+
+            <!-- Agreement Panel -->
+            <div id="agreementPanel" class="panel-section" style="display:none;">
+                <h2>Dealer Agreement</h2>
+                <p>Download or sign the agreement digitally.</p>
+
+                <button class="btn btn-primary" id="downloadAgreementBtn">
+                    Download Agreement PDF
+                </button>
+            </div>
+
+        </section>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Raj Marketing Mysore – National Dealer Network</p>
+    </footer>
+
+    <script type="module" src="js/dashboard.js"></script>
+
+</body>
+</html>
