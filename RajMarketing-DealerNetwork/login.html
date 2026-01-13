@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dealer Login – Raj Marketing</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="login-container glass-card">
+        <img src="images/logo.png" class="login-logo">
+
+        <h2>Dealer Login</h2>
+        <p>Access your Raj Marketing dealer dashboard</p>
+
+        <input type="text" id="loginID" placeholder="Enter Dealer ID (e.g., RM1001)">
+        <input type="password" id="loginPassword" placeholder="Password">
+
+        <button class="btn btn-primary" id="loginBtn">Login</button>
+
+        <p class="otp-text">OR Login using OTP</p>
+
+        <input type="text" id="phoneOTP" placeholder="Enter Phone Number">
+        <button class="btn btn-outline" id="sendOtpBtn">Send OTP</button>
+
+        <input type="text" id="otpField" placeholder="Enter OTP" style="display:none;">
+        <button class="btn btn-primary" id="otpLoginBtn" style="display:none;">Verify OTP</button>
+
+        <p id="loginMsg" class="login-msg"></p>
+    </div>
+
+    <script type="module" src="js/dashboard.js"></script>
+
+</body>
+</html>
