@@ -1,0 +1,59 @@
+<form id="customerForm" style="max-width:400px;margin:auto;padding:20px;border:1px solid #ccc;border-radius:10px;">
+  <h3>Customer Enquiry</h3>
+
+  <input type="text" name="customer_name" placeholder="Customer Name" required><br><br>
+  <input type="text" name="phone" placeholder="Phone Number" required><br><br>
+  <input type="text" name="area" placeholder="Area"><br><br>
+
+  <select name="requirement">
+    <option value="">Select Requirement</option>
+    <option>Window Mosquito Net</option>
+    <option>Door Mosquito Net</option>
+    <option>Pleated Mesh</option>
+    <option>Sliding Mesh</option>
+  </select><br><br>
+
+  <input type="number" name="window_count" placeholder="Window Count"><br><br>
+  <input type="number" name="door_count" placeholder="Door Count"><br><br>
+
+  <select name="mesh_type">
+    <option value="">Mesh Type</option>
+    <option>Fiber Glass</option>
+    <option>Aluminium Mesh</option>
+    <option>SS304 Steel Mesh</option>
+    <option>Pleated Mesh</option>
+  </select><br><br>
+
+  <textarea name="remarks" placeholder="Remarks"></textarea><br><br>
+
+  <!-- Hidden Security Auth Token -->
+  <input type="hidden" name="auth" value="YOUR_SECRET_TOKEN">
+
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById("customerForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+  const jsonData = {};
+
+  formData.forEach((value, key) => { jsonData[key] = value });
+
+  fetch("https://script.google.com/macros/s/AKfycbyVUsiwLJwTokpM1076JSaJJZb-2bym1kVDuNnLJFEQ1IlP-8Xj307DqT6p60eN7J5V/exec", {
+    method: "POST",
+    body: JSON.stringify(jsonData)
+  })
+  .then(res => res.json())
+  .then(res => {
+    if (res.status === "success") {
+      alert("Enquiry stored successfully. Customer ID: " + res.id);
+      document.getElementById("customerForm").reset();
+    } else {
+      alert("Error: " + res.message);
+    }
+  })
+  .catch(err => alert("Network Error"));
+});
+</script>
